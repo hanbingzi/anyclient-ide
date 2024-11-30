@@ -287,12 +287,8 @@ $ yarn start
 
 ## 商务联系
 
-作者邮箱：hanbingzi@aliyun.com
-
-加我微信
-<div>
-  <img src="./doc/images/ContactUs.jpg" width="300">
-</div>
+- 作者邮箱：hanbingzi@aliyun.com
+- 关注公众号，加作者好友。
 
 ## 最后
 
