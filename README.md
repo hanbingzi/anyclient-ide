@@ -277,13 +277,6 @@ $ yarn rebuild-native --force-rebuild=true
 $ yarn start
 ```
 
-## 捐献作者
-
-开源创作不易，请多支持
-<div>
-  <img src="./doc/images/pay.jpg" width="600">
-
-</div>
 
 ## 商务联系
 
