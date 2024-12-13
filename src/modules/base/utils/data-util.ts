@@ -102,16 +102,13 @@ export class DataUtil {
     //console.log('------>start',buf.toString())
 
     if (!Buffer.isBuffer(buf)) {
-      //console.log('------>1')
       return buf;
     }
 
     if (!forceHex && DataUtil.bufVisible(buf)) {
-      //console.log('------>2')
       return buf.toString();
     }
 
-    //console.log('------>end')
     return this.bufToHex(buf);
   }
 
@@ -178,12 +175,12 @@ export class DataUtil {
 
   public static bufferToJava(buf: Buffer): Object {
     const deserialized = javaDeserialization.parse(buf);
-   //console.log('bufferToJava', deserialized);
+    //console.log('bufferToJava', deserialized);
     return deserialized;
   }
 
   public static msgpackToBuffer(str: string): Buffer {
-   //console.log('msg to buffer->', str);
+    //console.log('msg to buffer->', str);
     const encoded: Uint8Array = msgpack.encode(str);
     return Buffer.from(encoded);
   }

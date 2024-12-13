@@ -19,6 +19,7 @@ import { KafkaTreeApiService } from './services/server/kafka-tree-api.service';
 import { RedisTreeApiService } from './services/server/redis-tree-api.service';
 import { ZookeeperTreeApiService } from './services/server/zookeeper-tree-api.service';
 import { EtcdServerApiService } from './services/server/etcd-server-api.service';
+import { EsServerApiService } from './services/server/es-server-api.service';
 
 @ModuleDependencies([WorkspaceModule])
 @Injectable()
@@ -54,6 +55,6 @@ export class ServerOpenRecentModule extends BrowserModule {
     KafkaTreeApiService,
     RedisTreeApiService,
     ZookeeperTreeApiService,
-
+    EsServerApiService
   ];
 }

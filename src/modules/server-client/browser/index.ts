@@ -35,6 +35,8 @@ import { MssqlService } from './services/mssql-service';
 import { DMService } from './services/dm-service';
 import { EtcdService } from './services/etcd-service';
 import { IEtcdClientServicePath } from '../common/types/etcd.types';
+import { IEsClientServicePath, IEsServiceToken } from '../common/types/es.types';
+import { EsService } from './services/es-service';
 
 @Injectable()
 export class ServerClientModule extends BrowserModule {
@@ -51,10 +53,6 @@ export class ServerClientModule extends BrowserModule {
       token: ISqlServerApiToken,
       useClass: SqlServerApiService,
     },
-    // {
-    //   token: IJdbcServerApiToken,
-    //   useClass: JdbcServerApiService,
-    // },
     {
       token: IMysqlServiceToken,
       useClass: MysqlService,
@@ -87,6 +85,10 @@ export class ServerClientModule extends BrowserModule {
       token: IKafkaServiceToken,
       useClass: KafkaService,
     },
+    {
+      token: IEsServiceToken,
+      useClass: EsService,
+    },
     EtcdService,
     // {
     //   token: IKafkaServiceRPCToken,
@@ -117,12 +119,16 @@ export class ServerClientModule extends BrowserModule {
     },
     {
       servicePath: IZookeeperClientServicePath,
-    },{
-      servicePath:IEtcdClientServicePath
+    },
+    {
+      servicePath: IEtcdClientServicePath,
     },
     {
       servicePath: IKafkaClientServicePath,
       clientToken: IKafkaServiceToken,
+    },
+    {
+      servicePath: IEsClientServicePath,
     },
     // {
     //   servicePath: IKafkaClientRPCPath,

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Language="en-US" Id="any-client-extension" Version="1.0.2" Publisher="lengbingzi"/>
+    <Identity Language="en-US" Id="any-client-extension" Version="1.0.3" Publisher="lengbingzi"/>
     <DisplayName>AnyClientExtension</DisplayName>
     <Description xml:space="preserve"></Description>
-    <Tags>keybindings,es,ElasticSearch,elasticsearch,__ext_es,sql,SQL,__ext_sql,__ext_dsql,redis,REDIS,__ext_redis</Tags>
+    <Tags>keybindings,sql,SQL,__ext_sql,__ext_dsql,redis,REDIS,__ext_redis,es,ElasticSearch,elasticsearch,__ext_es</Tags>
     <Categories>Other</Categories>
     <GalleryFlags>Public</GalleryFlags>
     <Badges></Badges>

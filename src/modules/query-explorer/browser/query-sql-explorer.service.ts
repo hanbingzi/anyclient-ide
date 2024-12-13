@@ -14,6 +14,7 @@ import { BOTTOM_QUERY_RESULT_CONTAINER } from './query-explorer.contribution';
 import { RedisService } from '../../server-client/browser/services/redis-service';
 import { FileSuffixType, ServerType } from '../../base/types/server-node.types';
 import { IDialogService } from '@opensumi/ide-overlay';
+import { IEsService, IEsServiceToken } from '../../server-client/common/types/es.types';
 
 @Injectable()
 export class QuerySqlExplorerService {
@@ -28,6 +29,10 @@ export class QuerySqlExplorerService {
 
   @Autowired(IRedisServiceToken)
   private redisService: RedisService;
+
+  @Autowired(IEsServiceToken)
+  private esService: IEsService;
+
 
   @Autowired(StorageProvider)
   private readonly storageProvider: StorageProvider;
@@ -108,19 +113,24 @@ export class QuerySqlExplorerService {
   private updateRunResult(runResponseList: IRunSqlResult[]) {
     let queryResult: IRunSqlResult[] = [];
     for (let item of runResponseList) {
-      if (item.isQuery) {
+      if (this.serverClass === 'es' || item.isQuery) {
         queryResult.push(item);
       }
     }
     //this.sqlRunResult = runResponseList;
     //this.queryResult = queryResult;
     this.onQueryResultChangeEmitter.fire(queryResult);
-    const successQueryResult = queryResult.filter((item) => item.success);
-    if (successQueryResult.length > 0) {
+    if (this.serverClass === 'es') {
       this.onSelectedIndexChangeEmitter.fire(1);
     } else {
-      this.onSelectedIndexChangeEmitter.fire(0);
+      const successQueryResult = queryResult.filter((item) => item.success);
+      if (successQueryResult.length > 0) {
+        this.onSelectedIndexChangeEmitter.fire(1);
+      } else {
+        this.onSelectedIndexChangeEmitter.fire(0);
+      }
     }
+
     this.onSqlRunResultChangeEmitter.fire(runResponseList);
   }
 
@@ -159,7 +169,7 @@ export class QuerySqlExplorerService {
     this._serverInfo = selectedServerNode?.serverInfo;
     this._dbValue = selectedDbNode ? selectedDbNode.value : '';
     this._schemaName = schemaNode ? schemaNode.name : '';
-   //console.log('query-sql-explorer:initServer----->', this.serverInfo, this.dbValue, this.schemaName);
+    console.log('query-sql-explorer:initServer----->', this.serverInfo, this.dbValue, this.schemaName);
     return true;
   }
 
@@ -168,6 +178,7 @@ export class QuerySqlExplorerService {
     if (!initResult) {
       return;
     }
+    this.showPreview();
     this.updateServerClass('sql');
     this.updateServerType(this.serverType);
     this.onLoadingChangeEmitter.fire(true);
@@ -179,8 +190,8 @@ export class QuerySqlExplorerService {
       runResponseList.push(runResponse);
     }
 
-   //console.log('runSql response------->', runResponseList);
-    this.showPreview();
+    console.log('runSql response------->', runResponseList);
+
     this.updateRunResult(runResponseList);
     this.onLoadingChangeEmitter.fire(false);
   }
@@ -190,6 +201,7 @@ export class QuerySqlExplorerService {
     if (!initResult) {
       return;
     }
+    this.showPreview();
     this.onLoadingChangeEmitter.fire(true);
     this.updateServerClass('redis');
     let runResponseList: IRunSqlResult[] = [];
@@ -199,8 +211,29 @@ export class QuerySqlExplorerService {
       const runResponse = await this.redisService.runCommand(this.connect, command);
       runResponseList.push(runResponse);
     }
-   //console.log('runCommand response------->', runResponseList);
+    console.log('runCommand response------->', runResponseList);
+
+    this.updateRunResult(runResponseList);
+    this.onLoadingChangeEmitter.fire(false);
+  }
+
+
+  public async runEsCommand(command: string[], multiCommand: string, isBatchCommand: boolean) {
+    const initResult = this.initServer();
+    if (!initResult) {
+      return;
+    }
     this.showPreview();
+    this.onLoadingChangeEmitter.fire(true);
+    this.updateServerClass('es');
+    let runResponseList: IRunSqlResult[] = [];
+    if (isBatchCommand) {
+      // runResponseList = await this.redisService.runBatchCommand(this.connect, multiCommand);
+    } else {
+      const runResponse = await this.esService.run(this.connect, command);
+      runResponseList.push(runResponse);
+    }
+
     this.updateRunResult(runResponseList);
     this.onLoadingChangeEmitter.fire(false);
   }

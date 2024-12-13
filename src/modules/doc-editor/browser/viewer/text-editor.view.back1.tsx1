@@ -98,7 +98,7 @@ export function TextEditorViewBack1(param: IDataEditorViewer) {
   const handleSave = () => {
     const p1 = preferenceService.get('editor.autoSave')
     //const p2 = preferenceService.get('editor.autoSaveDelay')
-   //console.log('handleSave - json ---》', p1,)
+    console.log('handleSave - json ---》', p1,)
     if (p1 === 'off') {//判断是否是自动保存，如果是自动保存，就不用调用这个方法
       documentEditorService.readyRealSave(viewId)
       //执行一个真save

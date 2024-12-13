@@ -14,13 +14,13 @@ export class TodoService {
   private readonly dialogService: IDialogService;
 
   public async test() {
-   //console.log('============test====================');
+    console.log('============test====================');
     //this.dialogService.info('',)
 
     //console.log('----<',result)
   }
 
   public async query() {
-   //console.log('能开始调用');
+    console.log('能开始调用');
   }
 }

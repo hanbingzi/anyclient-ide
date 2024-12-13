@@ -1,11 +1,11 @@
 import * as mssql from 'mssql';
-import { ConnectionTools, queryCallback } from './connection';
+import { ServerAdapter, queryCallback } from './server-adapter';
 import { ConnectQuery } from '../../../local-store-db/common';
 import { decryptData } from '../../../base/utils/crypto-util';
 import { ISqlQueryParam, ISqlQueryResult } from '../../common';
 import { isNotEmpty } from '../../../base/utils/object-util';
 
-export class MssqlConnection extends ConnectionTools {
+export class MssqlServerAdapter extends ServerAdapter {
   private connPool: mssql.ConnectionPool;
 
   private constructor(conn: mssql.ConnectionPool) {
@@ -13,7 +13,7 @@ export class MssqlConnection extends ConnectionTools {
     this.connPool = conn;
   }
 
-  public static async createInstance(connect: ConnectQuery): Promise<ConnectionTools> {
+  public static async createInstance(connect: ConnectQuery): Promise<ServerAdapter> {
     //console.log('connection create createInstance', connect);
     const { server, db, ssh, originPassword } = connect;
     const {
@@ -55,7 +55,7 @@ export class MssqlConnection extends ConnectionTools {
     if (isNotEmpty(db)) config.database = db as string;
     //console.log('mssql-config', config)
     const pool = new mssql.ConnectionPool(config);
-    const instance = new MssqlConnection(pool);
+    const instance = new MssqlServerAdapter(pool);
     return instance;
   }
 

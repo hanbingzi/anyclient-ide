@@ -124,7 +124,7 @@ export const Pagination = (props: PaginationProps) => {
       if (allPages - page <= pageBufferSize) {
         left = allPages - pageBufferSize * 2;
       }
-      ////console.log('left-->', left, ';right-->', right)
+      // console.log('left-->', left, ';right-->', right)
       if (left !== 1) {
         pagerList.push(<Pager key={1} active={false} page={1} handlePager={handlePage} />);
       }

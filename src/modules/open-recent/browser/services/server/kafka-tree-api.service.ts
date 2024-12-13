@@ -76,6 +76,10 @@ export class KafkaTreeApiService {
             );
           });
         }
+        break;
+      case 'status':
+        result = { success: true,};
+        break;
     }
 
     return { success: result.success, result, tree };
@@ -88,13 +92,23 @@ export class KafkaTreeApiService {
   showKafkaModelItem(serverType: ServerType): IServerTreeNode[] {
     const treeNodes: IServerTreeNode[] = [
       {
+        displayName: 'Status',
+        nodeName: 'Status',
+        serverType: serverType,
+        levelType: 'node',
+        nodeStat: 'success',
+        nodeType: 'status',
+        sort: 10,
+        clickLoadData:true
+      },
+      {
         displayName: 'Topics',
         nodeName: 'Topics',
         serverType: serverType,
         levelType: 'node',
         nodeStat: 'success',
         nodeType: 'topics',
-        sort: 10,
+        sort: 9,
       },
       {
         displayName: 'Brokers',
@@ -103,7 +117,7 @@ export class KafkaTreeApiService {
         levelType: 'node',
         nodeStat: 'success',
         nodeType: 'kafkaBrokers',
-        sort: 9,
+        sort: 8,
       },
       {
         displayName: 'Groups',
@@ -112,7 +126,7 @@ export class KafkaTreeApiService {
         levelType: 'node',
         nodeStat: 'success',
         nodeType: 'groups',
-        sort: 8,
+        sort: 7,
       },
     ];
     return treeNodes;

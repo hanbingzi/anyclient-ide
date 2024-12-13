@@ -1,12 +1,4 @@
-// export interface ISqlExecResult {
-//   fieldCount?: number;
-//   affectedRows?: number;
-//   insertId?: number;
-//   info?: string;
-//   serverStatus?: number;
-//   warningStatus?: number;
-//   changedRows?: number;
-// }
+
 import { ServerInfo } from '../../../local-store-db/common';
 import { IRunSqlResult } from './query-result.types';
 import { RedisResultEnum } from '../fields/redis-fields';
@@ -19,6 +11,8 @@ export interface ISqlQueryParam {
   values?: any[];
   //autoCommit?:boolean;
 }
+
+
 
 export interface ISqlQueryResult {
   data?: { [key: string]: any }[];

@@ -7,7 +7,7 @@ import { AlertView } from '../../../components/alert/alert.view';
 import { TopicViewService } from './topic-view.service';
 import { WindowsTitle } from '../../../components/title';
 import { ServerIconFinder } from '../../../base/config/server-icon.config';
-import styles from './topic.module.less';
+import styles from './index.module.less';
 import { DateTimePicker } from '../../../components/date-picker';
 import moment from 'moment';
 import { DateUtil } from '../../../base/utils/date-util';

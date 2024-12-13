@@ -35,7 +35,7 @@ export class ServerClusterDao extends BaseDao<ServerCluster> implements IServerC
       if (err) {
         console.error('Error deleting documents:', err);
       } else {
-       //console.log('Number of documents removed:', numRemoved);
+        console.log('Number of documents removed:', numRemoved);
       }
     });
   }

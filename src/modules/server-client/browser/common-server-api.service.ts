@@ -15,8 +15,9 @@ import { QueryUtil } from '../../base/utils/query-util';
 import { SqlServerApiService } from './sql-server-api.service';
 import { ConnectQuery } from '../../local-store-db/common';
 import { ServerClassNamespace } from '../../base/config/server.config';
-import SqlModeServer = ServerClassNamespace.SqlModeServer;
 import { EtcdService } from './services/etcd-service';
+import { IEsService, IEsServiceToken } from '../common/types/es.types';
+import SqlModeServer = ServerClassNamespace.SqlModeServer;
 
 @Injectable()
 export class CommonServerApiService {
@@ -33,11 +34,13 @@ export class CommonServerApiService {
   private kafkaService: IKafkaService;
 
   @Autowired(EtcdService)
-  private etcdService:EtcdService;
+  private etcdService: EtcdService;
+
+  @Autowired(IEsServiceToken)
+  private esService: IEsService;
 
   @Autowired(ISqlServerApiToken)
   private sqlServerApiService: SqlServerApiService;
-
 
 
   async testConnect(connect: ConnectQuery): Promise<IQueryResult> {
@@ -53,6 +56,7 @@ export class CommonServerApiService {
         case 'Cassandra':
           break;
         case 'Elasticsearch':
+          result = await this.esService.ping(connect);
           break;
         case 'Zookeeper':
           result = await this.zookeeperService.ping(connect);
@@ -69,6 +73,7 @@ export class CommonServerApiService {
         case 'Kafka':
           result = await this.kafkaService.ping(connect);
           break;
+
         case 'Mongodb':
           break;
         case 'Nacos':

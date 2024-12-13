@@ -54,7 +54,7 @@ export const TableOption = (props: DataOptionProps) => {
   const handleSearchChange = useCallback(
     (ev: React.ChangeEvent<HTMLInputElement>) => {
       let inputValue = ev.target.value;
-     //console.log(ev.target.value);
+      console.log(ev.target.value);
 
       debounceCalcValue(inputValue);
     },

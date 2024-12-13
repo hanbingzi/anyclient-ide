@@ -246,6 +246,11 @@ export interface DataOptionBase {
    */
   downRow?: boolean;
 
+
+}
+
+export interface DataOptionProps extends DataOptionBase {
+
   enableRemove?: boolean;
   enableSave?: boolean;
   enableRevert?: boolean;
@@ -253,9 +258,7 @@ export interface DataOptionBase {
   enableUpRow?: boolean;
   enableDownRow?: boolean;
   enableFilterSearch?: boolean;
-}
 
-export interface DataOptionProps extends DataOptionBase {
   optionView?: IOptionView;
   setSearchWord: (word: string) => void;
   onAdd?: () => void;

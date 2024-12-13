@@ -23,7 +23,7 @@ class TableStore {
   private readonly forceRootUpdate: () => void;
 
   constructor(forceRootUpdate: () => void) {
-   //console.log('我会初始化几遍userTable constructor')
+    console.log('我会初始化几遍userTable constructor')
     this.store = new Map(); // 状态库
     this.deleteStore = new Map();
     this.isInitData = false;
@@ -32,7 +32,7 @@ class TableStore {
 
   //初始化仓库
   setInitData = (initialData: Map<string, ITableRow>) => {
-   //console.log('设置初始值----》', initialData)
+    console.log('设置初始值----》', initialData)
     this.store = lodash.cloneDeep(initialData);
     this.deleteStore = new Map();
     this.isInitData = true;
@@ -41,7 +41,7 @@ class TableStore {
   };
 
   clearStore = () => {
-   //console.log('清空了初始值---》')
+    console.log('清空了初始值---》')
     this.isInitData = false;
     this.store = new Map();
     this.notifyObservers();
@@ -129,7 +129,7 @@ class TableStore {
   };
 
   getColumnHasData = (columnName: string): Map<string, any> => {
-   //console.log('getColumnHasData:', this.store);
+    console.log('getColumnHasData:', this.store);
     let verticalColumn: Map<string, any> = new Map();
     for (let item of this.store) {
       const [key, columns] = item;

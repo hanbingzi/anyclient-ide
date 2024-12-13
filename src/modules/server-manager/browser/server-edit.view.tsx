@@ -9,7 +9,7 @@ import { ServerCluster, ServerInfo } from '../../local-store-db/common';
 import { LabelInput, LabelItem } from '../../components/form';
 import { observer } from 'mobx-react-lite';
 import { ITableColumn } from '../../components/table-editor';
-import { AllConnectionType, ServerType } from '../../base/types/server-node.types';
+import { ServerType } from '../../base/types/server-node.types';
 import useTable from '../../components/table-editor/hook/useTable';
 import { AppConstants } from '../../../common/constants';
 import { QueryUtil } from '../../base/utils/query-util';
@@ -17,10 +17,11 @@ import { ServerPreferences } from '../../base/config/server-info.config';
 import cls from 'classnames';
 import {
   ClusterMember,
-  CommonAuthTypeForm,
   CommonServerInfoForm,
+  EsServerForm,
   ExtraConnectInputForm,
-  OracleServerForm, RedisServerForm,
+  OracleServerForm,
+  RedisServerForm,
 } from './server-edit-info.view';
 import { isEmpty } from '../../base/utils/object-util';
 
@@ -69,9 +70,9 @@ const ServerEditView = observer(() => {
     cluster: storeCluster,
     testConnectResult: connectResult,
     testIsLoading: isLoading,
-    jdkIsError
+    jdkIsError,
   } = serverEditService;
-  const serverSetting = ServerPreferences[selectedServer]
+  const serverSetting = ServerPreferences[selectedServer];
   //let serverNameIsInput = false;
   const [form, setForm] = useState<Partial<ServerInfo>>({});
 
@@ -101,114 +102,17 @@ const ServerEditView = observer(() => {
       }
     }
     if (pageState === 'input') {
-      let defaultUser = '';
-      let defaultPort = 0;
-      let defaultInstanceName = '';
-      let defaultClientId = '';
-      let defaultGroupId = '';
-      let defaultConnectionType: AllConnectionType = '';
-      let defaultOrclServerType = '';
-      let defaultTenant = '';
-      let defaultRedisMasterName = ''
-      switch (selectedServer) {
-        case 'Mariadb':
-        case 'Mysql':
-          defaultUser = 'root';
-          defaultPort = 3306;
-          break;
-        case 'Postgresql':
-          defaultUser = 'postgres';
-          defaultPort = 5432;
-          break;
-        case 'Oracle':
-          defaultPort = 1521;
-          defaultInstanceName = 'ORCL';
-          defaultOrclServerType = 'Service Name';
-          break;
-        case 'SQLServer':
-          defaultUser = 'sa';
-          defaultPort = 1433;
-          break;
-        case 'DM':
-          defaultUser = 'SYSDBA';
-          defaultPort = 5236;
-          break;
-        case 'TiDB':
-          defaultUser = 'root';
-          defaultPort = 4000;
-          break;
-        case 'OceanBase':
-          defaultUser = 'root';
-          defaultPort = 2881;
-          break;
-        case 'DB2':
-          defaultUser = 'db2inst1';
-          defaultPort = 50000;
-          break;
-        case 'ClickHouse':
-          defaultUser = 'default';
-          defaultPort = 8123;
-          break;
-        case 'Redis':
-          defaultConnectionType = 'Standalone';
-          defaultPort = 6379;
-          defaultRedisMasterName = 'mymaster';
-          break;
-        case 'Hive':
-          defaultUser = 'root';
-          defaultPort = 10000;
-          break;
-        case 'Etcd':
-          defaultPort = 2379;
-          break;
-        case 'Zookeeper':
-          defaultPort = 2181;
-          break;
-        case 'Consul':
-          defaultPort = 8500;
-          break;
-        case 'Eureka':
-          defaultPort = 8761;
-          break;
-        case 'Kafka':
-          defaultPort = 9092;
-          defaultConnectionType = 'Standalone';
-          defaultClientId = `${AppConstants.AppName}-${uuid(10)}`;
-          defaultGroupId = `${AppConstants.AppName}-groupid-${uuid(10)}`;
-          break;
-        case 'Rabbitmq':
-          defaultPort = 5672;
-          break;
-        case 'Rocketmq':
-          defaultPort = 9876;
-          break;
-        case 'Influxdb':
-          defaultPort = 8086;
-          break;
-        case 'Elasticsearch':
-          defaultPort = 9200;
-          break;
-        case 'Presto':
-        case 'Trino':
-          defaultPort = 8080;
-          defaultUser = 'root';
-          break;
-        case 'TDEngine':
-          defaultPort = 6041;
-          defaultUser = 'root';
-          break;
-      }
+      // let defaultUser = '';
+      // let defaultPort = 0;
+      // let defaultInstanceName = '';
+      // let defaultClientId = '';
+      // let defaultGroupId = '';
+      // let defaultConnectionType: AllConnectionType = '';
+      // let defaultOrclServerType = '';
+      // let defaultTenant = '';
+      // let defaultRedisMasterName = ''
       let tempForm: ServerInfo = {
-        port: defaultPort,
-        user: defaultUser,
         rememberMe: true,
-        connectionType: defaultConnectionType,
-        clientId: defaultClientId,
-        groupId: defaultGroupId,
-        tenant: defaultTenant,
-        instanceName: defaultInstanceName,
-        orclServerType: defaultOrclServerType,
-        redisMasterName:defaultRedisMasterName,
         serverType: selectedServer,
         usingSsh: false,
         sshPort: 22,
@@ -221,6 +125,97 @@ const ServerEditView = observer(() => {
         idleTimeout: 600000,
         maxLifeTime: 1800000,
       };
+      switch (selectedServer) {
+        case 'Mariadb':
+        case 'Mysql':
+          tempForm.user = 'root';
+          tempForm.port = 3306;
+          break;
+        case 'Postgresql':
+          tempForm.user = 'postgres';
+          tempForm.port = 5432;
+          break;
+        case 'Oracle':
+          tempForm.port = 1521;
+          tempForm.instanceName = 'ORCL';
+          tempForm.orclServerType = 'Service Name';
+          break;
+        case 'SQLServer':
+          tempForm.user = 'sa';
+          tempForm.port = 1433;
+          break;
+        case 'DM':
+          tempForm.user = 'SYSDBA';
+          tempForm.port = 5236;
+          break;
+        case 'TiDB':
+          tempForm.user = 'root';
+          tempForm.port = 4000;
+          break;
+        case 'OceanBase':
+          tempForm.user = 'root';
+          tempForm.port = 2881;
+          break;
+        case 'DB2':
+          tempForm.user = 'db2inst1';
+          tempForm.port = 50000;
+          break;
+        case 'ClickHouse':
+          tempForm.user = 'default';
+          tempForm.port = 8123;
+          break;
+        case 'Redis':
+          tempForm.connectionType = 'Standalone';
+          tempForm.port = 6379;
+          tempForm.redisMasterName = 'mymaster';
+          break;
+        case 'Hive':
+          tempForm.user = 'root';
+          tempForm.port = 10000;
+          break;
+        case 'Etcd':
+          tempForm.port = 2379;
+          break;
+        case 'Zookeeper':
+          tempForm.port = 2181;
+          break;
+        case 'Consul':
+          tempForm.port = 8500;
+          break;
+        case 'Eureka':
+          tempForm.port = 8761;
+          break;
+        case 'Kafka':
+          tempForm.port = 9092;
+          tempForm.connectionType = 'Standalone';
+          tempForm.clientId = `${AppConstants.AppName}-${uuid(10)}`;
+          tempForm.groupId = `${AppConstants.AppName}-groupid-${uuid(10)}`;
+          break;
+        case 'Rabbitmq':
+          tempForm.port = 5672;
+          break;
+        case 'Rocketmq':
+          tempForm.port = 9876;
+          break;
+        case 'Influxdb':
+          tempForm.port = 8086;
+          break;
+        case 'Elasticsearch':
+          tempForm.url = 'http://localhost:9200';
+          tempForm.authType = 'noAuth';
+          break;
+        case 'Presto':
+        case 'Trino':
+          tempForm.port = 8080;
+          tempForm.user = 'root';
+          break;
+        case 'TDEngine':
+          tempForm.port = 6041;
+          tempForm.user = 'root';
+          break;
+
+      }
+
       let serverName = getServerName(tempForm);
       setForm({ serverName, ...tempForm });
     }
@@ -310,6 +305,7 @@ const ServerEditView = observer(() => {
 
   const handleChangeForm = (formName: string, value) => {
     serverEditService.resetTestConnect();
+    console.log(`handleChangeForm:name:${formName};value:${value}`)
     form[formName] = value;
     if (!userInputName) {
       const serverName = getServerName(form);
@@ -366,8 +362,11 @@ const ServerEditView = observer(() => {
           />
         );
         break;
+      case 'Elasticsearch':
+        formHtml = <EsServerForm {...props} />;
+        break;
       case 'Etcd':
-        formHtml = <CommonServerInfoForm {...props} enableUser={true} enablePassword={true}  />;
+        formHtml = <CommonServerInfoForm {...props} enableUser={true} enablePassword={true} />;
         break;
       case 'Zookeeper':
         formHtml = <CommonServerInfoForm {...props} enableUser={true} enablePassword={true} />;
@@ -451,17 +450,17 @@ const ServerEditView = observer(() => {
         <ServerEditSetting {...{ form, selectedServer, activeTabId, handleChangeForm }} />
         {/*<ServerEditSsh {...{ form, selectedServer, activeTabId, handleChangeForm }} />*/}
         <div style={{ marginTop: '16px' }}>
-          {connectResult.stat === 'success' && <Alert message='连接成功' type='success' />}
-          {jdkIsError && <Alert message={`JDK未安装，请先安装JDK，然后重启IDE`} type='error' />}
+          {connectResult.stat === 'success' && <Alert message="连接成功" type="success" />}
+          {jdkIsError && <Alert message={`JDK未安装，请先安装JDK，然后重启IDE`} type="error" />}
           {connectResult.stat === 'error' && (
-            <Alert message={`连接失败:` + QueryUtil.getErrorMessage(connectResult.result!)} type='error' />
+            <Alert message={`连接失败:` + QueryUtil.getErrorMessage(connectResult.result!)} type="error" />
           )}
         </div>
       </div>
 
       <div className={styles['edit-option-container']}>
         <div>
-          <Button size='large' onClick={handleTestConnect} loading={isLoading} type={'secondary'}>
+          <Button size="large" onClick={handleTestConnect} loading={isLoading} type={'secondary'}>
             测试连接
           </Button>
         </div>
@@ -469,7 +468,7 @@ const ServerEditView = observer(() => {
         <div>
           {pageState === 'input' && (
             <Button
-              size='large'
+              size="large"
               type={'secondary'}
               onClick={() => {
                 serverEditService.last();
@@ -480,11 +479,11 @@ const ServerEditView = observer(() => {
           )}
           &nbsp;
           {pageState === 'input' ? (
-            <Button size='large' type={'primary'} onClick={handleSubmit}>
+            <Button size="large" type={'primary'} onClick={handleSubmit}>
               保存
             </Button>
           ) : (
-            <Button size='large' type={'primary'} onClick={handleSubmit}>
+            <Button size="large" type={'primary'} onClick={handleSubmit}>
               修改
             </Button>
           )}

@@ -1,10 +1,10 @@
-import { DefaultConnection } from './connection';
+import { DefaultServerAdapter } from './server-adapter';
 import { ConnectQuery } from '../../../local-store-db/common';
 import { decryptData } from '../../../base/utils/crypto-util';
 import { Etcd3, IOptions } from 'etcd3';
 import { isEmpty } from '../../../base/utils/object-util';
 
-export class EtcdConnection extends DefaultConnection {
+export class EtcdServerAdapter extends DefaultServerAdapter {
   private connected: boolean;
   private client: Etcd3;
 
@@ -13,7 +13,7 @@ export class EtcdConnection extends DefaultConnection {
     this.client = client;
   }
 
-  public static async createInstance(connect: ConnectQuery): Promise<EtcdConnection> {
+  public static async createInstance(connect: ConnectQuery): Promise<EtcdServerAdapter> {
     const { server, db, schema, ssh, originPassword } = connect;
     const { host, port, user, password, connectTimeout } = server;
     const decodePassword = password ? (originPassword ? password : decryptData(password)) : '';
@@ -24,7 +24,7 @@ export class EtcdConnection extends DefaultConnection {
       option = { hosts: `http://${host}:${port}`, auth: { username: user, password:decodePassword } };
     }
     const client = new Etcd3(option);
-    const etcdConnection = new EtcdConnection(client);
+    const etcdConnection = new EtcdServerAdapter(client);
     return etcdConnection;
   }
 

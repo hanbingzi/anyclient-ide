@@ -32,6 +32,8 @@ import { JdbcServiceClient } from './jdbc-service-client';
 import { JavaHttpRequest } from './java-http-request';
 import { IEtcdClientServicePath, IEtcdServiceToken } from '../common/types/etcd.types';
 import { EtcdServiceClient } from './etcd-service-client';
+import { IEsClientServicePath, IEsServiceToken } from '../common/types/es.types';
+import { EsServiceClient } from './es-service-client';
 
 @Injectable()
 export class ServerClientNodeModule extends NodeModule {
@@ -79,6 +81,10 @@ export class ServerClientNodeModule extends NodeModule {
     {
       token: IEtcdServiceToken,
       useClass: EtcdServiceClient,
+    },
+    {
+      token: IEsServiceToken,
+      useClass: EsServiceClient,
     },
     // {
     //   token: IKafkaClientRPC,
@@ -130,6 +136,10 @@ export class ServerClientNodeModule extends NodeModule {
     {
       servicePath: IEtcdClientServicePath,
       token: IEtcdServiceToken,
+    },
+    {
+      servicePath: IEsClientServicePath,
+      token: IEsServiceToken,
     },
     // {
     //   servicePath: IKafkaClientRPCPath,

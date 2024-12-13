@@ -22,7 +22,7 @@ adminAxiosService.interceptors.request.use(
   },
   (error) => {
     // 请求错误处理
-    //console.log(error); // for debug
+    console.log(error); // for debug
     Promise.reject(error);
   },
 );
@@ -35,7 +35,7 @@ adminAxiosService.interceptors.response.use(
   },
   (error) => {
     // 对响应错误做处理
-    //console.log('err' + error); // for debug
+    console.log('err' + error); // for debug
     return Promise.reject(error);
   },
 );
@@ -83,6 +83,9 @@ export class AdminClientService {
     console.log('--------------------end------------------->');
   }
 
+  /**
+   *
+   */
   public async onDestroy() {
     //{
     //     "userId": "",

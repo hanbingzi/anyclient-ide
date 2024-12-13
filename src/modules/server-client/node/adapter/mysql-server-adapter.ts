@@ -1,11 +1,11 @@
 import * as mysql from 'mysql2';
-import { ConnectionTools, queryCallback } from './connection';
+import { ServerAdapter, queryCallback } from './server-adapter';
 import { ConnectQuery } from '../../../local-store-db/common';
 import { decryptData } from '../../../base/utils/crypto-util';
 import { MysqlUtils } from '../../common/utils/mysql-utils';
 import { ISqlQueryParam, ISqlQueryResult } from '../../common';
 
-export class MysqlConnection extends ConnectionTools {
+export class MysqlServerAdapter extends ServerAdapter {
   private conn: mysql.Connection;
 
   constructor(connect: mysql.Connection) {
@@ -13,7 +13,7 @@ export class MysqlConnection extends ConnectionTools {
     this.conn = connect;
   }
 
-  public static async createInstance(connect: ConnectQuery): Promise<ConnectionTools> {
+  public static async createInstance(connect: ConnectQuery): Promise<ServerAdapter> {
     const { server, db, ssh, originPassword } = connect;
     const { host, port, user, password, timezone, connectTimeout } = server;
     const decodePassword = password ? (originPassword ? password : decryptData(password)) : '';
@@ -31,7 +31,7 @@ export class MysqlConnection extends ConnectionTools {
       connectTimeout: connectTimeout || 5000,
     } as mysql.ConnectionOptions;
     const conn = mysql.createConnection(config);
-    const instance = new MysqlConnection(conn);
+    const instance = new MysqlServerAdapter(conn);
     return instance;
   }
 

@@ -1,10 +1,10 @@
-import { DefaultConnection } from './connection';
+import { DefaultServerAdapter } from './server-adapter';
 import { Kafka } from 'kafkajs';
 import { uuid } from '@opensumi/ide-utils';
 import { ConnectQuery } from '../../../local-store-db/common';
 import { AppConstants } from '../../../../common/constants';
 
-export class KafkaConnection extends DefaultConnection {
+export class KafkaServerAdapter extends DefaultServerAdapter {
   private connected: boolean;
   private client: Kafka;
 
@@ -18,7 +18,7 @@ export class KafkaConnection extends DefaultConnection {
     const { host, port, clientId, groupId, connectionType,connectTimeout } = server;
     const useClientId = clientId ? clientId : `${AppConstants.AppName}-${uuid(10)}`;
     const brokers: string[] = [];
-    console.log(`host:${host};port:${port}`);
+    //console.log(`host:${host};port:${port}`);
     //前端验证，保证cluster是，cluster必须有数据，
     if (connectionType === 'Cluster') {
       if (!cluster) {
@@ -35,7 +35,7 @@ export class KafkaConnection extends DefaultConnection {
       brokers,
       connectionTimeout:connectTimeout||5000
     });
-    const kafkaConnection = new KafkaConnection(kafka);
+    const kafkaConnection = new KafkaServerAdapter(kafka);
     return kafkaConnection;
   }
 

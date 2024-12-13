@@ -16,6 +16,7 @@ import { IDbSelectServiceToken } from '../../toolbar-option/common';
 import { DbSelectService } from '../../toolbar-option/browser/db-select.service';
 import { URI } from '@opensumi/ide-core-browser';
 import { IWorkspaceService } from '@opensumi/ide-workspace';
+import { IEsService, IEsServiceToken } from '../../server-client/common/types/es.types';
 import SqlModeServer = ServerClassNamespace.SqlModeServer;
 
 export class DatabaseCache {
@@ -48,6 +49,9 @@ export class DbCacheNodeService {
   @Autowired(IRedisServiceToken)
   private redisService: IRedisService;
 
+  @Autowired(IEsServiceToken)
+  private esService: IEsService;
+
   @Autowired(ISqlServerApiToken)
   private sqlServerApiService: SqlServerApiService;
 
@@ -73,7 +77,7 @@ export class DbCacheNodeService {
       return DatabaseCache.workspaceCache.get(suffix)!;
     }
     const serverInfoList = await this.serverService.findByWorkspaceAndServerType(workspace, allServerType);
-   //console.log('serverInfoList：', serverInfoList);
+    console.log('serverInfoList：', serverInfoList);
     const serverNodes: ServerNode[] = serverInfoList.map((item) => new ServerNode(item));
     DatabaseCache.workspaceCache.set(suffix, serverNodes);
     return serverNodes;
@@ -100,7 +104,7 @@ export class DbCacheNodeService {
 
   public async getServerCacheDb(serverNode: ServerNode): Promise<DbNode[]> {
     const { serverInfo: server, children } = serverNode;
-   //console.log('是否缓存了--》', children)
+    console.log('是否缓存了--》', children);
     //先从缓存中读取
     if (children && children.size > 0) {
       return serverNode.getChildrenFlat() as DbNode[];
@@ -120,6 +124,11 @@ export class DbCacheNodeService {
         databaseNodes = cacheDatabases.map(
           (item) => new DbNode(item.name, item.db + '', item.name, serverType, 'redisDb'),
         );
+      }
+    } else if (serverType === 'Elasticsearch') {
+      let indexList = await this.esService.showIndexList({ server });
+      if (indexList.success) {
+        databaseNodes = indexList.data.map((item) => new DbNode(item.index, item.index, item.index, serverType, 'index'));
       }
     }
     if (databaseNodes && databaseNodes.length > 0) {
@@ -157,7 +166,7 @@ export class DbCacheNodeService {
   public async clearCache(clearParam?: IClearParam) {
     const selectedServer = this.dbSelectService.selectedServerNode;
     const selectedDb = this.dbSelectService.selectedDbNode;
-   //console.log('clearCache:', clearParam, selectedServer, selectedDb)
+    console.log('clearCache:', clearParam, selectedServer, selectedDb);
     //刷新所有服务
     if (!clearParam) {
       DatabaseCache.workspaceCache.clear();
@@ -205,11 +214,13 @@ export class DbCacheNodeService {
       dbNodes = await this.getServerCacheDb(selectedServerNode);
     } else {
       //将所有缓存的库返回
-      if (DatabaseCache.workspaceCache.has('sql')) {
-        const serverNodes = DatabaseCache.workspaceCache.get('sql')!;
-        for (let serverNode of serverNodes) {
-          if (serverNode.children) {
-            dbNodes.concat(serverNode.getChildrenFlat());
+      if (this.dbSelectService.suffix === 'sql') {
+        if (DatabaseCache.workspaceCache.has('sql')) {
+          const serverNodes = DatabaseCache.workspaceCache.get('sql')!;
+          for (let serverNode of serverNodes) {
+            if (serverNode.children) {
+              dbNodes.concat(serverNode.getChildrenFlat());
+            }
           }
         }
       }
@@ -222,13 +233,13 @@ export class DbCacheNodeService {
     schema?: string | null,
   ): Promise<BaseNode[]> {
     const selectedServerNode = this.dbSelectService.selectedServerNode;
-   //console.log('SqlDbSubItems - schema:', schema);
+    console.log('SqlDbSubItems - schema:', schema);
     if (!selectedServerNode) {
-     //console.log('SqlDbSubItems---------------->1');
+      console.log('SqlDbSubItems---------------->1');
       return [];
     }
     if (selectedServerNode.children?.size === 0) {
-     //console.log('SqlDbSubItems---------------->2');
+      console.log('SqlDbSubItems---------------->2');
       return [];
     }
     const selectedDbNode = this.dbSelectService.selectedDbNode;
@@ -236,32 +247,32 @@ export class DbCacheNodeService {
     let dbSubNodes: BaseNode[] = [];
     //命令传过来的数据库，被优先使用
     if (schema) {
-     //console.log('SqlDbSubItems---------------->3');
+      console.log('SqlDbSubItems---------------->3');
       if (selectedServerNode.children?.has(schema)) {
-       //console.log('SqlDbSubItems---------------->4');
+        console.log('SqlDbSubItems---------------->4');
         useDbNode = selectedServerNode.children?.get(schema) as DbNode;
       }
     } else if (selectedDbNode) {
-     //console.log('SqlDbSubItems---------------->5');
+      console.log('SqlDbSubItems---------------->5');
       useDbNode = selectedDbNode;
     }
     if (useDbNode) {
       if (useDbNode.children?.has(nodeType)) {
-       //console.log('---------------->6');
+        console.log('---------------->6');
         dbSubNodes = useDbNode.children?.get(nodeType)!.getChildrenFlat();
-       //console.log('getSqlDbSubItemsForCompleteCommand本次读缓存：', dbSubNodes);
+        console.log('getSqlDbSubItemsForCompleteCommand本次读缓存：', dbSubNodes);
       } else {
-       //console.log('SqlDbSubItems---------------->7');
+        console.log('SqlDbSubItems---------------->7');
 
         dbSubNodes = await this.cacheDbSubItems(selectedServerNode.serverInfo, useDbNode, nodeType);
       }
     } else if (!schema) {
-     //console.log('SqlDbSubItems---------------->8');
+      console.log('SqlDbSubItems---------------->8');
       //没有提示传递过来的数据库，也没有选择的数据库，那么服务下的所有数据库的表格都查询出来
       for (let itemDb of selectedServerNode.children?.values()!) {
         if (itemDb.children?.has(nodeType)) {
           dbSubNodes = dbSubNodes.concat(itemDb.children?.get(nodeType)!.getChildrenFlat());
-//console.log('本次读缓存：', itemDb.name);
+          console.log('本次读缓存：', itemDb.name);
         } else {
           let queryDbSubNodes = await this.cacheDbSubItems(selectedServerNode.serverInfo, itemDb as DbNode, nodeType);
           dbSubNodes = dbSubNodes.concat(queryDbSubNodes);
@@ -374,13 +385,13 @@ export class DbCacheNodeService {
    */
   public async getSqlColumnsForCompleteCommand(schema?: string | null, tables?: string[] | null): Promise<BaseNode[]> {
     const selectedServerNode = this.dbSelectService.selectedServerNode;
-   //console.log('请求的tables--------->', tables);
+    console.log('请求的tables--------->', tables);
     if (!selectedServerNode) {
-     //console.log('SqlColumns---------------->1');
+      console.log('SqlColumns---------------->1');
       return [];
     }
     if (selectedServerNode.children?.size === 0) {
-     //console.log('SqlColumns---------------->2');
+      console.log('SqlColumns---------------->2');
       return [];
     }
     const selectedDbNode = this.dbSelectService.selectedDbNode;
@@ -388,17 +399,17 @@ export class DbCacheNodeService {
     let columnNodes: BaseNode[] = [];
     //命令传过来的数据库，被优先使用
     if (schema) {
-     //console.log('SqlColumns---------------->3');
+      console.log('SqlColumns---------------->3');
       if (selectedServerNode.children?.has(schema)) {
-       //console.log('SqlColumns---------------->4');
+        console.log('SqlColumns---------------->4');
         useDbNode = selectedServerNode.children?.get(schema) as DbNode;
       }
     } else if (selectedDbNode) {
-     //console.log('SqlColumns---------------->5');
+      console.log('SqlColumns---------------->5');
       useDbNode = selectedDbNode;
     }
     if (!useDbNode) {
-     //console.log('SqlColumns---------------->6');
+      console.log('SqlColumns---------------->6');
       return [];
     }
     if (!useDbNode.isCache || !useDbNode.children?.get('tables')!.isCache) {
@@ -409,11 +420,11 @@ export class DbCacheNodeService {
     const tablesChildren = tablesNode.children!;
     if (tablesChildren.size === 0) {
       //当前数据库没有表，
-     //console.log('SqlColumns---------------->7');
+      console.log('SqlColumns---------------->7');
       return [];
     }
     if (!tables || tables.length === 0) {
-     //console.log('SqlColumns---------------->8');
+      console.log('SqlColumns---------------->8');
       columnNodes = await this.getTableColumns(
         selectedServerNode.serverInfo,
         useDbNode,
@@ -428,7 +439,7 @@ export class DbCacheNodeService {
           tablesNode.push(tablesChildren.get(item)!);
         }
       });
-     //console.log('SqlColumns---------------->9');
+      console.log('SqlColumns---------------->9');
       columnNodes = await this.getTableColumns(selectedServerNode.serverInfo, useDbNode, ...tablesNode);
     }
     return columnNodes;

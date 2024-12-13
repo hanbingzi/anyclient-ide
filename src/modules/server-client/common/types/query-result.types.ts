@@ -40,8 +40,13 @@ export interface ITableDataResult<T = any> extends IRunSqlResult<T> {
  * Elastic Search Response
  */
 
-export interface IEsDataResult extends ITableDataResult {
-  request?: any;
+export interface IEsPageDataResult extends IQueryResult {
+  total?: number;
+  pageSize?: number;
+  data?: any;
+}
+export interface IEsRunResult extends IRunSqlResult<string>{
+  command?:string;
 }
 
 export namespace QueryResultError {

@@ -30,7 +30,7 @@ export const SqlTableResultView = (props: ResultExplorerProps) => {
 
   //console.log('---->width: ' + width + ' ,height: ' + height)
   useEffect(() => {
-   ////console.log('useEffect--------------------------------------------->',runResult, serverInfo, dbValue, schemaName);
+   // console.log('useEffect--------------------------------------------->',runResult, serverInfo, dbValue, schemaName);
     sqlTableResultService.init(runResult, serverInfo, dbValue, schemaName);
     ensureIsReady();
  // }, [serverInfo, dbValue, schemaName, runResult]);
@@ -52,7 +52,7 @@ export const SqlTableResultView = (props: ResultExplorerProps) => {
   //         dataType: columnMeta.dataType
   //       }
   //     });
-  //    //console.log('重新生成column--------原生fields》', fields, ';column:', column, ';重新生成的:', tableColumn)
+  //     console.log('重新生成column--------原生fields》', fields, ';column:', column, ';重新生成的:', tableColumn)
   //     sqlTableResultService.initColumn(tableColumn);
   //     setTableColumn(tableColumn);
   //   }
@@ -73,13 +73,13 @@ export const SqlTableResultView = (props: ResultExplorerProps) => {
     );
     disposableRef.current?.push(
       sqlTableResultService.onTableDataChange((data) => {
-       //console.log('接收到的tableData____<>____>', data)
+        console.log('接收到的tableData____<>____>', data)
         setTableData(data);
       }),
     );
     disposableRef.current?.push(
       sqlTableResultService.onTableColumnChange((column) => {
-       //console.log('接收到的tableColumn____<>____>', column)
+        console.log('接收到的tableColumn____<>____>', column)
         setTableColumn(column);
       }),
     );

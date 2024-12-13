@@ -52,9 +52,9 @@ export class TextEditorDocumentContentProvider implements IEditorDocumentModelCo
     eol?: EOL | undefined,
   ): MaybePromise<IEditorDocumentModelSaveResult> {
     // 这里实现保存数据的逻辑
-   //console.log(
-     // `saveDocumentModel, uri:${uri}, content:${content}, baseContent:${baseContent}, changes, encoding, ignoreDiff, eol`,
-    //);
+    console.log(
+      `saveDocumentModel, uri:${uri}, content:${content}, baseContent:${baseContent}, changes, encoding, ignoreDiff, eol`,
+    );
     const { id } = uri.getParsedQuery();
     this.documentEditorService.saveKeyDataProvider(id, content);
     return {

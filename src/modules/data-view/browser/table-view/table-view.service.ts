@@ -196,7 +196,7 @@ export class TableViewService extends SqlTableEditAbstract  {
       }
 
     }
-   //console.log('loadPrimaryEnd-->', option);
+    //console.log('loadPrimaryEnd-->', option);
     this.updateOption(option);
   }
 

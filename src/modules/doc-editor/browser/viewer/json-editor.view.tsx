@@ -82,7 +82,7 @@ export function JsonEditorView(param: IDataEditorViewer) {
     );
     disposableRef.current?.push(
       documentEditorService.onActiveSave((value) => {
-       //console.log('json---value:', value, 'viewId:', viewId);
+        //console.log('json---value:', value, 'viewId:', viewId);
         if (value === viewId) {
           iCodeEditorRef.current?.save();
         }
@@ -96,7 +96,7 @@ export function JsonEditorView(param: IDataEditorViewer) {
   const handleSave = () => {
     const p1 = preferenceService.get('editor.autoSave');
     //const p2 = preferenceService.get('editor.autoSaveDelay')
-   //console.log('handleSave - json ---》', p1);
+    console.log('handleSave - json ---》', p1);
     // if (p1 === 'off') {//判断是否是自动保存，如果是自动保存，就不用调用这个方法
     //   documentEditorService.readyRealSave(viewId)
     //   //执行一个真save
@@ -109,7 +109,7 @@ export function JsonEditorView(param: IDataEditorViewer) {
 
   const handleRefresh = useCallback(
     (requestData: boolean = false) => {
-     //console.log('=========>handleRefresh json');
+      console.log('=========>handleRefresh json');
       //documentEditorService.readyFakeSave(viewId)
       if (requestData) {
         documentEditorService.readyRefresh(viewId, selectModel);

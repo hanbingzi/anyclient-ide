@@ -23,14 +23,14 @@ export class ServerInfoResourceProvider implements IResourceProvider {
   scheme = 'serverInfo';
 
   async provideResource(uri: URI): Promise<IResource<{ serverInfo: ServerInfo }>> {
-   //console.log('--->ServerInfoResourceProvider');
+    console.log('--->ServerInfoResourceProvider');
     const { id } = uri.getParsedQuery();
     const serverInfo = await this.serverService.findById(id);
     //const originalUri = new URI(original);
     //const modifiedUri = new URI(modified);
     //const icon = await this.labelService.getIcon(originalUri);
     //this.modifiedToResource.set(modifiedUri.toString(), uri);
-    ////console.log('--provider-->',id,serverInfo)
+    // console.log('--provider-->',id,serverInfo)
     const icon = this.iconService.fromIcon(
       '',
       ServerIconFinder.getServerIconBase64(serverInfo.serverType!),

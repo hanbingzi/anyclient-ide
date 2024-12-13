@@ -3,6 +3,7 @@ import { AbstractBaseClient } from './base-client';
 import {
   IBroker,
   IKafkaServiceClient,
+  IKafkaStatus,
   IMessage,
   IMessageBase,
   IPartition,
@@ -16,7 +17,6 @@ import { DateUtil } from '../../base/utils/date-util';
 import { isEmpty } from '../../base/utils/object-util';
 import { ConnectQuery, ServerInfo } from '../../local-store-db/common';
 import { AppConstants } from '../../../common/constants';
-import { RPCService } from '@opensumi/ide-connection';
 
 @Injectable()
 export class KafkaServiceClient extends AbstractBaseClient<Kafka> implements IKafkaServiceClient {
@@ -62,6 +62,78 @@ export class KafkaServiceClient extends AbstractBaseClient<Kafka> implements IKa
       await this.closeConnection(connect);
     }
   }
+
+  async getKafkaStatus(connect: ConnectQuery): Promise<IKafkaStatus> {
+
+    try {
+      const kafka = await this.getClient(connect);
+      const admin = kafka.admin();
+
+      // 获取集群信息
+      const clusterInfo = await admin.describeCluster();
+      // 获取所有 topic
+      const topics = await admin.listTopics();
+      // 获取 topic 详细信息
+      const topicMetadata = await admin.fetchTopicMetadata({
+        topics: topics,
+      });
+      // 获取消费者组
+      const groups = await admin.listGroups();
+      // 获取消费者组详细信息
+      const groupDescriptions = await admin.describeGroups(
+        groups.groups.map(group => group.groupId),
+      );
+      // 转换 broker 信息
+      const brokers = clusterInfo.brokers;
+      // 转换 topic 信息
+      const topicsInfo = topicMetadata.topics.map(topic => {
+        const partitionCount = topic.partitions.length;
+        const replicationFactor = topic.partitions[0]?.replicas.length || 0;
+        return {
+          name: topic.name,
+          partitions: partitionCount,
+          replicationFactor: replicationFactor,
+          messageCount: -1, // KafkaJS 不直接提供消息数量
+          sizeBytes: -1, // KafkaJS 不直接提供大小信息
+        };
+      });
+
+      // 转换消费者组信息
+      const consumerGroups = groupDescriptions.groups.map(group => ({
+        groupId: group.groupId,
+        status: group.state,
+        members: group.members.length,
+        lag: -1, // 需要单独计算消费延迟
+      }));
+
+      // 计算基本指标
+      // const metrics = {
+      //   messagesPerSec: -1, // 需要通过监控系统获取
+      //   bytesInPerSec: -1,
+      //   bytesOutPerSec: -1,
+      //   activeControllers: clusterInfo.controllers.length,
+      //   underReplicatedPartitions: 0, // 需要单独计算
+      //   offlinePartitionsCount: 0, // 需要单独计算
+      // };
+      await admin.disconnect();
+
+      return {
+        brokers,
+        topics: topicsInfo,
+        consumerGroups,
+        // metrics,
+      };
+    } catch (e) {
+      return {
+        brokers: [],
+        topics: [],
+        consumerGroups: [],
+        // metrics,
+      };
+    }
+
+  }
+
 
   async showTopics(connect: ConnectQuery): Promise<IQueryResult<string[]>> {
     const kafka = await this.getClient(connect);
@@ -134,7 +206,6 @@ export class KafkaServiceClient extends AbstractBaseClient<Kafka> implements IKa
       await admin.connect();
       const meta = await admin.fetchTopicMetadata({ topics: [topic] });
       console.log('partition:', meta.topics[0]);
-      await admin.disconnect();
       await admin.disconnect();
       const partitions = meta.topics[0] ? meta.topics[0].partitions : [];
       return { success: true, data: partitions };

@@ -89,7 +89,7 @@ export abstract class BaseDao<T> {
           console.error('Error removing documents:', err);
           resolve(false);
         } else {
-//console.log('_deleteByIds:', numRemoved);
+          console.log('_deleteByIds:', numRemoved);
           resolve(true);
         }
       });
@@ -104,7 +104,7 @@ export abstract class BaseDao<T> {
         if (err) {
           console.error('Error updating document:', err);
         } else {
-//console.log('_updateById:', numReplaced);
+          console.log('_updateById:', numReplaced);
         }
         resolve();
       });
@@ -126,7 +126,7 @@ export abstract class BaseDao<T> {
           console.error('Error querying data:', err);
           resolve({} as T);
         } else {
-//console.log('_findById:', doc);
+          console.log('_findById:', doc);
           resolve(doc);
         }
       });
@@ -142,7 +142,7 @@ export abstract class BaseDao<T> {
           console.error('Error querying data:', err);
           resolve([]);
         } else {
-//console.log('_findByIds:', docs);
+          console.log('_findByIds:', docs);
           resolve(docs);
         }
       });
@@ -157,7 +157,7 @@ export abstract class BaseDao<T> {
           console.error('Error counting documents:', err);
           resolve(0);
         } else {
-//console.log('Count:', count);
+          console.log('Count:', count);
           resolve(count);
         }
       });
@@ -171,7 +171,7 @@ export abstract class BaseDao<T> {
           console.error('Error querying documents:', err);
           resolve([]);
         } else {
-//console.log('_findByWhereParam:', docs);
+          console.log('_findByWhereParam:', docs);
           resolve(docs);
         }
       });
@@ -187,7 +187,7 @@ export abstract class BaseDao<T> {
             console.error('Error querying data:', err);
             resolve([]);
           } else {
-  //console.log('_findAndSort:', docs);
+            console.log('_findAndSort:', docs);
             resolve(docs);
           }
         });
@@ -201,7 +201,7 @@ export abstract class BaseDao<T> {
           console.error('Error querying documents:', err);
           resolve({} as T);
         } else {
-//console.log('_findOneByWhereParam:', docs);
+          console.log('_findOneByWhereParam:', docs);
           resolve(docs[0]);
         }
       });

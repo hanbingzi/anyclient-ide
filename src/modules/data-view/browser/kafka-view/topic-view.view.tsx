@@ -3,7 +3,7 @@ import { Icon, Select, Tabs } from '@opensumi/ide-components';
 import { TabsTitleItem } from '../../../components/title';
 import { IListColumn, TableView } from '../../../components/table-view';
 import { IBaseState, ViewState } from '../../common/data-browser.types';
-import styles from './topic.module.less';
+import styles from './index.module.less';
 import cls from 'classnames';
 import { DisposableCollection } from '@opensumi/ide-utils';
 import { useInjectable } from '@opensumi/ide-core-browser';
@@ -12,7 +12,7 @@ import { LabelItem } from '../../../components/form';
 import { ISortColumn } from '../../../components/table-editor';
 import { IconSvg } from '../../../icons';
 import { Run, Stop } from '../../../icons/tools';
-import { IMessage, IPartition, IQueryStart } from '../../../server-client/common/types/kafka.types';
+import { IMessage, IPartition, IQueryStart } from '../../../server-client/common';
 
 // const testData = [
 //   {partition: 0, offset: 1, key: 'test', value: 'one-1', timestamp: '2002-12-12 10:22:36'},
@@ -74,9 +74,7 @@ export const TopicView = (props: IBaseState) => {
   }, []);
 
   useEffect(() => {
-   //console.log('topic-view width-->', width);
     if (width === 0) return;
-   //console.log('topic-view width-->', width);
     const columnInit = [
       { title: 'Partition', columnKey: 'partition', width: 100 },
       { title: 'Offset', columnKey: 'offset', width: 100 },
@@ -118,7 +116,6 @@ export const TopicView = (props: IBaseState) => {
 
   const handleShowInfo = useCallback(() => {
     topicViewService.showDataItemInfoPanel();
-    //console.log('即将展示数据详细信息')
   }, [topicViewService]);
 
   const handleAddMessage = useCallback(() => {
@@ -127,7 +124,6 @@ export const TopicView = (props: IBaseState) => {
 
   const handleRowClick = useCallback(
     (data) => {
-      //console.log('click row data:', data)
       topicViewService.showDataItemInfo(data, true);
     },
     [topicViewService],
@@ -136,7 +132,6 @@ export const TopicView = (props: IBaseState) => {
   const handleClick = useCallback(
     (data) => {
       topicViewService.showDataItemInfo(data);
-      //console.log('click data:', data)
     },
     [topicViewService],
   );

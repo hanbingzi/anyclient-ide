@@ -7,11 +7,11 @@ import { ITodoServiceClient } from '../common';
 @Injectable()
 export class TodoClient implements ITodoServiceClient {
   public async test() {
-    ////console.log(os.homedir())
-   //console.log('============================test====================================');
+    // console.log(os.homedir())
+    console.log('============================test====================================');
   }
   public async query(): Promise<void> {
-   //console.log('进入了---------------------');
+    console.log('进入了---------------------');
     //   let connection = mysql.createConnection({
     //     host: 'localhost',
     //     user: 'root',
@@ -31,11 +31,11 @@ export class TodoClient implements ITodoServiceClient {
     //       if (error) {
     //         throw error
     //       }
-    //      //console.log('------------------>mysql:result:', result);
+    //       console.log('------------------>mysql:result:', result);
     //       return result;
     //     })
     //   }).catch((reason) => {
-    //    //console.log('reason:', reason)
+    //     console.log('reason:', reason)
     //     return reason;
     //   }).finally(() => {
     //     connection.end()

@@ -151,7 +151,7 @@ export const TableEditor = (props: TableEditorProps) => {
   } = tableInstance;
 
   useEffect(() => {
-   //console.log('useEffect-->表格初始化', data);
+    console.log('useEffect-->表格初始化', data);
     //let idsIndex: string[] = []
     if (data && data.length > 0) {
       let indexData: Map<string, ITableRow> = new Map();
@@ -170,7 +170,7 @@ export const TableEditor = (props: TableEditorProps) => {
 
       setInitData(indexData);
     } else if (!firstRowIsEdit) {
-     //console.log('--------->data bianle ?', data);
+      console.log('--------->data bianle ?', data);
       setIndexData(new Map());
       setIdsIndex([]);
       setInitData(new Map());
@@ -336,12 +336,12 @@ export const TableEditor = (props: TableEditorProps) => {
 
   const handleAdd = useCallback(
     (rowId?: string, order?: 'up' | 'down') => {
-     //console.log('handleAdd+++---1');
+      console.log('handleAdd+++---1');
       const verify = verifyNullData();
       if (verify) return;
-     //console.log('handleAdd+++---2', rowId);
+      console.log('handleAdd+++---2', rowId);
       if (rowId) {
-       //console.log('handleAdd+++---3');
+        console.log('handleAdd+++---3');
         const newIdsIndex = [...idsIndex];
         const insertIndex = newIdsIndex.indexOf(rowId);
         if (insertIndex !== -1) {
@@ -354,7 +354,7 @@ export const TableEditor = (props: TableEditorProps) => {
           setIdsIndex(newIdsIndex);
         }
       } else {
-       //console.log('handleAdd+++---4');
+        console.log('handleAdd+++---4');
         setIdsIndex([...idsIndex, uuid()]);
         //跳转到最后一行
         if (bodyGridRef.current) {
@@ -570,8 +570,8 @@ export const TableEditor = (props: TableEditorProps) => {
   //console.log('listener indexData  ------------>', indexData);
   const clearUpdateAndAdd = useCallback(
     (isClearStore: boolean = false) => {
-     //console.log('clearUpdateAndAdd1  ------------>', indexData);
-      ////console.log('updateRecordIndex:', updateRecordIndex, ';updateCellMap:', updateCellMap,
+      console.log('clearUpdateAndAdd1  ------------>', indexData);
+      // console.log('updateRecordIndex:', updateRecordIndex, ';updateCellMap:', updateCellMap,
       //   ";addCellMap:", addCellMap, ";removeCellMap:", removeCellMap)
 
       if (updateRecordIndex && updateRecordIndex.length > 0) setUpdateRecordIndex([]);
@@ -1205,7 +1205,7 @@ export const TableEditor = (props: TableEditorProps) => {
 
   const clearStat = useCallback(
     (clearSelectedCell: boolean = true, clearSelectedRow: boolean = true, clearEditing: boolean = true) => {
-      ////console.log(
+      // console.log(
       //   `clearStat:', clearSelectedCell:${selectedPosition},clearSelectedRow:${selectedRowPosition},clearEditing:${editingPosition}`,
       // );
       clearSelectedCell && selectedPosition && setSelectPosition(undefined);
@@ -1259,7 +1259,7 @@ export const TableEditor = (props: TableEditorProps) => {
       //1.点击的是编辑位置，点击无效
 
       if (isEditing && editingPosition && rowIndex === editingPosition.row && columnIndex === editingPosition.column) {
-       //console.log('点击无效----》');
+        console.log('点击无效----》');
         return;
       }
       //单击后，清空编辑状态（非单击），清空--行--选中状态，
@@ -1479,7 +1479,7 @@ export const TableEditor = (props: TableEditorProps) => {
   //   if (e.isPropagationStopped && e.isPropagationStopped()) {
   //     return;
   //   }
-  //  //console.log('handleRowKey操作被触发');
+  //   console.log('handleRowKey操作被触发');
   //   if (!selectedRowPosition || selectedRowPosition.length === 0) {
   //     return;
   //   }
@@ -1489,13 +1489,13 @@ export const TableEditor = (props: TableEditorProps) => {
   //     //const rowId = idsIndex[rowStart];
   //     switch (e.key.toLowerCase()) {
   //       case 'c':
-  //console.log('行复制操作被触发');
+  //         console.log('行复制操作被触发');
   //         //  const data = getFinalCellData(rowId, columnStart);
   //         // 在这里添加你的复制操作逻辑
   //         //handleCopyCell('shortCuts', { rowId, columnIndex: columnStart, data });
   //         break;
   //       case 'v':
-  //console.log('行粘贴操作被触发');
+  //         console.log('行粘贴操作被触发');
   //         //handlePasteCell('shortCuts', { rowId, rowIndex: rowStart, columnIndex: columnStart });
   //         // 在这里添加你的粘贴操作逻辑
   //         break;
@@ -1514,14 +1514,14 @@ export const TableEditor = (props: TableEditorProps) => {
       return;
     }
     if (ctrlKeyPressed) {
-     //console.log('会触发吗table-editor ctrlKeyPressed');
+      console.log('会触发吗table-editor ctrlKeyPressed');
       handleCtrlCV(e);
       return;
     }
     if (!selectedPosition) {
       return;
     }
-    // //console.log('会触发吗table-editor handleKey2')
+    //  console.log('会触发吗table-editor handleKey2')
     const keyCode = e.which || e.keyCode;
     const { rowStart, columnStart } = selectedPosition;
     const deleteKeysPressed = keyCode === DELETE_KEY || keyCode === BACKSPACE_KEY;
@@ -1557,7 +1557,7 @@ export const TableEditor = (props: TableEditorProps) => {
         const column = columns[columnStart];
         const columnKey = column.columnKey;
         const inputType = column.inputType;
-        ////console.log('handleKey,newVal----->', newVal)
+        // console.log('handleKey,newVal----->', newVal)
         if (!inputType || inputType === 'input') {
           //select checkbox不能直接赋值
           //先判断是否是input类型，然后赋值
@@ -1571,7 +1571,7 @@ export const TableEditor = (props: TableEditorProps) => {
   };
 
   const handleKeyboardCellMovement = (e) => {
-    // //console.log('handleKeyboardCellMovement--selectedPosition:', selectedPosition)
+    //  console.log('handleKeyboardCellMovement--selectedPosition:', selectedPosition)
     //  const isCellsSelected = selectedPosition ;//&& selectedPosition.rowStart && selectedPosition.columnStart;
     if (!e || !selectedPosition) {
       return;
@@ -1642,7 +1642,7 @@ export const TableEditor = (props: TableEditorProps) => {
   };
   const handleCtrlCV = useCallback(
     (e) => {
-     //console.log('selectedRowPosition:', selectedRowPosition, ';selectedPosition:', selectedPosition);
+      console.log('selectedRowPosition:', selectedRowPosition, ';selectedPosition:', selectedPosition);
       if (selectedRowPosition && selectedRowPosition.length > 0) {
         switch (e.key.toLowerCase()) {
           case 'c':
@@ -1730,7 +1730,7 @@ export const TableEditor = (props: TableEditorProps) => {
         //const data = isUpdateData ? isUpdateData.newValue : DataUtil.dataFormat(row[column.columnKey]);
         const data = isUpdateData ? isUpdateData.newValue : row[column.columnKey];
         //console.log('origin',row[column.columnKey],'dataFormat:',DataUtil.dataFormat(row[column.columnKey]),',deal:',data);
-        //isUpdateData &&//console.log('renderDataRow,isUpdateData----->', isUpdateData);
+        //isUpdateData && console.log('renderDataRow,isUpdateData----->', isUpdateData);
         columnList.push(
           <Cell
             style={cellStyle}

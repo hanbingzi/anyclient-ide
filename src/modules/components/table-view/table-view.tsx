@@ -448,7 +448,7 @@ export const TableView = (props: TableViewProps) => {
     (rowIndex: number) => {
       let columnList: any = [];
       const rowData = data[rowIndex];
-      ////console.log('table-view - rowData---->', rowData, ';isSimpleData:', dataType)
+      // console.log('table-view - rowData---->', rowData, ';isSimpleData:', dataType)
       for (let columnIndex = 0; columnIndex < columns.length; columnIndex++) {
         const columnKey = columns[columnIndex]?.columnKey;
         const cellData = dataType === 'Array' ? rowData : columnKey ? rowData[columnKey] : '';

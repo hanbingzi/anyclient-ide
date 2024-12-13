@@ -221,7 +221,7 @@ export class ConnectTreeService extends Tree implements IConnectTreeService {
 
     this.toDispose.push(
       this.workspaceService.onWorkspaceChanged((roots) => {
-        ////console.log('connect-tree.service--------->onWorkspaceChanged')
+        // console.log('connect-tree.service--------->onWorkspaceChanged')
         this._roots = roots;
         // 切换工作区时更新文件树
         const newRootUri = new URI(roots[0].uri);
@@ -296,7 +296,7 @@ export class ConnectTreeService extends Tree implements IConnectTreeService {
       if (!this._roots) {
         this._roots = await this.workspaceService.roots;
       }
-      ////console.log('resolveChildren------------->roots init', this._roots, this.isMultipleWorkspace)
+      // console.log('resolveChildren------------->roots init', this._roots, this.isMultipleWorkspace)
       // this.serverRecentManagerService.test();
       if (this.isMultipleWorkspace) {
         const rootUri = new URI(this.workspaceService.workspace?.uri);
@@ -321,9 +321,9 @@ export class ConnectTreeService extends Tree implements IConnectTreeService {
         return [root];
       } else {
         if (this._roots.length > 0) {
-          ////console.log(this._roots[0].uri)
+          // console.log(this._roots[0].uri)
           children = await (await this.connectTreeAPI.resolveFileChildren(this, this._roots[0])).children;
-          ////console.log('root init-->resolveChildren:', this._roots[0], children)
+          // console.log('root init-->resolveChildren:', this._roots[0], children)
           children.forEach((child) => {
             // 根据workspace更新Root名称
             const rootName = this.workspaceService.getWorkspaceName(child.uri);
@@ -358,12 +358,12 @@ export class ConnectTreeService extends Tree implements IConnectTreeService {
       //   this.cacheNodes(children as (ServerNode)[]);
       //   return children;
       // }
-      ////console.log('resolveChildren-------------2>child,parent:', parent, ServerNode.isRoot(parent))
+      // console.log('resolveChildren-------------2>child,parent:', parent, ServerNode.isRoot(parent))
       // 加载子目录
       // 加载server
       let data;
       if (ServerNode.isRoot(parent)) {
-        ////console.log('resolveChildren-------------3>child:root')
+        // console.log('resolveChildren-------------3>child:root')
         data = await this.connectTreeAPI.resolveServerChildren(this, (parent as ServerNode).uri.toString(), parent);
         // const children = data.children;
         // this.cacheNodes(children)
@@ -373,11 +373,11 @@ export class ConnectTreeService extends Tree implements IConnectTreeService {
         // return data.children;
       } else if (parent.levelType === 'node') {
         // 加载db下的节点，比如table、function、view
-        ////console.log('resolveChildren-------------5>getChild:node')
+        // console.log('resolveChildren-------------5>getChild:node')
         data = await this.connectTreeAPI.resolveServerChildren(this, (parent as ServerNode).serverTreeNode!, parent);
         //  return data.children;
       }
-      ////console.log('resolveChildren-------------6>data:child', data)
+      // console.log('resolveChildren-------------6>data:child', data)
       if (data && data.children) {
         const children = data.children;
         this.cacheNodes(children);
@@ -588,7 +588,7 @@ export class ConnectTreeService extends Tree implements IConnectTreeService {
       ////console.log('deleteAffectedNodeByPath--->1')
       //   this.refresh(node.parent as ServerNode);
       // } else {
-      ////console.log('deleteAffectedNodeByPath--->1')
+      // console.log('deleteAffectedNodeByPath--->1')
       this._cacheIgnoreFileEvent.set(node.path, FileChangeType.DELETED);
       this.dispatchWatchEvent(node.parent.path, { type: WatchEvent.Removed, path: node.path });
       //  }
@@ -837,7 +837,7 @@ export class ConnectTreeService extends Tree implements IConnectTreeService {
   private doHandleQueueChange = throttle(
     async () => {
       try {
-        ////console.log('我应该开始执行-----doHandleQueueChange,询问是否此时可进行刷新事件')
+        // console.log('我应该开始执行-----doHandleQueueChange,询问是否此时可进行刷新事件')
         // 询问是否此时可进行刷新事件
         await this.requestFlushEventSignalEmitter.fireAndAwait();
         await this.flushEventQueue();
@@ -925,7 +925,7 @@ export class ConnectTreeService extends Tree implements IConnectTreeService {
   }
 
   public flushEventQueue = () => {
-    ////console.log('flushEventQueue--->', this._changeEventDispatchQueue)
+    // console.log('flushEventQueue--->', this._changeEventDispatchQueue)
     if (!this._changeEventDispatchQueue || this._changeEventDispatchQueue.size === 0) {
       return;
     }
@@ -939,7 +939,7 @@ export class ConnectTreeService extends Tree implements IConnectTreeService {
         const path = root.node.path;
         const watcher = this.root?.watchEvents.get(path);
         if (watcher && typeof watcher.callback === 'function') {
-          ////console.log('connect-tree.service---->路径：', path, '执行刷新')
+          // console.log('connect-tree.service---->路径：', path, '执行刷新')
           await watcher.callback({ type: WatchEvent.Changed, path });
         }
       }),
@@ -1070,7 +1070,7 @@ export class ConnectTreeService extends Tree implements IConnectTreeService {
   }
 
   public openFilterQuery(node: ServerNode) {
-    ////console.log('node->', node);
+    // console.log('node->', node);
     //if(this._customSearch && this)
     let title = node.getServerInfo().serverName;
     if (node.nodeType !== 'server') {

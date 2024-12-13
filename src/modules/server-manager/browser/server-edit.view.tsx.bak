@@ -1,0 +1,303 @@
+import React, {useEffect} from 'react';
+import {observer} from "mobx-react-lite";
+import styles from './server.module.less'
+import {useInjectable} from "@opensumi/ide-core-browser";
+import {IServerEditService} from "../common";
+import {ServerIcon} from "../../base/config/server-icon.config";
+import {Alert, Checkbox, Form, Input, InputNumber} from "antd";
+import {ServerType} from "../../base/types/server-node.types";
+import {Button} from "@opensumi/ide-components";
+import {ServerInfo} from "../../local-store-db/common";
+
+//import {Button} from "@opensumi/ide-components";
+
+
+interface CommonFormProps {
+  server?: ServerType;
+  defaultHost?: string;
+  defaultPort?: number;
+  defaultUser?: string;
+}
+
+
+const CommonForm = (props: CommonFormProps) => {
+  const {server, defaultHost = 'localhost', defaultPort, defaultUser} = props
+  return (
+    <>
+      <Form.Item
+        label="Host"
+        name="host"
+        rules={[{required: true, message: 'Please input your host!'}]}
+        initialValue={defaultHost}
+      >
+        <Input name={'host'}/>
+      </Form.Item>
+
+      <Form.Item
+        label="Port"
+        name="port"
+        rules={[{required: true, message: 'Please input your host!'}]}
+        initialValue={defaultPort}
+      >
+        <InputNumber name={'port'}/>
+      </Form.Item>
+
+      <Form.Item
+        label="User"
+        name="user"
+        initialValue={defaultUser}
+      >
+        <Input name={'user'}/>
+      </Form.Item>
+
+      <Form.Item
+        label="Password"
+        name="password"
+      >
+        <Input type={"password"} name={'password'}/>
+      </Form.Item>
+    </>
+  )
+
+}
+
+
+const ServerEditView = observer(() => {
+  const serverEditService = useInjectable<IServerEditService>(IServerEditService);
+  // const [activeTabId, setActiveTabId] = useState(0)
+
+  const {
+    selectedServer,
+    pageState,
+    serverInfo,
+    testConnectResult: connectResult,
+    testIsLoading: isLoading
+  } = serverEditService;
+
+  let serverNameIsInput = false;//标识用户是否输入过servername，没有输入过，就自动生成servername
+
+
+  const [form] = Form.useForm();
+
+  useEffect(() => {
+      if (pageState === 'edit') {
+        console.log('我会被初始化几次')
+        if (serverInfo) {
+          form.setFieldsValue(serverInfo)
+          if (serverInfo.serverName !== getServerName(serverInfo)) {//验证servername是否是自动生成的，
+            serverNameIsInput = true;
+          }
+        }
+      }
+      if (pageState === 'input') {
+        setServerName();
+      }
+    },
+    [
+      pageState, serverInfo
+    ]
+  )
+
+
+  const onFinish = (values: any) => {
+    console.log('onFinish', values);
+    if (pageState === 'input') {
+      serverEditService.saveConnect(values)
+    } else {
+      serverEditService.editConnect(values)
+    }
+  };
+
+  const onFinishFailed = (values: any) => {
+    console.log('onFinishFailed,', values);
+  };
+
+
+  const testConnect = () => {
+    const serverInfo = form.getFieldsValue();
+    // console.log('testConnect->', form.getFieldsValue())
+    serverEditService.testConnect(serverInfo)
+  }
+  //
+  // const onFieldsChange = () => {
+  //
+  // }
+
+  const onValueChange = () => {
+    serverEditService.resetTestConnect();
+    if (pageState === 'input' && !serverNameIsInput) {
+      setServerName()
+    } else if (pageState === 'edit' && !serverNameIsInput) {
+      setServerName()
+    }
+  }
+
+  const setServerName = () => {
+    const serverName = getServerName();
+    form.setFieldsValue({'serverName': serverName})
+  }
+
+  const getServerName = (serverInfo: ServerInfo = form.getFieldsValue() as ServerInfo) => {
+    // const serverInfo = ;
+
+    let serverName = `${selectedServer}-${serverInfo.host}`
+    if (serverInfo.user) {
+      serverName += `-${serverInfo.user}`
+    }
+    return serverName;
+  }
+
+  const serverNameOnChange = (node) => {
+    //console.log(value.target.value)
+    if (!serverNameIsInput) {
+      form.setFieldsValue({'serverName': node.target.value})
+      serverNameIsInput = true;
+    }
+
+  }
+
+
+  const onReset = () => {
+    form.resetFields();
+  };
+
+  const renderServerForm = () => {
+    switch (selectedServer) {
+      case "Mysql":
+        return <CommonForm defaultUser={'root'} defaultPort={3306}/>;
+      case "Mariadb":
+        return <CommonForm defaultUser={'root'} defaultPort={3306}/>;
+      case 'Postgresql':
+        return <CommonForm defaultUser={'postgres'} defaultPort={5432}/>
+      case "SQLServer":
+        return <CommonForm defaultUser={'sa'} defaultPort={1433}/>
+      case 'Redis':
+        return <CommonForm defaultPort={6379}/>
+      case 'Etcd':
+        return <CommonForm defaultPort={2379}/>
+      case 'Zookeeper':
+        return <CommonForm defaultPort={2181}/>
+      case 'Consul':
+        return <CommonForm defaultPort={8500}/>
+      case 'Eureka':
+        return <CommonForm defaultPort={8761}/>
+      case 'Rocketmq':
+        return <CommonForm defaultPort={9876}/>
+      case 'Kafka':
+        return <CommonForm defaultPort={22}/>
+      case 'Influxdb':
+        return <CommonForm defaultPort={8086}/>
+      case 'Elasticsearch':
+        return <CommonForm defaultPort={9200}/>
+      default:
+        return <CommonForm/>
+    }
+  }
+
+
+  return (
+    <div className={styles['server-edit-wrap']}>
+      <div className={styles['server-edit-title']}>
+                <span className={styles['server-edit-title-icon']}>
+                    {selectedServer && ServerIcon[selectedServer].icon}
+                </span>
+        <span className={styles['server-edit-title-content']}>
+                    {selectedServer}
+                </span>
+      </div>
+      {/*<Tabs tabs={['info', 'super']} value={activeTabId}*/}
+      {/*      onChange={(index) => {*/}
+      {/*          console.log('--->', index)*/}
+      {/*          setActiveTabId(index)*/}
+      {/*      }}*/}
+
+      {/*/>*/}
+      <div className={styles['server-edit-container']}>
+        {/*{isLoading && <Spin size="large"/>}*/}
+        <Form
+          name="basic"
+          labelCol={{span: 6}}
+          wrapperCol={{span: 18}}
+          labelAlign={"left"}
+          onFinish={onFinish}
+          form={form}
+          onFinishFailed={onFinishFailed}
+          // onFieldsChange={onFieldsChange}
+          onValuesChange={onValueChange}
+          autoComplete="off"
+          style={{color:'red'}}
+
+        >
+          <Form.Item
+            label="连接名"
+            name="serverName"
+            rules={[{required: true, message: '连接名不可以为空'}]}
+            style={{color:'red'}}
+          >
+            <Input onChange={serverNameOnChange}/>
+          </Form.Item>
+
+          {renderServerForm()}
+
+          <Form.Item name="rememberMe" initialValue={false} valuePropName="checked"
+                     wrapperCol={{offset: 6, span: 18}}>
+            <Checkbox>Remember me</Checkbox>
+          </Form.Item>
+        </Form>
+
+        <div style={{'marginTop': '2px'}}>
+          {connectResult.stat === 'success' && <Alert message="连接成功" type="success"/>}
+          {connectResult.stat === 'error' &&
+              <Alert message={`连接失败:${connectResult.errorCode} ${connectResult.errorMessage}`} type="error"/>}
+        </div>
+      </div>
+      <div className={styles['edit-option-container']}>
+        <div>
+          <Button size='large'
+                  onClick={testConnect}
+                  loading={isLoading}
+                  type={'secondary'}
+          >
+            测试连接
+          </Button>
+        </div>
+        {/*type='secondary'*/}
+        <div>
+          {pageState === 'input' &&
+              <Button size='large'
+                      type={'secondary'}
+                      onClick={() => {
+                        serverEditService.last()
+                      }}
+              >
+                  上一步
+              </Button>
+          }
+          &nbsp;
+          {pageState === 'input' ?
+            <Button size='large'
+                    onClick={form.submit}
+                    type={"primary"}
+            >
+              保存
+            </Button>
+            :
+            <Button
+              size='large'
+              onClick={form.submit}
+              type={"primary"}
+            >
+              修改
+            </Button>
+          }
+        </div>
+
+      </div>
+
+    </div>
+  );
+});
+
+
+
+export default ServerEditView;

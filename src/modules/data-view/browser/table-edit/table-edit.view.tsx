@@ -77,7 +77,7 @@ export const TableEditView = (props: IBaseState) => {
   useEffect(() => {
     disposableRef.current?.push(
       tableEditService.onTableDataChange((data) => {
-       //console.log('服务收到的data', data);
+        console.log('服务收到的data', data);
         setTableData([...data]);
       }),
     );
@@ -119,7 +119,7 @@ export const TableEditView = (props: IBaseState) => {
 
   const handleSave = async (updateResult: IUpdateDataResult) => {
     //setDataLoading(true);
-   //console.log('开始保存----》handleSave', currentOpt, updateResult);
+    console.log('开始保存----》handleSave', currentOpt, updateResult);
     let optResult = false;
     if (currentOpt === 'edit') {
       const primaryData = getColumnsHasData(PrimaryKeyName, [FieldName]);
@@ -129,7 +129,7 @@ export const TableEditView = (props: IBaseState) => {
     }
     return optResult;
   };
- //console.log('isDataLoading---->', dataLoading);
+  console.log('isDataLoading---->', dataLoading);
 
   const handlePrimaryCommit = (
     commit: (cells?: IUpdateCell[]) => void,
@@ -138,7 +138,7 @@ export const TableEditView = (props: IBaseState) => {
     currentVal: any,
   ) => {
     const primaryList = getColumnHasData(PrimaryKeyName);
-   //console.log('handlePrimaryCommit--primaryList：', primaryList);
+    console.log('handlePrimaryCommit--primaryList：', primaryList);
     // let updateData: { rowId?: string, columnIndex?: number, currentValue?: any, lastValue?: any }[] = [];
     let commitData: IUpdateCell[] = [];
     if (currentVal) {
@@ -174,7 +174,7 @@ export const TableEditView = (props: IBaseState) => {
       }
     }
     commit(commitData);
-   //console.log('新设置的值：', commitData);
+    console.log('新设置的值：', commitData);
     //console.log('primaryList:', primaryList)
   };
 

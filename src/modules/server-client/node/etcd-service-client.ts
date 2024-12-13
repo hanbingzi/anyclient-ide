@@ -4,7 +4,7 @@ import { IEtcdAddPermission, IEtcdDataInfo, IEtcdMember, IEtcdServiceClient } fr
 import { Injectable } from '@opensumi/di';
 import { ConnectQuery } from '../../local-store-db/common';
 import { IKeyPathInfo, IQueryResult } from '../common';
-import { EtcdConnection } from './connect/etcdConnection';
+import { EtcdServerAdapter } from './adapter/etcd-server-adapter';
 import { StrKeyObject } from '../../base/model/common.model';
 
 @Injectable()
@@ -12,7 +12,7 @@ export class EtcdServiceClient extends AbstractBaseClient<Etcd3> implements IEtc
 
   public async ping(connect: ConnectQuery): Promise<IQueryResult> {
     try {
-      const connection = (await this.getConnection(connect)) as EtcdConnection;
+      const connection = (await this.getConnection(connect)) as EtcdServerAdapter;
       const result = await connection.ping();
       return { success: result };
     } catch (error) {

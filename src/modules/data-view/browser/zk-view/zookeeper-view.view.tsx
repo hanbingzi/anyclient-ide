@@ -47,9 +47,9 @@ export const ZookeeperView = (props: IZKInfoState) => {
 
   //
   // useEffect(() => {
-  //  //console.log('我会初始化几次----------》zk-view')
+  //   console.log('我会初始化几次----------》zk-view')
   //   if (keyName && keyData) {
-  //    //console.log('真正的初始化----------》zk-view', jsonId)
+  //     console.log('真正的初始化----------》zk-view', jsonId)
   //     DocumentEditorService.JsonTempStore.set(jsonId, {
   //       keyData: keyData,
   //       keyName: fullPath,
@@ -66,7 +66,7 @@ export const ZookeeperView = (props: IZKInfoState) => {
   useEffect(() => {
     disposableRef.current?.push(
       zookeeperViewService.onDataChange((keyValue) => {
-       //console.log('zookeeper keyValue:', keyValue);
+        //console.log('zookeeper keyValue:', keyValue);
         setKeyData(keyValue);
       }),
     );
@@ -109,7 +109,7 @@ export const ZookeeperView = (props: IZKInfoState) => {
       Object.keys(stat).map((key) => {
         let itemValue = stat[key];
         if (isNotEmpty(itemValue)) {
-          // //console.log('key:',key,';itemValue',itemValue)
+          //  console.log('key:',key,';itemValue',itemValue)
           // let value = (typeof itemValue === 'string' || typeof itemValue === 'number') ? itemValue : itemValue.toString('utf8');
           statView.push(
             <div key={key} className={styles['info-item']}>

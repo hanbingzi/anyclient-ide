@@ -23,18 +23,18 @@ export const StringEditorView = (param: IDataEditor) => {
 
   // useLayoutEffect(() => {
     useEffect(() => {
-   //console.log(`文档--StringEditorView->initFinish:${initFinish},keyData:${keyData}`);
+    //console.log(`文档--StringEditorView->initFinish:${initFinish},keyData:${keyData}`);
     //isAdd不需要等待初始数据加载完毕
     if (initFinish || isAdd) {
       //const [parsedKeyData, viewModel] = documentEditorService.parseViewData(keyData, selectModel);
       //console.log('文档--真正的初始化----------》StringEditorView', viewId, ';keyData:', keyData);
       const viewModel = documentEditorService.setInitData(viewId, isAdd ? '' : keyData, connect, keyName, modelMethod);
-     //console.log('文档--真正的初始化2 finish----------》', viewModel);
+      console.log('文档--真正的初始化2 finish----------》', viewModel);
       setViewModel(viewModel);
       setSelectModel(viewModel);
     }
     return () => {
-     //console.log('文档--删除store数据,重新初始化----------》');
+      console.log('文档--删除store数据,重新初始化----------》');
       documentEditorService.delTempData(viewId);
     };
   }, [viewId, isAdd, initFinish, keyData, documentEditorService]);
@@ -48,7 +48,7 @@ export const StringEditorView = (param: IDataEditor) => {
         setViewModel(viewModel);
 
         setParseSuccess(parseSuccess);
-       //console.log('-->handleSelectModel:viewModel', viewModel, 'parsedData:', parsedData);
+        console.log('-->handleSelectModel:viewModel', viewModel, 'parsedData:', parsedData);
       }
       setSelectModel(model);
       //切换选择条件，需要通知页面刷新数据

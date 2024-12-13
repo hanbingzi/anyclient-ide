@@ -60,7 +60,7 @@ export const KeyAddView = (props: IBaseState) => {
     } else {
       const storeValue = getStore();
       redisKeyAddService.addKeyTable(key, keyType, storeValue, ttl);
-     //console.log('table数据：------>', storeValue, ';key:', key);
+      //console.log('table数据：------>', storeValue, ';key:', key);
     }
   }, [key, ttl, keyType, dataObserver]);
 

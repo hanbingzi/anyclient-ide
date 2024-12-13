@@ -37,7 +37,7 @@ export function TextEditorView(param: IDataEditorViewer) {
 
   const viewData = useCallback(async () => {
     const viewData = await documentEditorService.getKeyData(viewId);
-   //console.log(`test-editor,渲染text:${viewData}`);
+    //console.log(`test-editor,渲染text:${viewData}`);
     setContent(viewData);
   }, [viewId, selectModel, documentEditorService]);
 
@@ -51,9 +51,9 @@ export function TextEditorView(param: IDataEditorViewer) {
     );
     // disposableRef.current?.push(
     //   documentEditorService.onActiveSave((value) => {
-    //    //console.log('value:',value,';viewId:',viewId)
+    //     console.log('value:',value,';viewId:',viewId)
     //     if (value === viewId) {
-    //      //console.log('保存编辑的数据---》',content)
+    //       console.log('保存编辑的数据---》',content)
     //       //进行一次数据保存，用在编辑的过程中取出数据
     //
     //     }
@@ -65,7 +65,7 @@ export function TextEditorView(param: IDataEditorViewer) {
   }, [viewId]);
 
   // useEffect(() => {
-  //  //console.log('useEffect--test');
+  //   console.log('useEffect--test');
   //   documentEditorService.saveKeyDataProvider(viewId, content);
   // }, [content]);
 
@@ -79,7 +79,7 @@ export function TextEditorView(param: IDataEditorViewer) {
 
   const handleContentChange = useCallback(
     (event) => {
-     ////console.log('handleContentChange--test');
+     // console.log('handleContentChange--test');
       const data = event.target.value;
       setContent(data);
       handleSaveData(data);
@@ -97,7 +97,7 @@ export function TextEditorView(param: IDataEditorViewer) {
 
   const handleRefresh = useCallback(
     async (requestData: boolean = false) => {
-     //console.log('=========>handleRefresh text');
+      console.log('=========>handleRefresh text');
       if (requestData) {
         documentEditorService.readyRefresh(viewId, selectModel);
       }

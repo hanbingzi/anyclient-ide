@@ -36,9 +36,9 @@ export const TableViewView = (props: IBaseState) => {
     ensureIsReady();
   }, []);
 
-  useEffect(() => {
-   //console.log('TableViewView - > viewState-------------->', viewState);
-  }, [viewState]);
+  // useEffect(() => {
+  //   //console.log('TableViewView - > viewState-------------->', viewState);
+  // }, [viewState]);
 
   const ensureIsReady = useCallback(async () => {
     await tableViewService.whenReady;

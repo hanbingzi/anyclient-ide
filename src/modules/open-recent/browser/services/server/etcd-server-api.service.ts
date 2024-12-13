@@ -8,8 +8,7 @@ import { IChildrenResult } from '../server-tree-api.service';
 
 @Injectable()
 export class EtcdServerApiService {
-  @Autowired(IDialogService)
-  private readonly dialogService: IDialogService;
+
 
   @Autowired(EtcdService)
   private etcdService: EtcdService;

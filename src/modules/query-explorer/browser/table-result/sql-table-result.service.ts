@@ -135,10 +135,10 @@ export class SqlTableResultService extends SqlTableEditAbstract  {
     }
     let showColumnMeta: IColumnMeta[] = [];
     let queryColumnMeta: IColumnMeta[] = [];
-   //console.log('is-singleTable:', this.singleTable);
+    console.log('is-singleTable:', this.singleTable);
     let isColumnInit = false;
     if (serverConfig.connectUseJdbc) {
-     //console.log('use jdbc column', this.columns);
+      console.log('use jdbc column', this.columns);
       showColumnMeta = this.columns;
       isColumnInit = true;
     }
@@ -179,13 +179,13 @@ export class SqlTableResultService extends SqlTableEditAbstract  {
       }
     }
     this.showColumns = showColumnMeta;
-   //console.log('queryColumnMeta:', queryColumnMeta);
-   //console.log('showColumnMeta:', showColumnMeta);
+    console.log('queryColumnMeta:', queryColumnMeta);
+    console.log('showColumnMeta:', showColumnMeta);
     this.updateColumn(showColumnMeta, primaryKeyList);
   }
 
   loadPrimaryEnd() {
-   //console.log('loadPrimaryEnd', this.tableColumn);
+    console.log('loadPrimaryEnd', this.tableColumn);
     let option: DataOptionBase = {
       search: true,
       remove: false,
@@ -244,7 +244,7 @@ export class SqlTableResultService extends SqlTableEditAbstract  {
       },
       this.tableName,
     );
-   //console.log('primaryMeta:---->', primaryMeta);
+    console.log('primaryMeta:---->', primaryMeta);
     if (primaryMeta.success && primaryMeta.data) {
       const primaryKeys: string[] = [];
       primaryMeta.data.map((item) => {
@@ -285,7 +285,7 @@ export class SqlTableResultService extends SqlTableEditAbstract  {
   }
 
   async removeRemote(deleteParams: CompositeKeyParam[][]): Promise<boolean> {
-   //console.log('remove param:', deleteParams);
+    console.log('remove param:', deleteParams);
     let runResults = await this.sqlServerApiService.deleteTableDataByCompositeKeys(
       {
         server: this.server,

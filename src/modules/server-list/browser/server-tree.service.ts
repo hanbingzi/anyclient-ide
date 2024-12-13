@@ -256,11 +256,11 @@ export class ServerTreeService extends Tree {
     a.name === b.name ? 0 : a.name > b.name ? 1 : -1;
 
   // private convertTreeNode(parent?: ServerCompositeTreeNode, nodes?: IServerTreeNode[]) {
-  //  //console.log('convertTreeNode->', 'parent：', parent, ';nodes:', nodes)
+  //   console.log('convertTreeNode->', 'parent：', parent, ';nodes:', nodes)
   //   if (!nodes) {
   //     return [];
   //   }
-  //   ////console.log("service-parent:", parent)
+  //   // console.log("service-parent:", parent)
   //   const result: (ServerCompositeTreeNode | ServerTreeNode)[] = [];
   //   for (const node of nodes) {
   //     if (node.children) {
@@ -269,7 +269,7 @@ export class ServerTreeService extends Tree {
   //       result.push(new ServerTreeNode(this, parent, node));
   //     }
   //   }
-  //   ////console.log("service-convertTreeNode-result:", result)
+  //   // console.log("service-convertTreeNode-result:", result)
   //   return result;
   // }
 
@@ -603,10 +603,10 @@ export class ServerTreeService extends Tree {
   //         return true;
   //     }
   //     const blurCommit = async (newName) => {
-  //        ////console.log('tree-service proxyPrompt blurCommit:', newName)
+  //        // console.log('tree-service proxyPrompt blurCommit:', newName)
   //     }
   //     const enterCommit = async (newName) => {
-  //       // //console.log('tree-service proxyPrompt enterCommit:', newName)
+  //       //  console.log('tree-service proxyPrompt enterCommit:', newName)
   //         isCommit = true;
   //         if (!!this.validateMessage && this.validateMessage.type === PROMPT_VALIDATE_TYPE.ERROR) {
   //             return false;
@@ -675,7 +675,7 @@ export class ServerTreeService extends Tree {
   }
 
   handleContextMenu = (ev: React.MouseEvent, item: ServerCompositeTreeNode | ServerTreeNode) => {
-   //console.log('file-tree-model.service:--->');
+    console.log('file-tree-model.service:--->');
     ev.stopPropagation();
     ev.preventDefault();
 

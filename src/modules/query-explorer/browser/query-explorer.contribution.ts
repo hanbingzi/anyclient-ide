@@ -80,7 +80,7 @@ export class QueryExplorerContribution implements ComponentContribution, Command
     registry.registerCommand(RightPreviewVisible, {
       execute: async () => {
         //const storage: IStorage = await this.storageProvider(STORAGE_NAMESPACE.EXPLORER);
-       //console.log('storage--->');
+        console.log('storage--->');
         //const isVisible = this.layoutService.isVisible(SlotLocation.right);
         //if (!isVisible) {
         //this.layoutService.toggleSlot(SlotLocation.right, !isVisible);

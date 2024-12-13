@@ -1,6 +1,4 @@
-import { IBaseSqlService, IRunSqlResult, ISqlServiceClient } from '../index';
-import { ConnectQuery } from '../../../local-store-db/common';
-import { SimpleName } from './common.types';
+import { IBaseSqlService, ISqlServiceClient } from '../index';
 
 export const IMssqlServiceToken = Symbol('IMssqlServiceToken');
 
@@ -11,7 +9,8 @@ export const IMssqlClientServicePath = 'IMssqlClientServicePath';
 
 export const IMssqlClientService = Symbol('IMssqlClientService');
 
-export interface IMssqlServiceClient extends ISqlServiceClient {}
+export interface IMssqlServiceClient extends ISqlServiceClient {
+}
 
 
 

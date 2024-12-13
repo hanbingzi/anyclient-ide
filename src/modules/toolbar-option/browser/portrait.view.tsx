@@ -23,7 +23,6 @@ export const Portrait = () => {
   const handleMouseLeave = () => {
     setIsHovered(false);
   };
-
   return (
     <div className={styles['toolbar-right']}>
       <div className={cls(styles['toolbar-icon'])}>
@@ -61,6 +60,7 @@ export const Portrait = () => {
       {isHovered ?
         <div
           className={styles['popup-content']}
+
         >
           <p>捐献作者</p>
           <p>开源创作不易，请多支持.</p>

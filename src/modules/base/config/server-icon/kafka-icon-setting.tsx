@@ -10,6 +10,8 @@ import {
   Group,
   Group_base64,
   Kafka_base64,
+  Status,
+  Status_base64,
   Topic,
   Topic_base64,
 } from '../../../icons/node';
@@ -21,6 +23,11 @@ export const KafkaIconSetting: INodeIcon = {
   iconPath: ICON_RESOURCE_PATH.Kafka,
   base64: Kafka_base64,
   children: {
+    status: {
+      hasFolderIcon: false,
+      icon: <Status />,
+      base64: Status_base64,
+    },
     kafkaBrokers: {
       hasFolderIcon: false,
       icon: <Broker />,

@@ -1,7 +1,10 @@
 import { CommandContribution, CommandRegistry, Domain } from '@opensumi/ide-core-common';
 import {
+  EsCompletionCommand,
   RunBatchRedisCommand,
   RunBatchSqlCommand,
+  RunEsBatchCommand,
+  RunEsCommand,
   RunRedisCommand,
   RunSqlCommand,
   SqlCompletionCommand,
@@ -71,35 +74,62 @@ export class CodelensCommandContribution implements CommandContribution {
         }
         return completeNodes;
       },
+
+    });
+
+    commands.registerCommand(EsCompletionCommand, {
+      execute: async (query: string): Promise<string[]> => {
+        let queryNodes: BaseNode[] = await this.dbCacheNodeService.getSqlDbsForCompleteCommand();
+        if (queryNodes && queryNodes.length > 0) {
+          return queryNodes.map(item=>item.name);
+        }
+        return [];
+      },
     });
 
     commands.registerCommand(RunSqlCommand, {
       execute: async (sql: string) => {
-       //console.log('测试执行的sql：----->', sql);
+        console.log('测试执行的sql：----->', sql);
         this.querySqlExplorerService.runSql(sql, false);
       },
     });
     commands.registerCommand(RunBatchSqlCommand, {
       execute: async (sql: string) => {
         // this.querySqlExplorerService.runSql(sql);
-       //console.log('测试执行的多条sql：----->', sql);
+        console.log('测试执行的多条sql：----->', sql);
         this.querySqlExplorerService.runSql(sql, true);
       },
     });
 
     commands.registerCommand(RunRedisCommand, {
       execute: async (command: string) => {
-       //console.log('测试执行的command：----->', command);
+        console.log('测试执行的command：----->', command);
         this.querySqlExplorerService.runRedisCommand(command, false);
       },
     });
     commands.registerCommand(RunBatchRedisCommand, {
       execute: async (command: string) => {
         // this.querySqlExplorerService.runSql(sql);
-       //console.log('测试执行的多条command：----->', command);
+        console.log('测试执行的多条command：----->', command);
         this.querySqlExplorerService.runRedisCommand(command, true);
       },
     });
+
+    commands.registerCommand(RunEsCommand, {
+      execute: async (command: string[]) => {
+        console.log('测试执行的command：----->', command);
+        this.querySqlExplorerService.runEsCommand(command, null, false);
+      },
+    });
+    commands.registerCommand(RunEsBatchCommand, {
+      execute: async (command: string) => {
+        // this.querySqlExplorerService.runSql(sql);
+        console.log('测试执行的多条command：----->', command);
+        this.querySqlExplorerService.runEsCommand(null, command, true);
+      },
+    });
+
+
   }
 
   // registerMenus(menuRegistry: IMenuRegistry): void {

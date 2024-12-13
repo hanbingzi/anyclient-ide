@@ -32,14 +32,14 @@ export class JSONEditorDocumentContentProvider implements IEditorDocumentModelCo
     ////此处有bug，如果参数变化了，便无法刷新
     const { id } = uri.getParsedQuery();
     //console.log(`provideEditorDocumentModelContent :serverId:${serverId},db:${db},keyName:${keyName}`)
-    ////console.log('provideEditorDocumentModelContent:', id, ',selectModel:', model, ';forceRefresh:', refresh, '---')
+    // console.log('provideEditorDocumentModelContent:', id, ',selectModel:', model, ';forceRefresh:', refresh, '---')
 
     //获取数据
     //return JSON.stringify(fakeDBServer)
     //const queryData = await this.documentEditorService.getKeyData(id, 'Json', refresh === 'yes')
 
     const queryData = await this.documentEditorService.getKeyData(id);
-   //console.log('provideEditorDocumentModelContent', uri.toString(),queryData);
+    console.log('provideEditorDocumentModelContent', uri.toString(),queryData);
     //console.log(`provideEditorDocumentModelContent :serverId:${serverId},db:${db},keyName:${keyName} -queryResult`, queryResult)
 
     return queryData;
@@ -59,9 +59,9 @@ export class JSONEditorDocumentContentProvider implements IEditorDocumentModelCo
     eol?: EOL | undefined,
   ): MaybePromise<IEditorDocumentModelSaveResult> {
     // 这里实现保存数据的逻辑
-   //console.log(
-     // `json-document-provider:saveDocumentModel, uri:${uri}, content:${content}, baseContent:${baseContent}, changes, encoding, ignoreDiff, eol`,
-   // );
+    console.log(
+      `json-document-provider:saveDocumentModel, uri:${uri}, content:${content}, baseContent:${baseContent}, changes, encoding, ignoreDiff, eol`,
+    );
     const { id } = uri.getParsedQuery();
     this.documentEditorService.saveKeyDataProvider(id, content);
     return {

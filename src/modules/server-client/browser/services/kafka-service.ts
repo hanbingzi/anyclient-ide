@@ -4,7 +4,7 @@ import {
   IKafkaClientRPCPath,
   IKafkaClientServicePath,
   IKafkaService,
-  IKafkaServiceClient,
+  IKafkaServiceClient, IKafkaStatus,
   IMessageBase,
   IPartition,
   IQueryResult,
@@ -80,5 +80,9 @@ export class KafkaService extends RPCService implements IKafkaService {
 
   sendOneMessage(connect: ConnectQuery, topic: string, message: IMessageBase): Promise<IQueryResult> {
     return this.kafkaClientService.sendOneMessage(connect, topic, message);
+  }
+
+  getKafkaStatus(connect: ConnectQuery): Promise<IKafkaStatus>{
+    return this.kafkaClientService.getKafkaStatus(connect);
   }
 }

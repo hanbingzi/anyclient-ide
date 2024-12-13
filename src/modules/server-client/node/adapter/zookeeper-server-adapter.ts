@@ -1,10 +1,10 @@
-import { DefaultConnection } from './connection';
+import { DefaultServerAdapter } from './server-adapter';
 import * as zookeeper from 'node-zookeeper-client';
 import { Client } from 'node-zookeeper-client';
 import { ConnectQuery } from '../../../local-store-db/common';
 import { decryptData } from '../../../base/utils/crypto-util';
 
-export class ZookeeperConnection extends DefaultConnection {
+export class ZookeeperServerAdapter extends DefaultServerAdapter {
   private connected: boolean;
   private client: Client;
   private timeout: number;
@@ -24,10 +24,8 @@ export class ZookeeperConnection extends DefaultConnection {
       config += `${user}:${decodePassword}@`;
     }
     config += `${host}:${port}`;
-    console.log('zookeeper------>', zookeeper);
     const client = zookeeper.createClient(config, { sessionTimeout: connectTimeout, retries: 1 });
-    console.log('----------------------------');
-    const zookeeperConnection = new ZookeeperConnection(client, connectTimeout);
+    const zookeeperConnection = new ZookeeperServerAdapter(client, connectTimeout);
     return zookeeperConnection;
   }
 

@@ -66,7 +66,7 @@ export class TreeNode implements ITreeNode {
    * @param node
    */
   public static setTreeNode(id: number, path: string, node: TreeNode) {
-    ////console.log('treeNode:',id,path,node)
+    // console.log('treeNode:',id,path,node)
     TreeNode.idToTreeNode.set(id, node);
 
     TreeNode.pathToTreeNode.set(path, node);
@@ -741,7 +741,7 @@ export class CompositeTreeNode extends TreeNode implements ICompositeTreeNode {
    * 直接调用此方法将不会触发onWillHandleWatchEvent和onDidHandleWatchEvent事件
    */
   public insertItem(item: ITreeNodeOrCompositeTreeNode) {
-    ////console.log('insertItem------------------------------->')
+    // console.log('insertItem------------------------------->')
     if (item.parent !== this) {
       item.mv(this, item.name);
       return;
@@ -913,7 +913,7 @@ export class CompositeTreeNode extends TreeNode implements ICompositeTreeNode {
    * @param branch 分支节点
    */
   protected expandBranch(branch: CompositeTreeNode, withoutNotify?: boolean) {
-    ////console.log('treeNode-expandBranch:','当前：',this.name,"-",this._flattenedBranch,';按钮：',branch.name);
+    // console.log('treeNode-expandBranch:','当前：',this.name,"-",this._flattenedBranch,';按钮：',branch.name);
     if (this !== branch && !this.lock) {
       // 但节点为展开状态时进行裁剪
       if (branch._flattenedBranch) {
@@ -1113,7 +1113,7 @@ export class CompositeTreeNode extends TreeNode implements ICompositeTreeNode {
         this.isExpanded = false;
         this._children = null;
       } else {
-       //console.log('watch3---change');
+        console.log('watch3---change');
         // needReload --- 判断根目录是否需要进行一次刷新，部分情况，如压缩目录下的文件创建后不应该刷新
         await this.refresh(expandedPaths);
       }
@@ -1123,7 +1123,7 @@ export class CompositeTreeNode extends TreeNode implements ICompositeTreeNode {
 
   // 当没有传入具体路径时，使用当前展开目录作为刷新路径
   public async refresh(paths: string[] = this.getAllExpandedNodePath()) {
-   //console.log('TreeNode--refresh-->', paths);
+    console.log('TreeNode--refresh-->', paths);
     this.refreshTasks.push(paths);
     return await this.queue(this.doRefresh.bind(this));
   }

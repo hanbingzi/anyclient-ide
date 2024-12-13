@@ -51,7 +51,7 @@ export function useMenu({
       if (rowIds && rowIds.length > 0) {
         handleAdd(rowIds[0], order);
       }
-     //console.log('handleAddRow 1 clicked');
+      console.log('handleAddRow 1 clicked');
     },
     [handleAdd, selectData],
   );
@@ -63,7 +63,7 @@ export function useMenu({
         rows: ITableRow[];
       },
     ) => {
-     //console.log('handleCopyRow 2 clicked', pasteMethod, );
+      console.log('handleCopyRow 2 clicked', pasteMethod, );
       if (pasteMethod === 'contextMenu') {
         if (selectData) {
           const copyText = JSON.stringify(selectData.row.rows);
@@ -87,7 +87,7 @@ export function useMenu({
    * @param shortCutRows
    */
   const handlePasteRow = useCallback(() => {
-   //console.log('handlePasteRow 3 clicked', copyRowData);
+    console.log('handlePasteRow 3 clicked', copyRowData);
     if (copyRowData && copyRowData.rows && copyRowData.rows.length > 0 && selectedRowPosition) {
       const { rowIds, rows } = copyRowData;
       const copyRow = rows[0];
@@ -229,7 +229,7 @@ export function useMenu({
 
   const handleMenu = useCallback(
     (event, selectMenuData: ISelectMenuData, clickNature: 'row' | 'cell') => {
-     //console.log('selectMenuData-->', selectMenuData);
+      console.log('selectMenuData-->', selectMenuData);
       event.preventDefault();
       setMenuVisible(true);
       setClickNature(clickNature);

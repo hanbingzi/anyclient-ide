@@ -31,15 +31,17 @@ import { RedisTreeApiService } from './server/redis-tree-api.service';
 import { EtcdServerApiService } from './server/etcd-server-api.service';
 import { EtcdService } from '../../../server-client/browser/services/etcd-service';
 import { SubNodeType } from '../../../base/types/server-node.types';
+import { EsServerApiService } from './server/es-server-api.service';
 import SqlModeServer = ServerClassNamespace.SqlModeServer;
 
 
-export interface IChildrenResult{
-  success:boolean;
-  tree:IServerTreeNode[];
-  result?:IQueryResult;
+export interface IChildrenResult {
+  success: boolean;
+  tree?: IServerTreeNode[];
+  result?: IQueryResult;
 
 }
+
 @Injectable()
 export class ServerTreeApiService {
   @Autowired(IDialogService)
@@ -84,6 +86,9 @@ export class ServerTreeApiService {
   @Autowired(EtcdServerApiService)
   private etcdServerApiService: EtcdServerApiService;
 
+  @Autowired(EsServerApiService)
+  private esServerApiService: EsServerApiService;
+
   private filterSearch: string;
 
   setFilterSearch(pattern: string) {
@@ -109,13 +114,15 @@ export class ServerTreeApiService {
   async resolveChildren(oldServer: ServerInfo, serverNode: IServerTreeNode): Promise<IChildrenResult> {
     //防止server被更改过，需要重新查询(因为树里面存储的server有可能是过期的，)
     const newServer = await this.processPasswordRemember(oldServer, serverNode);
-    let childrenResult :IChildrenResult;
+    let childrenResult: IChildrenResult;
     //let result: IRunSqlResult<IServerTreeNode[]> = QueryResultError.UNREALIZED_ERROR;
     const { serverType } = newServer;
     if (SqlModeServer.includes(serverType!)) {
       childrenResult = await this.sqlTreeApiService.resolveSqlChildren(newServer, serverNode);
     } else if (serverType === 'Redis') {
       childrenResult = await this.redisTreeApiService.resolveRedisChildren(newServer, serverNode, this.filterSearch);
+    } else if (serverType === 'Elasticsearch') {
+      childrenResult = await this.esServerApiService.resolveEsChildren(newServer, serverNode);
     } else if (serverType === 'Zookeeper') {
       childrenResult = await this.zookeeperTreeApiService.resolveZookeeperChildren(newServer, serverNode);
     } else if (serverType === 'Kafka') {
@@ -123,7 +130,7 @@ export class ServerTreeApiService {
     } else if (serverType === 'Etcd') {
       childrenResult = await this.etcdServerApiService.resolveEtcdChildren(newServer, serverNode);
     }
-    if(!childrenResult.success){
+    if (!childrenResult.success) {
       this.dialogService.error(QueryUtil.getErrorMessage(childrenResult.result), ['ok']);
     }
     return childrenResult;

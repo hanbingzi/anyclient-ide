@@ -1,10 +1,10 @@
 import * as dmdb from 'dmdb';
-import { ConnectionTools, queryCallback } from './connection';
+import { ServerAdapter, queryCallback } from './server-adapter';
 import { ConnectQuery } from '../../../local-store-db/common';
 import { decryptData } from '../../../base/utils/crypto-util';
 import { ISqlQueryParam, ISqlQueryResult } from '../../common';
 
-export class DMConnection extends ConnectionTools {
+export class DMServerAdapter extends ServerAdapter {
   private connPool: dmdb.Pool;
   private autoCommit: boolean = true;
 
@@ -13,7 +13,7 @@ export class DMConnection extends ConnectionTools {
     this.connPool = pool;
   }
 
-  public static async createInstance(connect: ConnectQuery): Promise<ConnectionTools> {
+  public static async createInstance(connect: ConnectQuery): Promise<ServerAdapter> {
     const { server, db, ssh, originPassword } = connect;
     const { host, port, user, instanceName, role, orclServerType, password, timezone, connectTimeout } = server;
     const decodePassword = password ? (originPassword ? password : decryptData(password)) : '';
@@ -25,7 +25,7 @@ export class DMConnection extends ConnectionTools {
     };
     //console.log('mssql-config', config)
     const pool = await dmdb.createPool(config);
-    const instance = new DMConnection(pool);
+    const instance = new DMServerAdapter(pool);
     return instance;
   }
 

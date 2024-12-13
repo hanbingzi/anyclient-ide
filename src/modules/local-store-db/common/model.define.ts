@@ -44,9 +44,15 @@ export interface ServerInfo {
 
   port?: number;
   host?: string;
+
+  url?:string;
+
   serverType?: ServerType;
 
   connectionType?: AllConnectionType;
+  /**
+   * 认证方式
+   */
   authType?: AuthType;
   /**
    * 实例名称
@@ -144,13 +150,12 @@ export interface ServerInfo {
   /**
    * es only
    */
+
   esScheme?: string;
-  esAuth?: string;
-  esToken?: string;
-  /**
-   * using when ssh tunnel
-   */
-  esUrl?: string;
+  //esUrl?: string;
+  // esAuth?: string;
+
+
 
   /**
    * encoding, ftp only

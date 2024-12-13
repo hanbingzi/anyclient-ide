@@ -1,9 +1,9 @@
-import { DefaultConnection } from './connection';
+import { DefaultServerAdapter } from './server-adapter';
 import Redis, { Cluster, RedisOptions } from 'ioredis';
 import { ConnectQuery } from '../../../local-store-db/common';
 import { decryptData } from '../../../base/utils/crypto-util';
 
-export class RedisConnection extends DefaultConnection {
+export class RedisServerAdapter extends DefaultServerAdapter {
   private connected: boolean;
   private client: Redis|Cluster;
 
@@ -12,7 +12,7 @@ export class RedisConnection extends DefaultConnection {
     this.client = client;
   }
 
-  public static async createInstance(connect: ConnectQuery): Promise<RedisConnection> {
+  public static async createInstance(connect: ConnectQuery): Promise<RedisServerAdapter> {
     const { host, port, connectionType } = connect.server;
     console.info('redis- createInstance',connect.server)
     let client;
@@ -27,7 +27,7 @@ export class RedisConnection extends DefaultConnection {
       client = new Redis(config);
     }
     // const client = new Redis(config);
-    const redisConnection = new RedisConnection(client);
+    const redisConnection = new RedisServerAdapter(client);
     return redisConnection;
   }
 

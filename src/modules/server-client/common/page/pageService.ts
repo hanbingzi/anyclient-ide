@@ -1,4 +1,4 @@
-export class SqlPage {
+export class PageModel {
   /**
    * 页码
    */
@@ -33,7 +33,7 @@ export interface IPageService {
 }
 
 export class PageUtils {
-  public static buildPage(page?: number, pageSize?: number): SqlPage {
+  public static buildPage(page?: number, pageSize?: number): PageModel {
     if (!page) {
       page = 1;
     }

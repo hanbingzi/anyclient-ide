@@ -29,7 +29,7 @@ export const CommonAuthTypeForm = (props: ServerInputFormProps) => {
       <LabelItem label={''}>
         <Radio.Group
           onChange={(v) => {
-            console.log(v.target.value);
+
             handleChangeForm('authType', v.target.value);
           }}
           value={authType}
@@ -212,7 +212,6 @@ export const OracleServerForm = (props: ServerInputFormProps) => {
       <LabelItem label={''}>
         <Radio.Group
           onChange={(v) => {
-            console.log(v.target.value);
             handleChangeForm('orclServerType', v.target.value);
           }}
           value={form.orclServerType}
@@ -241,7 +240,6 @@ export const RedisServerForm = (props: ServerInputFormProps) => {
       <LabelItem label={''}>
         <Radio.Group
           onChange={(v) => {
-            console.log(v.target.value);
             handleChangeForm('connectionType', v.target.value);
           }}
           value={form.connectionType}
@@ -278,6 +276,46 @@ export const RedisServerForm = (props: ServerInputFormProps) => {
     </>
   );
 };
+
+export const EsServerForm = (props: ServerInputFormProps) => {
+  const { form, handleChangeForm, enableUser, enablePassword } = props;
+
+  return (
+    <>
+      <LabelInput
+        label={'URL'}
+        value={form.url}
+        style={{ marginTop: '12px' }}
+        onValueChange={(value) => {
+          handleChangeForm('url', value);
+        }}
+      />
+      <LabelItem label={''}>
+        <Radio.Group
+          onChange={(v) => {
+
+            handleChangeForm('authType', v.target.value);
+          }}
+          value={form.authType}
+        >
+          <Radio value={'noAuth'}>No Auth</Radio>
+          <Radio value={'account'}>Account</Radio>
+          <Radio value={'token'}>Token</Radio>
+        </Radio.Group>
+      </LabelItem>
+
+
+      {form.authType === 'account' ? (
+        <UserInputForm form={form} handleChangeForm={handleChangeForm} enableUser={true} enablePassword={true}/>
+      ) : form.authType === 'token' ? (
+        <TokenInputForm form={form} handleChangeForm={handleChangeForm} enableToken={true}/>
+      ) : null}
+
+
+    </>
+  );
+};
+
 
 export interface ClusterMemberProps {
   tableInstance: TableInstance;

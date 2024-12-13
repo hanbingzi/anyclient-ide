@@ -92,7 +92,7 @@ export class ViewViewService extends SqlTableEditAbstract  {
         this.isEnableFilter ? this.filters : [],
       );
       if (selectResult.success) {
-       //console.log('view column--->',selectResult.columns)
+        //console.log('view column--->',selectResult.columns)
         this.runSql = selectResult.sql;
         this.costTime = selectResult.costTime;
         this.updateData(selectResult.data);

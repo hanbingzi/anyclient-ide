@@ -193,7 +193,7 @@ export const ConnectTreeView = ({ viewState }: PropsWithChildren<{ viewState: Vi
     if (isReady) {
       // 首次初始化完成时，设置当前TreeModel，同时监听后续变化，适配工作区变化事件
       setModel(connectTreeModelService.treeModel);
-      ////console.log('connectTreeModelService.treeModel:', connectTreeModelService.treeModel)
+      // console.log('connectTreeModelService.treeModel:', connectTreeModelService.treeModel)
       // 监听工作区变化
       connectTreeModelService.onFileTreeModelChange(async (treeModel) => {
         setIsLoading(true);

@@ -28,9 +28,13 @@ export interface IDataEditor {
   //displayModel:DisplayModel;
   //标记数据是否加载完毕
   initFinish:boolean;
+  //
   isAdd?:boolean;
+  //开启保存按钮
   enableSave?: boolean;
+  //开启刷新按钮
   enableRefresh?: boolean;
+  //开启复制按钮
   enableCopy?: boolean;
   // onSave?: (content: string) => void;
   // onRefresh?: () => void;

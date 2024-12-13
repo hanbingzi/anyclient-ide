@@ -1,6 +1,6 @@
 import * as oracledb from 'oracledb';
 import { Metadata, Result } from 'oracledb';
-import { ConnectionTools, queryCallback } from './connection';
+import { ServerAdapter, queryCallback } from './server-adapter';
 import { ConnectQuery } from '../../../local-store-db/common';
 import { decryptData } from '../../../base/utils/crypto-util';
 import { OracleUtils } from '../../common/utils/oracle-utils';
@@ -13,7 +13,7 @@ import { AppUtil } from '../../../base/utils/app-util';
 const instantFolder = 'instantclient_11_2';
 
 //
-export class OracleConnection extends ConnectionTools {
+export class OracleServerAdapter extends ServerAdapter {
   private conn: oracledb.Connection;
   private autoCommit: boolean = true;
 
@@ -22,7 +22,7 @@ export class OracleConnection extends ConnectionTools {
     this.conn = conn;
   }
 
-  public static async createInstance(connect: ConnectQuery): Promise<ConnectionTools> {
+  public static async createInstance(connect: ConnectQuery): Promise<ServerAdapter> {
     const { server, db, ssh, originPassword } = connect;
     const { host, port, user, instanceName, role, orclServerType, password, timezone, connectTimeout } = server;
   //  console.log('createInstance', instantPath)
@@ -48,7 +48,7 @@ export class OracleConnection extends ConnectionTools {
     try {
       console.log('oracle connect:', config);
       const conn = await oracledb.getConnection(config);
-      const instance = new OracleConnection(conn);
+      const instance = new OracleServerAdapter(conn);
       return instance;
     } catch (e) {
       console.log('创建oracle 链接失败', e);

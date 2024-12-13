@@ -117,13 +117,13 @@ export class ZookeeperViewService extends DocumentEditAbstract {
     if (!this.server || !this.keyName) {
       return;
     }
-   //console.log('loadData data:', this.keyName);
+    //console.log('loadData data:', this.keyName);
     const result = await this.zookeeperService.getData({ server: this.server }, this.keyName);
     if (!result.success) {
       this.dialogService.error(QueryUtil.getErrorMessage(result), ['ok']);
       return;
     }
-   //console.log('zookeeper load Data', result.data);
+    //console.log('zookeeper load Data', result.data);
     const { data, stat } = result.data!;
     this.stat = stat;
     this.onStatChangEmitter.fire(stat);
@@ -132,7 +132,7 @@ export class ZookeeperViewService extends DocumentEditAbstract {
 
   public async add(keyName: string) {
     const keyData = await this.documentEditorService.getTempData(this.viewId);
-   //console.log('saveAdd', this.server, '--keyName:', keyName, '--keyData:', keyData);
+    //console.log('saveAdd', this.server, '--keyName:', keyName, '--keyData:', keyData);
     let result: IQueryResult;
     if (keyData) {
       result = await this.zookeeperService.createWithData({ server: this.server }, keyName, keyData);
@@ -148,7 +148,7 @@ export class ZookeeperViewService extends DocumentEditAbstract {
 
   public async update() {
     const keyData = await this.documentEditorService.getTempData(this.viewId);
-   //console.log('saveAdd', this.server, '--keyName:', this.keyName, '--keyData:', keyData);
+    //console.log('saveAdd', this.server, '--keyName:', this.keyName, '--keyData:', keyData);
     let result: IQueryResult;
     if (keyData) {
       result = await this.zookeeperService.setData({ server: this.server }, this.keyName, keyData);

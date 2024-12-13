@@ -97,7 +97,7 @@ export class TopicViewService {
       this.dialogService.error('查询出错:' + queryResult.error);
     }
     if (queryResult.data) {
-      ////console.log('load data:', queryResult.data)
+      // console.log('load data:', queryResult.data)
       this.onDataChangeEmitter.fire(queryResult.data);
     }
   }

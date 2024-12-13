@@ -50,13 +50,13 @@ export const TableHeader = (props: TableHeaderProps) => {
     let needUpdateColumn = false;
     if (!columnWidths || columnWidths.length === 0) {
       needUpdateColumn = true;
-     //console.log('初始化列宽度，我会运行几次---》1--');
+      console.log('初始化列宽度，我会运行几次---》1--');
     } else {
       //表格展示顺序或者添加了列等情况，
       const originalColumnJoin = columns.map((item) => item.columnKey).join('-');
       const newColumnJoin = Array.from(columnSettings.keys()).join('-');
       if (originalColumnJoin !== newColumnJoin) {
-       //console.log('初始化列宽度，我会运行几次---》2--');
+        console.log('初始化列宽度，我会运行几次---》2--');
         needUpdateColumn = true;
       }
     }
@@ -109,7 +109,7 @@ export const TableHeader = (props: TableHeaderProps) => {
     setDataGridWidth(_dataGridWidth);
     setColumnWidths(cloneColumnWidths);
     let dragLineLeft = caleDragLineLeft(cloneColumnWidths, index);
-    ////console.log('draglineLeft:', dragLineLeft, ';index:', index)
+    // console.log('draglineLeft:', dragLineLeft, ';index:', index)
     onDragLine(dragLineLeft);
   };
 

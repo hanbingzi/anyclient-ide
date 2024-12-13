@@ -7,6 +7,7 @@ import { REDIS_COMMANDS } from './redis.menu';
 import { ServerClassNamespace } from '../server.config';
 import { ETCD_COMMANDS } from './etcd.menu';
 import SqlModeServer = ServerClassNamespace.SqlModeServer;
+import { ELASTICSEARCH_COMMANDS } from './es.menu';
 
 export enum ServerListIds {
   explorerServer = 'explorer/server', // 服务列表
@@ -25,6 +26,7 @@ export enum ServerMenuIds {
   ServerExplorerZkServer = 'serverExplorer/zkServer',
   ServerExplorerKafkaServer = 'serverExplorer/kafkaServer',
   ServerExplorerEtcdServer = 'serverExplorer/EtcdServer',
+  ServerExplorerEsServer = 'serverExplorer/EsServer',
 
   ServerExplorerDb = 'serverExplorer/db',
   ServerExplorerPostgresDb = 'serverExplorer/postgresDb',
@@ -81,6 +83,8 @@ export enum ServerMenuIds {
   ServerExplorerEtcdCluster = 'serverExplorer/etcdCluster',
   ServerExplorerEtcdUsers = 'serverExplorer/etcdUsers',
   ServerExplorerEtcdRoles = 'serverExplorer/etcdRoles',
+
+
 }
 
 export type INodeMenu = {
@@ -163,6 +167,9 @@ export const ServerNodeMenuIdRule: IServerMenu = {
     users: ServerMenuIds.ServerExplorerEtcdUsers,
     roles: ServerMenuIds.ServerExplorerEtcdRoles,
   },
+  Elasticsearch:{
+    server:ServerMenuIds.ServerExplorerEsServer
+  }
 };
 
 export const MenuIdCommandRule: { [key in ServerMenuIds]?: Command[][] } = {
@@ -229,6 +236,8 @@ export const MenuIdCommandRule: { [key in ServerMenuIds]?: Command[][] } = {
   [ServerMenuIds.ServerExplorerEtcdAuth]: ETCD_COMMANDS.Auth,
   [ServerMenuIds.ServerExplorerEtcdUsers]: ETCD_COMMANDS.Users,
   [ServerMenuIds.ServerExplorerEtcdRoles]: ETCD_COMMANDS.Roles,
+
+  [ServerMenuIds.ServerExplorerEsServer]: ELASTICSEARCH_COMMANDS.esServer
 };
 
 /**
@@ -254,6 +263,6 @@ export const GetNodeMenu = (server: ServerType, nodeType: AllNodeType): ServerMe
       return nodeMenu;
     }
   }
- //console.log(`server:${server}-${nodeType}not set menu`);
+  //console.log(`server:${server}-${nodeType}not set menu`);
   return ServerMenuIds.NoUse;
 };

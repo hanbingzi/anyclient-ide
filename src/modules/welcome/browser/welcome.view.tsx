@@ -6,7 +6,7 @@ export const WelcomeView = () => {
   return (
     <div className={styles.components_wrap}>
       <h1 className={styles.title}>IMessageService: Show Message</h1>
-      <Button style={{ marginRight: 10 }} >
+      <Button style={{ marginRight: 10 }} onClick={() => {console.log('test->')}}>
         Show Info Message
       </Button>
       <h1 className={styles.title}>IDialogSerice: Show Dialog</h1>

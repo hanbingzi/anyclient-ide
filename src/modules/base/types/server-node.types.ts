@@ -36,24 +36,24 @@ export type TimeSeries = 'Influxdb' | 'TDEngine' | 'Prometheus';
 export type OtherType = 'HBase' | 'Neo4j' | 'Couchbase';
 export type ServerType = //按照常用顺序排序
 
-    | SqlServerType
-    | NewSqlServerType
-    | 'Redis'
-    | 'Kafka'
-    | 'Elasticsearch'
-    | 'Mongodb'
-    | TimeSeries
-    | 'Consul'
-    | 'Etcd'
-    | 'Eureka'
-    | 'Nacos'
-    | 'Neo4j'
-    | 'Mosquitto'
-    | 'Rocketmq'
-    | 'Rabbitmq'
-    | 'Zookeeper'
-    | 'Emqx'
-    | OtherType;
+  | SqlServerType
+  | NewSqlServerType
+  | 'Redis'
+  | 'Kafka'
+  | 'Elasticsearch'
+  | 'Mongodb'
+  | TimeSeries
+  | 'Consul'
+  | 'Etcd'
+  | 'Eureka'
+  | 'Nacos'
+  | 'Neo4j'
+  | 'Mosquitto'
+  | 'Rocketmq'
+  | 'Rabbitmq'
+  | 'Zookeeper'
+  | 'Emqx'
+  | OtherType;
 
 export type ServerClass =
   | 'Relational'
@@ -70,9 +70,9 @@ export type ServerClass =
 export const ClusterType: string[] = ['Cluster'];
 export type CommonConnectionType = 'Standalone' | 'Cluster';
 //export type KafkaConnectionType = 'Standalone'|'Cluster'
-export type AllConnectionType = CommonConnectionType | 'Sentinel'|'';
+export type AllConnectionType = CommonConnectionType | 'Sentinel' | '';
 
-export type AuthType = 'account' | 'token';
+export type AuthType = 'noAuth' | 'account' | 'token';
 
 // 服务的脚本文件后缀
 export type FileSuffixType = 'sql' | 'json' | 'es' | 'redis';
@@ -141,6 +141,10 @@ export type CommonAuth = 'auth' | 'users' | 'user' | 'roles' | 'role' | 'permiss
 
 export type CommonKey = 'data' | 'dic' | 'key' | 'node' | '';
 
+export type CommonDoc = 'indexs' | 'index'
+
+export type ExtraNode = 'status'
+
 export type AllNodeType =
   | 'server'
   | SqlNodeType
@@ -152,7 +156,10 @@ export type AllNodeType =
   | CommonCluster
   | CommonTopic
   | CommonAuth
-  | CommonKey;
+  | CommonKey
+  | CommonDoc
+  | ExtraNode;
+
 
 //export type AllNodeType = ServerType | SqlNodeType | CacheNodeType
 
@@ -168,4 +175,6 @@ export type SubNodeType =
   | CommonCluster
   | CommonTopic
   | CommonAuth
-  | CommonKey;
+  | CommonKey
+  | CommonDoc
+  | ExtraNode;

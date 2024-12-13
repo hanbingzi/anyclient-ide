@@ -16,6 +16,43 @@ export interface IBroker {
   host: string;
   port: number;
 }
+// interface Broker {
+//   id: number;
+//   host: string;
+//   port: number;
+//   status: 'online' | 'offline';
+//   version: string;
+// }
+
+export interface ITopicInfo {
+  name: string;
+  partitions: number;
+  replicationFactor: number;
+  messageCount: number;
+  sizeBytes: number;
+}
+
+export interface IConsumerGroup {
+  groupId: string;
+  status: string;
+  lag: number;
+  members: number;
+}
+
+export interface IKafkaMetrics {
+  messagesPerSec: number;
+  bytesInPerSec: number;
+  bytesOutPerSec: number;
+  activeControllers: number;
+  underReplicatedPartitions: number;
+  offlinePartitionsCount: number;
+}
+export interface IKafkaStatus{
+  brokers?: IBroker[];
+  topics?: ITopicInfo[];
+  consumerGroups?: IConsumerGroup[];
+  metrics?: IKafkaMetrics;
+}
 
 export interface TopicCreateParam {
   topic: string;
@@ -74,6 +111,8 @@ export interface IKafkaService extends IBaseService {
   ): Promise<IQueryResult<IMessage[]>>;
 
   sendOneMessage(connect: ConnectQuery, topic: string, message: IMessageBase): Promise<IQueryResult>;
+
+  getKafkaStatus(connect: ConnectQuery): Promise<IKafkaStatus>;
 }
 
 export interface IKafkaServiceClient extends IBaseServiceClient {
@@ -102,6 +141,8 @@ export interface IKafkaServiceClient extends IBaseServiceClient {
     size: number,
     queryStart: IQueryStart,
   ): Promise<IQueryResult>;
+
+  getKafkaStatus(connect: ConnectQuery): Promise<IKafkaStatus>;
 }
 
 export interface IKafkaRPCClient {}

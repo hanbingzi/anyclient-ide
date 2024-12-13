@@ -76,12 +76,12 @@ export const SummaryView = ({ isShow, width, height, serverClass, responses }: S
     if (width === 0) {
       return;
     }
-   //console.log('SummaryView--width:', width);
+    console.log('SummaryView--width:', width);
     let successColumn: IListColumn = { title: 'Success', columnKey: 'success', width: 100 };
     //console.log('width:', width)
     let sqlColumn: IListColumn = { title: 'SQL', columnKey: 'sql', width: 300 };
     let messageColumn: IListColumn = { title: 'Message', columnKey: 'message', width: 120 };
-    if (serverClass === 'redis') {
+    if (serverClass === 'redis' || serverClass==='es') {
       sqlColumn.title = 'Command';
       sqlColumn.columnKey = 'command';
     }

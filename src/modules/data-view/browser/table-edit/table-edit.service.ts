@@ -129,12 +129,12 @@ export class TableEditService {
         defaultOrdinal++;
       });
     }
-   //console.log('primaryList---->', primaryList);
+    //console.log('primaryList---->', primaryList);
     let columnResult = await this.sqlServerApiService.showColumns(this.connect, this.tableName);
     if (columnResult.success) {
       const { serverType } = this.serverInfo;
       let columns = columnResult.data;
-     //console.log('columns---->', columns);
+      //console.log('columns---->', columns);
       this._tableData = columns!.map((item) => {
         const { name, nullable } = item;
         let primaryOrdinal: number | undefined;
@@ -230,19 +230,19 @@ export class TableEditService {
   ): Promise<boolean> {
     try {
       const { updateData, addData, removeData, sortData } = updateResult;
-     //console.log(
-     //    '传过来的数据',
-     //    'update:',
-     //    updateData,
-     //    '\n addData:',
-     //    addData,
-     //    '\n removeData:',
-     //    removeData,
-     //    '\n sortData:',
-     //    sortData,
-     //    '\n finalPrimaryList:',
-     //    finalPrimaryList,
-     //  );
+      // console.log(
+      //   '传过来的数据',
+      //   'update:',
+      //   updateData,
+      //   '\n addData:',
+      //   addData,
+      //   '\n removeData:',
+      //   removeData,
+      //   '\n sortData:',
+      //   sortData,
+      //   '\n finalPrimaryList:',
+      //   finalPrimaryList,
+      // );
       //1.remove
       let removeParams: Set<string> = new Set<string>();
       if (removeData && removeData.length > 0) {
@@ -356,21 +356,21 @@ export class TableEditService {
         sortPrimaryKeys.sort((a, b) => a.order - b.order);
         sortPrimaryKeyParam = sortPrimaryKeys.map((value) => value.columnName);
       }
-     //console.log(
-     //    '生成的数据',
-     //    'remove:',
-     //    removeParams,
-     //    '\n update:',
-     //    updateParams,
-     //    '\n add',
-     //    addParams,
-     //    '\n sortData',
-     //    sortParams,
-     //    '\n sortPrimary',
-     //    sortPrimaryKeyParam,
-     //    '\n autoIncrementParam',
-     //    autoIncrementParam
-     //  );
+      // console.log(
+      //   '生成的数据',
+      //   'remove:',
+      //   removeParams,
+      //   '\n update:',
+      //   updateParams,
+      //   '\n add',
+      //   addParams,
+      //   '\n sortData',
+      //   sortParams,
+      //   '\n sortPrimary',
+      //   sortPrimaryKeyParam,
+      //   '\n autoIncrementParam',
+      //   autoIncrementParam
+      // );
       const runResult = await this.sqlServerApiService.updateTableStructure(
         this.connect,
         this.tableName,
@@ -391,7 +391,7 @@ export class TableEditService {
         }
       });
       if (errorResult && errorResult.length > 0) {
-       //console.log('errorResult', errorResult);
+        //console.log('errorResult', errorResult);
         this.dialogService.error(QueryUtil.getErrorMessage(errorResult[0]), ['OK']);
       }
       if(successResult.length>0){

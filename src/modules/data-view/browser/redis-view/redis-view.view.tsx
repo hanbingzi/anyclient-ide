@@ -48,7 +48,6 @@ export const RedisKeyView = (props: IBaseState) => {
     setIsLoading(false);
     // redis type 一旦声明，不会改变
     setKeyType(redisViewService.getKeyType());
-    //console.log('redisViewService.getKeyType()---->', redisViewService.getKeyType());
     setInputTTL(redisViewService.getKeyTtl());
     setTtl(redisViewService.getKeyTtl());
     setKeyValue(redisViewService.getData());
@@ -74,13 +73,11 @@ export const RedisKeyView = (props: IBaseState) => {
     );
     disposableRef.current?.push(
       redisViewService.onKeyValueChange((keyValue) => {
-       //console.log('chuanshu=====>:', keyValue.toString());
         setKeyValue(keyValue);
       }),
     );
     disposableRef.current?.push(
       redisViewService.onFirstInitFinish((init) => {
-        //console.log('chuanshu=====>:', keyValue.toString());
         setInitFinish(init);
       }),
     );
@@ -118,7 +115,7 @@ export const RedisKeyView = (props: IBaseState) => {
   }, []);
 
   const handleSave = useCallback(async (updateData: IUpdateDataResult): Promise<boolean> => {
-   //console.log('-----------', updateData)
+    //console.log('-----------', updateData)
     return await redisViewService.save(updateData);
   }, []);
 

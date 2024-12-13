@@ -107,7 +107,7 @@ export class DocumentEditorService {
    */
   public async getKeyData(id: string): Promise<string> {
     if (!DocumentEditorService.Store.has(id)) {
-     //console.log(`json id 尚未存入-----》(${id})`);
+     // console.log(`json id 尚未存入-----》(${id})`);
       return '';
     }
     const tempStore = DocumentEditorService.Store.get(id)!;
@@ -174,11 +174,11 @@ export class DocumentEditorService {
     immediateSave: boolean = false,
     selectModel: DisplayModelType = 'Text',
   ) {
-   //console.log('saveKeyDataProvider saveKeyData------>', parsedData, `${immediateSave ? '手动保存' : '自动保存'}`);
+    console.log('saveKeyDataProvider saveKeyData------>', parsedData, `${immediateSave ? '手动保存' : '自动保存'}`);
     //const keyDataId = this.getKeyDataId(serverId, db, keyName);
     //这是一个假保存
     // if (DocumentEditorService.FakeSaveSet.has(jsonId)) {
-    //  //console.log('saveKeyDataProvider 假保存--》')
+    //   console.log('saveKeyDataProvider 假保存--》')
     //   DocumentEditorService.FakeSaveSet.delete(jsonId)
     //   return;
     // }
@@ -191,7 +191,7 @@ export class DocumentEditorService {
         const connect = tempStore.connect!;
         const keyName = tempStore.keyName!;
         //将数据格式转换成buffer，才能再次存储
-       //console.log('后台保存-》document-editor redis save:', parsedData);
+        console.log('后台保存-》document-editor redis save:', parsedData);
         const bufferData = this.stringToBuffer(parsedData, selectModel);
         const execResult = await this.redisService.keySetForBuffer(connect, keyName, bufferData);
         if (execResult.success) {
@@ -203,7 +203,7 @@ export class DocumentEditorService {
       DocumentEditorService.RealSaveSet.delete(jsonId);
     } else {
       //即不是真保存，也不是假保存，（用户没有点击保存，所以不需要保存到后台，只需要缓存保存的数据）
-     //console.log('我被自动保存-----------------》');
+      console.log('我被自动保存-----------------》');
       const tempStore = DocumentEditorService.Store.get(jsonId)!;
       if (tempStore) tempStore.parsedData = parsedData;
     }
@@ -215,7 +215,7 @@ export class DocumentEditorService {
     setTimeout(() => {
       const tempStore = DocumentEditorService.Store.get(jsonId)!;
       let parsedData = tempStore.parsedData;
-     //console.log('我被用户手动保存，-----------------》', parsedData);
+      console.log('我被用户手动保存，-----------------》', parsedData);
       this.saveKeyDataProvider(jsonId, parsedData, true, selectModel);
     }, 300);
   }
@@ -261,7 +261,7 @@ export class DocumentEditorService {
     let viewModel: DataViewModelType = 'Text';
     let viewData: string = '';
     if (typeof keyData === 'string' || dateType === 'string') {
-     //console.log('parseViewData-->value is string', selectModel);
+      console.log('parseViewData-->value is string', selectModel);
       viewData = keyData ? (keyData as string) : '';
       if (selectModel) {
         viewModel = selectModel as DataViewModelType;
@@ -274,7 +274,7 @@ export class DocumentEditorService {
         //     viewModel = 'Json';
         //     break;
         // case'Hex':
-        //  //console.log('parse-->Hex')
+        //   console.log('parse-->Hex')
         //   viewData = DataDealUtil.bufToHex(keyData);
         //   break;
         // case 'Binary':
@@ -288,17 +288,17 @@ export class DocumentEditorService {
         }
       }
     } else {
-     //console.log('parseViewData-->value is Buffer');
+      console.log('parseViewData-->value is Buffer');
       if (selectModel) {
         try {
           switch (selectModel) {
             case 'Text':
-    //console.log('parse-->text');
+              console.log('parse-->text');
               viewData = DataUtil.bufToString(keyData);
               viewModel = 'Text';
               break;
             case 'Json':
-    //console.log('parse-->Json');
+              console.log('parse-->Json');
               viewData = DataUtil.bufToString(keyData);
               if (!DataUtil.isJSON(viewData)) {
                 viewData = JSON.stringify({ error: parseError });
@@ -306,22 +306,22 @@ export class DocumentEditorService {
               viewModel = 'Json';
               break;
             case 'Hex':
-    //console.log('parse-->Hex');
+              console.log('parse-->Hex');
               viewData = DataUtil.bufToHex(keyData);
               break;
             case 'Binary':
-    //console.log('parse-->Binary');
+              console.log('parse-->Binary');
               viewData = DataUtil.bufToBinary(keyData);
               break;
             case 'Msgpack':
-    //console.log('parse-->Msgpack');
+              console.log('parse-->Msgpack');
               viewData = DataUtil.bufferToMsgpack(keyData!);
               if (DataUtil.isJSON(viewData)) {
                 viewModel = 'Json';
               }
               break;
             case 'Java Serialized':
-    //console.log('parse-->JavaSerialized');
+              console.log('parse-->JavaSerialized');
               viewData = JSON.stringify(DataUtil.bufferToJava(keyData!));
               viewModel = 'Json';
               break;
@@ -345,14 +345,14 @@ export class DocumentEditorService {
       try {
         viewData = jsonBig.stringify(jsonBig.parse(viewData), null, 4);
       } catch (e) {
-       //console.log('-》');
+        console.log('-》');
       }
     }
     return [viewData, viewModel, parseSuccess];
   }
 
   public stringToBuffer(data: string, selectModel: DisplayModelType): Buffer {
-   //console.log('string to buffer:', selectModel, data);
+    console.log('string to buffer:', selectModel, data);
     switch (selectModel) {
       case 'Text':
       case 'Hex':

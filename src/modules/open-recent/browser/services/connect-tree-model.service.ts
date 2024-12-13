@@ -449,7 +449,7 @@ export class ConnectTreeModelService {
     );
     this.disposableCollection.push(
       this.treeModel.root.watcher.on(TreeNodeEvent.DidResolveChildren, (target) => {
-        ////console.log('connect-tree-model--->watch loading end')
+        // console.log('connect-tree-model--->watch loading end')
         this.loadingDecoration.removeTarget(target);
       }),
     );
@@ -510,8 +510,8 @@ export class ConnectTreeModelService {
       await this.loadSnapshotReady;
     }
     //error记录---状态错误，应该是那地方代码没处理对，没看到使用途径，找不到为什么有个promise处于pending状态，暂时不解决
-    ////console.log('canHandleRefreshEvent-------center>')
-    ////console.log('locationQueueDeferred-->',this.locationQueueDeferred)
+    // console.log('canHandleRefreshEvent-------center>')
+    // console.log('locationQueueDeferred-->',this.locationQueueDeferred)
     // if (this.locationQueueDeferred) {
     //   await this.locationQueueDeferred.promise;
     // }
@@ -953,7 +953,7 @@ export class ConnectTreeModelService {
       }
       if (item.nodeStat === 'init' || item.nodeStat === 'error') {
         //初始化数据
-        ////console.log('connect-tree-model double click---------', item.displayName)
+        // console.log('connect-tree-model double click---------', item.displayName)
         (item as ServerNode).updateNodeStat('loading');
         await (item as ServerNode).refresh();
         //await item.hardReloadChildren()
@@ -1403,7 +1403,7 @@ export class ConnectTreeModelService {
       }
     };
     const commit = async (newName) => {
-      ////console.log('file-tree-commit,',newName)
+      // console.log('file-tree-commit,',newName)
       this.validateMessage = undefined;
       if (promptHandle instanceof RenamePromptHandle) {
         const target = promptHandle.target as ServerNode;
@@ -1647,11 +1647,11 @@ export class ConnectTreeModelService {
     };
 
     const handleFocus = async () => {
-      ////console.log('file-tree-handleFocus,')
+      // console.log('file-tree-handleFocus,')
       this.contextKey?.filesExplorerInputFocused.set(true);
     };
     const handleDestroy = () => {
-      // //console.log('file-tree-handleDestroy')
+      //  console.log('file-tree-handleDestroy')
       this.contextKey?.filesExplorerInputFocused.set(false);
       if (this.contextMenuFile) {
         // 卸载输入框时及时更新选中态
@@ -1659,7 +1659,7 @@ export class ConnectTreeModelService {
       }
     };
     const handleCancel = () => {
-      ////console.log('file-tree-handleCancel')
+      // console.log('file-tree-handleCancel')
       this.contextKey?.filesExplorerInputFocused.set(false);
       if (this.connectTreeService.isCompactMode) {
         if (promptHandle instanceof NewPromptHandle) {
@@ -1697,7 +1697,7 @@ export class ConnectTreeModelService {
   };
 
   // private async getPromptTarget(uri: URI, isCreatingFile?: boolean) {
-  //   ////console.log('getPromptTarget,',uri,';isCreatingFile,',isCreatingFile)
+  //   // console.log('getPromptTarget,',uri,';isCreatingFile,',isCreatingFile)
   //   let targetNode: ServerNode | ServerEntity;
   //   // 使用path能更精确的定位新建文件位置，因为软连接情况下可能存在uri一致的情况
   //   if (uri.isEqual((this.treeModel.root as ServerNode).uri)) {
@@ -1729,7 +1729,7 @@ export class ConnectTreeModelService {
   //     namePieces[namePieces.length - 1] !== uri.displayName &&
   //     isCreatingFile
   //   ) {
-  //     ////console.log('file-tree-model新建事件',targetNode)
+  //     // console.log('file-tree-model新建事件',targetNode)
   //     // 说明当前在压缩节点的非末尾路径上触发的新建事件， 如 a/b 上右键 a 产生的新建事件
   //     const removePathName = uri.relative(targetNode.uri)!.toString();
   //     const relativeName = targetNode.name.replace(`${Path.separator}${removePathName}`, '');
@@ -1760,14 +1760,14 @@ export class ConnectTreeModelService {
   //     });
   //     this.connectTreeService.reCacheNode(targetNode, prePath);
   //     //  this.connectTreeService.addNode(targetNode as ServerNode|ServerEntity, tempFileName, TreeNodeType.CompositeTreeNode);
-  //     // //console.log('file-tree-model新建事件结束',targetNode)
+  //     //  console.log('file-tree-model新建事件结束',targetNode)
   //   }
   //   return targetNode;
   // }
 
   // async newFilePrompt(uri: URI) {
   //   const targetNode = await this.getPromptTarget(uri, true);
-  //   ////console.log('newFilePrompt')
+  //   // console.log('newFilePrompt')
   //   if (targetNode) {
   //     this.proxyPrompt(await this.fileTreeHandle.promptNewTreeNode(targetNode as ServerNode|ServerEntity));
   //   }
@@ -1775,7 +1775,7 @@ export class ConnectTreeModelService {
 
   // async newDirectoryPrompt(uri: URI) {
   //   const targetNode = await this.getPromptTarget(uri, true);
-  //   // //console.log('newDirectoryPrompt')
+  //   //  console.log('newDirectoryPrompt')
   //   if (targetNode) {
   //     this.proxyPrompt(await this.fileTreeHandle.promptNewCompositeTreeNode(targetNode as ServerNode|ServerEntity));
   //   }

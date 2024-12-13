@@ -65,7 +65,7 @@ export const CacheKeyView = (props: ICacheKeyState) => {
         // if(cachedEditor){
         //   codeEditorRef.current.appendChild(cachedEditor);
         // }else{
-       //console.log('我初始化了几次:cache-key-view-->')
+        console.log('我初始化了几次:cache-key-view-->')
         // const container = document.createElement('div');
         // codeEditorRef.current.appendChild(container);
         // 初始化monacoEditor 这块要注意在React那边管控好生命周期 避免多次创建editor导致踩坑
@@ -104,7 +104,7 @@ export const CacheKeyView = (props: ICacheKeyState) => {
   };
 
   const handleTTLChange = (value: number) => {
-   //console.log('ttlHandle-->', value);
+    console.log('ttlHandle-->', value);
     // if (ttl !== value) {
     //   if (!isShowTTLIcon) {
     //     setIsShowTTLIcon(true)

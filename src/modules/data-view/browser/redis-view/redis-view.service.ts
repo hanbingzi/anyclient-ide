@@ -122,7 +122,7 @@ export class RedisViewService extends DocumentEditAbstract {
   }
 
   public updateData(keyType: RedisType, data: any) {
-   //console.log('==========>keyData', data);
+    //console.log('==========>keyData', data);
     if (keyType === RedisType.string) {
       //
       this.docUpdateData(data);
@@ -138,7 +138,7 @@ export class RedisViewService extends DocumentEditAbstract {
 
   public async refreshData(): Promise<boolean> {
     const keyData = await this.redisService.keyData({ server: this.server, db: this.db }, this.keyName, this.keyType);
-   //console.log('refreshData:', keyData);
+    //console.log('refreshData:', keyData);
     if (keyData.success) {
       // this.onKeyValueChangEmitter.fire(this.keyValue);
       this.updateData(this.keyType as RedisType, keyData.data);
@@ -154,7 +154,7 @@ export class RedisViewService extends DocumentEditAbstract {
     const keyInfo = await this.redisService.keyInfo({ server: this.server, db: this.db }, this.keyName);
     if (keyInfo.success) {
       const { keyType, keyTtl } = keyInfo.data!;
-     //console.log('==========>keyInfo', keyInfo.data);
+      //console.log('==========>keyInfo', keyInfo.data);
       this.updateKeyInfo(keyType, keyTtl);
       const keyData = await this.redisService.keyData({ server: this.server, db: this.db }, this.keyName, keyType!);
       if (keyData.success) {
@@ -192,7 +192,7 @@ export class RedisViewService extends DocumentEditAbstract {
       this.messages.info('修改成功');
       return true;
     } else {
-     //console.log(execResult.error);
+      //console.log(execResult.error);
       this.messages.error('修改失败');
       return false;
     }
@@ -212,7 +212,7 @@ export class RedisViewService extends DocumentEditAbstract {
       this.messages.info('修改成功');
       return true;
     } else {
-     //console.log(execResult.error);
+      //console.log(execResult.error);
       this.messages.error('修改失败');
       return false;
     }
@@ -311,7 +311,6 @@ export class RedisViewService extends DocumentEditAbstract {
           updateParam.push({ newScore: newScore || 1, newValue });
         });
       }
-     //console.log('addParam-------->', addParam);
       await this.redisService.updateKeyData({ server: this.server, db: this.db }, this.keyName, updateParam);
     }
     if (addData && addData.size > 0) {
@@ -334,7 +333,7 @@ export class RedisViewService extends DocumentEditAbstract {
           addParam.push({ newScore: newScore || 1, newValue });
         });
       }
-     //console.log('addParam-------->', addParam);
+     // console.log('addParam-------->', addParam);
       await this.redisService.addKeyData({ server: this.server, db: this.db }, this.keyName, addParam);
     }
     this.messages.info('保存成功');

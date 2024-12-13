@@ -11,7 +11,7 @@ import {
   SearchKeyParam,
 } from '../common';
 import { ConnectQuery } from '../../local-store-db/common';
-import { RedisConnection } from './connect/redisConnection';
+import { RedisServerAdapter } from './adapter/redis-server-adapter';
 import Redis, { Cluster } from 'ioredis';
 import { RedisInputType, RedisType } from '../../base/types/common-fields.types';
 import { AbstractBaseClient } from './base-client';
@@ -24,7 +24,7 @@ import { isNotNull } from '../../base/utils/object-util';
 export class RedisServiceClient extends AbstractBaseClient<Redis | Cluster> implements IRedisServiceClient {
   public async ping(connect: ConnectQuery): Promise<IQueryResult> {
     try {
-      const connection = (await this.getConnection(connect)) as RedisConnection;
+      const connection = (await this.getConnection(connect)) as RedisServerAdapter;
       const result = await connection.ping();
       return { success: result };
     } catch (error) {
@@ -39,7 +39,7 @@ export class RedisServiceClient extends AbstractBaseClient<Redis | Cluster> impl
    *
    * @param connect
    */
-  // public getConnection(connect:ConnectQuery): Promise<ConnectionTools> {
+  // public getConnection(connect:ConnectQuery): Promise<ServerAdapter> {
   //
   //   return this.connectionManager.getConnection(connect);
   // }

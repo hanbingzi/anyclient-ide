@@ -76,7 +76,7 @@ export class ServerDao extends BaseDao<ServerInfo> implements IServerDao {
     //       console.error('Error querying data:', err);
     //       resolve([])
     //     } else {
-    //      //console.log('Sorted Documents:', docs);
+    //       console.log('Sorted Documents:', docs);
     //       resolve(docs)
     //     }
     //   })
@@ -93,7 +93,7 @@ export class ServerDao extends BaseDao<ServerInfo> implements IServerDao {
     //       console.error('Error querying data:', err);
     //       resolve([])
     //     } else {
-    //      //console.log('Sorted Documents:', docs);
+    //       console.log('Sorted Documents:', docs);
     //       resolve(docs)
     //     }
     //   })
@@ -111,7 +111,7 @@ export class ServerDao extends BaseDao<ServerInfo> implements IServerDao {
     //       console.error('Error querying data:', err);
     //       resolve([])
     //     } else {
-    //      //console.log('Sorted Documents:', docs);
+    //       console.log('Sorted Documents:', docs);
     //       resolve(docs)
     //     }
     //   })

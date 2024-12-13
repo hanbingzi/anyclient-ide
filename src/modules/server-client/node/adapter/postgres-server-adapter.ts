@@ -1,5 +1,5 @@
 import { Client, ClientConfig, FieldDef, QueryArrayResult } from 'pg';
-import { ConnectionTools, queryCallback } from './connection';
+import { ServerAdapter, queryCallback } from './server-adapter';
 import { ConnectQuery } from '../../../local-store-db/common';
 import { decryptData } from '../../../base/utils/crypto-util';
 import { PostgresUtils } from '../../common/utils/postgresql-utils';
@@ -8,7 +8,7 @@ import { ISqlQueryParam, ISqlQueryResult } from '../../common';
 /**
  * https://www.npmjs.com/package/pg
  */
-export class PostgresConnection extends ConnectionTools {
+export class PostgresServerAdapter extends ServerAdapter {
   private client: Client;
 
   private constructor(client: Client) {
@@ -16,7 +16,7 @@ export class PostgresConnection extends ConnectionTools {
     this.client = client;
   }
 
-  public static async createInstance(connect: ConnectQuery): Promise<PostgresConnection> {
+  public static async createInstance(connect: ConnectQuery): Promise<PostgresServerAdapter> {
     const { server, db, ssh, originPassword } = connect;
     const { host, port, user, password, connectTimeout, requestTimeout } = server;
     const decodePassword = password ? (originPassword ? password : decryptData(password)) : '';
@@ -30,7 +30,7 @@ export class PostgresConnection extends ConnectionTools {
       statement_timeout: requestTimeout || 10000,
     } as ClientConfig;
     const client = new Client(config);
-    const postgresConnection = new PostgresConnection(client);
+    const postgresConnection = new PostgresServerAdapter(client);
     return postgresConnection;
   }
 

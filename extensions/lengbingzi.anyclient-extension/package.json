@@ -3,7 +3,7 @@
   "displayName": "AnyClientExtension",
   "description": "",
   "publisher": "lengbingzi",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "icon": "resources/anyclient.png",
   "engines": {
     "vscode": "^1.36.0",
@@ -19,18 +19,6 @@
   "contributes": {
     "languages": [
       {
-        "id": "es",
-        "aliases": [
-          "ElasticSearch",
-          "es",
-          "elasticsearch"
-        ],
-        "extensions": [
-          "es"
-        ],
-        "configuration": "./syntaxes/es.configuration.json"
-      },
-      {
         "id": "sql",
         "extensions": [
           ".sql",
@@ -40,8 +28,8 @@
           "SQL"
         ],
         "icon": {
-          "light":"./icons/kvstore.png",
-          "dark": "./icons/kvstore.png"
+          "light": "./icons/sql.png",
+          "dark": "./icons/sql.png"
         },
         "configuration": "./syntaxes/language-configuration.json"
       },
@@ -55,8 +43,24 @@
         ],
         "configuration": "./syntaxes/redis.configuration.json",
         "icon": {
-          "light":"./icons/kvstore.png",
-          "dark": "./icons/kvstore.png"
+          "light": "./icons/redis.svg",
+          "dark": "./icons/redis.svg"
+        }
+      },
+      {
+        "id": "es",
+        "aliases": [
+          "ElasticSearch",
+          "es",
+          "elasticsearch"
+        ],
+        "extensions": [
+          "es"
+        ],
+        "configuration": "./syntaxes/es.configuration.json",
+        "icon": {
+          "light": "./icons/elasticsearch.svg",
+          "dark": "./icons/elasticsearch.svg"
         }
       }
     ],
@@ -79,78 +83,118 @@
     ],
     "commands": [
       {
-        "command": "sql.runSelected",
+        "command": "ex.sql.runSelected",
         "title": "Run Selected Sql",
         "icon": "$(run)"
       },
       {
-        "command": "sql.runAll",
+        "command": "ex.sql.runAll",
         "title": "Run All Sql",
         "icon": "$(run)"
       },
       {
-        "command": "redis.runSelected",
+        "command": "ex.redis.runSelected",
         "title": "Run Selected Command",
         "icon": "$(run)"
       },
       {
-        "command": "redis.runAll",
+        "command": "ex.redis.runAll",
         "title": "Run All Command",
+        "icon": "$(run)"
+      },
+      {
+        "command": "ex.es.runSelected",
+        "title": "Run Selected Command",
+        "icon": "$(run)"
+      },
+      {
+        "command": "ex.es.runCommand",
+        "title": "Run Es Command",
+        "icon": "$(run)"
+      },
+      {
+        "command": "ex.es.runHit",
+        "title": "Auto indent",
         "icon": "$(run)"
       }
     ],
     "keybindings": [
       {
-        "command": "sql.runSelected",
+        "command": "ex.sql.runSelected",
         "key": "ctrlcmd+r",
         "when": "editorLangId == sql"
       },
       {
-        "command": "sql.runSelected",
+        "command": "ex.sql.runSelected",
         "key": "ctrlcmd+enter",
         "when": "editorLangId == sql"
       },
       {
-        "command": "sql.runAll",
+        "command": "ex.sql.runAll",
         "key": "ctrlcmd+shift+enter",
         "when": "editorLangId == sql"
       },
       {
-        "command": "redis.runSelected",
+        "command": "ex.redis.runSelected",
         "key": "ctrlcmd+r",
         "when": "editorLangId == redis"
       },
       {
-        "command": "redis.runSelected",
+        "command": "ex.redis.runSelected",
         "key": "ctrlcmd+enter",
         "when": "editorLangId == redis"
       },
       {
-        "command": "redis.runAll",
+        "command": "ex.redis.runAll",
         "key": "ctrlcmd+shift+enter",
         "when": "editorLangId == redis"
+      },
+      {
+        "command": "ex.es.runSelected",
+        "key": "ctrlcmd+r",
+        "when": "editorLangId == es"
+      },
+      {
+        "command": "ex.es.runSelected",
+        "key": "ctrlcmd+enter",
+        "when": "editorLangId == es"
+      },
+      {
+        "command": "ex.es.runAll",
+        "key": "ctrlcmd+shift+enter",
+        "when": "editorLangId == es"
       }
     ],
     "menus": {
       "editor/context": [
         {
-          "command": "sql.runSelected",
+          "command": "ex.sql.runSelected",
           "when": "editorLangId == sql",
           "group": "navigation@-2"
         },
         {
-          "command": "sql.runAll",
+          "command": "ex.sql.runAll",
           "when": "editorLangId == sql",
           "group": "navigation@1"
         },
         {
-          "command": "redis.runSelected",
+          "command": "ex.redis.runSelected",
           "when": "editorLangId == redis",
           "group": "navigation@-2"
         },
         {
-          "command": "redis.runAll",
+          "command": "ex.redis.runAll",
           "when": "editorLangId == redis",
+          "group": "navigation@1"
+        },
+        {
+          "command": "ex.es.runSelected",
+          "when": "editorLangId == es",
+          "group": "navigation@-2"
+        },
+        {
+          "command": "ex.es.runAll",
+          "when": "editorLangId == es",
           "group": "navigation@1"
         }
       ]
@@ -179,6 +223,8 @@
     "vscode": "^1.1.28"
   },
   "dependencies": {
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "routington": "^1.0.3",
+    "semver-closest": "^0.1.2"
   }
 }

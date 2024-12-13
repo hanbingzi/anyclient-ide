@@ -27,7 +27,7 @@ export class DataBrowserResourceProvider implements IResourceProvider {
   async provideResource(uri: URI): Promise<IResource<OpenViewParam>> {
     const { nodeName, nodeValue, serverId, serverType, db, dbName, schema, nodeType, option, path, extra } =
       uri.getParsedQuery();
-    ////console.log('provideResource:', nodeName, serverId, db, dbName, server, nodeType, option, path);
+    // console.log('provideResource:', nodeName, serverId, db, dbName, server, nodeType, option, path);
     // const originalUri = new URI(original);
     // const modifiedUri = new URI(modified);
     const icon = this.iconService.fromIcon(
@@ -90,7 +90,7 @@ export class DataBrowserResourceProvider implements IResourceProvider {
     dbName: string,
     db: string | number,
   ): string {
-   //console.log('getTitle', option, serverType, nodeType, nodeName, dbName);
+    //console.log('getTitle', option, serverType, nodeType, nodeName, dbName);
     const dbNameTitle = dbName ? `@${dbName}` : db ? `@${db}` : '';
     let optionName = '';
     if (option === 'create') {

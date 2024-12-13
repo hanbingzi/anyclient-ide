@@ -1,4 +1,3 @@
-import { ConnectionTools } from './connect/connection';
 import { ConnectQuery } from '../../local-store-db/common';
 import { IQueryResult, IRunSqlResult, ISqlQueryResult } from '../common';
 import { RPCService } from '@opensumi/ide-connection';
@@ -6,20 +5,22 @@ import { SqlUtils } from '../../base/utils/sql-utils';
 import { ClusterType, ServerType } from '../../base/types/server-node.types';
 import { ServerClusterDao } from '../../local-store-db/node/server-cluster.dao';
 import { isArrayVoid } from '../../base/utils/object-util';
-import { PostgresConnection } from './connect/postgresConnection';
-import { MysqlConnection } from './connect/mysqlConnection';
-import { OracleConnection } from './connect/oracleConnection';
-import { DMConnection } from './connect/dmConnection';
-import { MssqlConnection } from './connect/mssqlConnection';
-import { RedisConnection } from './connect/redisConnection';
-import { ZookeeperConnection } from './connect/zookeeperConnection';
-import { KafkaConnection } from './connect/kafkaConnection';
-import { EtcdConnection } from './connect/etcdConnection';
+import { PostgresServerAdapter } from './adapter/postgres-server-adapter';
+import { MysqlServerAdapter } from './adapter/mysql-server-adapter';
+import { OracleServerAdapter } from './adapter/oracle-server-adapter';
+import { MssqlServerAdapter } from './adapter/mssql-server-adapter';
+import { RedisServerAdapter } from './adapter/redis-server-adapter';
+import { ZookeeperServerAdapter } from './adapter/zookeeper-server-adapter';
+import { KafkaServerAdapter } from './adapter/kafka-server-adapter';
+import { EtcdServerAdapter } from './adapter/etcd-server-adapter';
 import { PostgresDialect } from '../common/dialet/postgres-dialect';
 import { OracleDialect } from '../common/dialet/oracle-dialect';
+import { ServerAdapter } from './adapter/server-adapter';
+import { DMServerAdapter } from './adapter/dm-server-adapter';
+import { EsServerAdapter } from './adapter/es-server-adapter';
 
 interface ConnectionInfo {
-  connection: ConnectionTools;
+  serverAdapter: ServerAdapter;
   //ssh?: SSHConfig;
   db?: string | number;
   schema?: string;
@@ -28,6 +29,7 @@ interface ConnectionInfo {
 export abstract class AbstractBaseClient<T = any> extends RPCService {
 
   private static aliveConnection: Map<string, ConnectionInfo> = new Map();
+
   private static autoChangeDbServerType: ServerType[] = ['Oracle', 'DM'];
 
 
@@ -61,9 +63,9 @@ export abstract class AbstractBaseClient<T = any> extends RPCService {
     }
   }
 
-   public async closeConnection(connect: ConnectQuery) {
-     return AbstractBaseClient.closeConnection(AbstractBaseClient.getConnectKey(connect));
-   }
+  public async closeConnection(connect: ConnectQuery) {
+    return AbstractBaseClient.closeConnection(AbstractBaseClient.getConnectKey(connect));
+  }
 
   /**
    * 路径组成：必须使用serverId开头，因为@removeConnection方法关闭是，有serverId的开头计算
@@ -71,11 +73,12 @@ export abstract class AbstractBaseClient<T = any> extends RPCService {
    */
   public static getConnectKey(connect: ConnectQuery) {
     const { server, db, schema, ssh } = connect;
-    const { serverId, serverType, host, port, user, usingSsh } = server;
+    const { serverId, serverType, host, port, url, user, usingSsh } = server;
     let uid = (serverId ? serverId + '/' : '') + serverType;
-    if (usingSsh) {
-    } else {
+    if (host && port) {
       uid += `/${host}@${port}`;
+    } else if (url) {
+      uid = `${uid}/${url}`;
     }
     if (user) {
       uid = `${uid}/${user}`;
@@ -90,18 +93,18 @@ export abstract class AbstractBaseClient<T = any> extends RPCService {
 
   public async getConnection(
     ConnectQuery: ConnectQuery,
-  ): Promise<ConnectionTools> {
+  ): Promise<ServerAdapter> {
     if (!ConnectQuery) {
       throw new Error('Connection is empty!');
     }
     const { server, ssh, db, schema } = ConnectQuery;
     return new Promise(async (resolve, reject) => {
-      const key =  AbstractBaseClient.getConnectKey(ConnectQuery);
+      const key = AbstractBaseClient.getConnectKey(ConnectQuery);
       let connectionInfo = AbstractBaseClient.aliveConnection.get(key);
       console.log('server:', ';db:', db, ';schema:', schema);
       //prettier-ignore
       if (connectionInfo) {
-        const isAlive = await connectionInfo.connection.isAlive();
+        const isAlive = await connectionInfo.serverAdapter.isAlive();
         // console.log(
         //   `${server.serverType}-getConnection: -- currentDb:${db};currentSchema:${schema},oldSchema: ${connectionInfo.schema};isAlive: ${isAlive}`,
         // );
@@ -109,19 +112,19 @@ export abstract class AbstractBaseClient<T = any> extends RPCService {
           try {
             await this.changeDbOrSchema(ConnectQuery, connectionInfo);
             console.log('return success connection');
-            return resolve(connectionInfo.connection);
+            return resolve(connectionInfo.serverAdapter);
           } catch (err) {
             await AbstractBaseClient.close(key);
             return reject(err);
           }
-          //resolve(connectionInfo.connection);
+          //resolve(connectionInfo.serverAdapter);
         } else {
           await AbstractBaseClient.close(key);
         }
       }
       console.log('no connection ,next create connection');
 
-      let newConnection: ConnectionTools | null = null;
+      let newConnection: ServerAdapter | null = null;
       try {
         newConnection = await this.createInstance(ConnectQuery);
         console.log('create new connection success----------->', key);
@@ -130,7 +133,7 @@ export abstract class AbstractBaseClient<T = any> extends RPCService {
         return reject(e);
       }
       if (newConnection) {
-        const newConnectionInfo = { connection: newConnection, db };
+        const newConnectionInfo = { serverAdapter: newConnection, db };
         AbstractBaseClient.aliveConnection.set(key, newConnectionInfo);
         await newConnection.connect(async (err: Error) => {
           if (err) {
@@ -156,14 +159,14 @@ export abstract class AbstractBaseClient<T = any> extends RPCService {
     connectionInfo: ConnectionInfo,
     isCreate: boolean = false,
   ) {
-    const { connection } = connectionInfo;
+    const { serverAdapter } = connectionInfo;
     return new Promise<void>(async (resolve, reject) => {
       try {
         const useDbOrSchemaSql = AbstractBaseClient.getUseDbOrSchemaSql(ConnectQuery, connectionInfo, isCreate);
         if (useDbOrSchemaSql) {
           // prettier-ignore
           console.log('切换schema------------》我应该很少需要运行', 'ConnectQuery:', ConnectQuery.db, connectionInfo.db);
-          await connection.query({ sql: useDbOrSchemaSql, isQuery: false });
+          await serverAdapter.query({ sql: useDbOrSchemaSql, isQuery: false });
         }
       } catch (error) {
         console.log(error);
@@ -174,7 +177,7 @@ export abstract class AbstractBaseClient<T = any> extends RPCService {
     });
   }
 
-  private async createInstance(connect: ConnectQuery): Promise<ConnectionTools | null> {
+  private async createInstance(connect: ConnectQuery): Promise<ServerAdapter | null> {
     console.log('connection create', connect);
     let clusterDao = new ServerClusterDao();
     const { server, cluster } = connect;
@@ -184,25 +187,27 @@ export abstract class AbstractBaseClient<T = any> extends RPCService {
     try {
       switch (connect.server.serverType) {
         case 'Postgresql':
-          return PostgresConnection.createInstance(connect);
+          return PostgresServerAdapter.createInstance(connect);
         case 'Mysql':
         case 'Mariadb':
-          return MysqlConnection.createInstance(connect);
+          return MysqlServerAdapter.createInstance(connect);
         case 'Oracle':
-          return OracleConnection.createInstance(connect);
+          return OracleServerAdapter.createInstance(connect);
         case 'DM':
-          return DMConnection.createInstance(connect);
+          return DMServerAdapter.createInstance(connect);
         case 'RDJC':
         case 'SQLServer':
-          return MssqlConnection.createInstance(connect);
+          return MssqlServerAdapter.createInstance(connect);
+        case 'Elasticsearch':
+          return EsServerAdapter.createInstance(connect);
         case 'Redis':
-          return RedisConnection.createInstance(connect);
+          return RedisServerAdapter.createInstance(connect);
         case 'Zookeeper':
-          return ZookeeperConnection.createInstance(connect);
+          return ZookeeperServerAdapter.createInstance(connect);
         case 'Kafka':
-          return KafkaConnection.createInstance(connect);
+          return KafkaServerAdapter.createInstance(connect);
         case 'Etcd':
-          return EtcdConnection.createInstance(connect);
+          return EtcdServerAdapter.createInstance(connect);
         default:
           throw Error('server not implement createInstance');
       }
@@ -253,7 +258,7 @@ export abstract class AbstractBaseClient<T = any> extends RPCService {
     if (connection) {
       this.aliveConnection.delete(key);
       try {
-        await connection.connection.close();
+        await connection.serverAdapter.close();
       } catch (error) {
         console.log('close connect happen error', error);
       }
@@ -261,17 +266,16 @@ export abstract class AbstractBaseClient<T = any> extends RPCService {
   }
 
 
-
 }
 
 export abstract class AbstractBaseSqlClient extends AbstractBaseClient {
-  public async runSqlPromise(connection: ConnectionTools, sql: string): Promise<IRunSqlResult> {
+  public async runSqlPromise(connection: ServerAdapter, sql: string): Promise<IRunSqlResult> {
     return new Promise<IRunSqlResult>((resolve, reject) => {
       const executeTime = new Date().getTime();
       let queryResponse: IRunSqlResult = { success: true, isQuery: false, sql, message: 'success' };
       try {
         const isQuery = SqlUtils.isQuery(sql);
-        console.log('runSqlPromise:sql-->', sql,'isQuery:', isQuery);
+        console.log('runSqlPromise:sql-->', sql, 'isQuery:', isQuery);
         connection.query({ sql, isQuery }, (err: Error, queryResult?: ISqlQueryResult) => {
           queryResponse.costTime = new Date().getTime() - executeTime;
           queryResponse.isQuery = isQuery;
@@ -304,7 +308,7 @@ export abstract class AbstractBaseSqlClient extends AbstractBaseClient {
   }
 
   public runBatchSqlPromise(
-    connection: ConnectionTools,
+    connection: ServerAdapter,
     sqlList: string[],
     isTransaction: boolean = true,
   ): Promise<IRunSqlResult[]> {

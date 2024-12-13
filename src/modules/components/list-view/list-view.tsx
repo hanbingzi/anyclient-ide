@@ -117,7 +117,6 @@ export const ListView = (props: ListViewProps) => {
 
       clearStat();
       //
-     //console.log('复制成功');
     },
     [clearStat],
   );

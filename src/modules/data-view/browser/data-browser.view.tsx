@@ -26,7 +26,11 @@ import { EtcdKeyView } from './etcd-view/etcd-key-view.view';
 import { EtcdUserView } from './etcd-view/users/etcd-user.view';
 import { EtcdRoleView } from './etcd-view/roles/etcd-role.view';
 import { EtcdClusterView } from './etcd-view/cluster/etcd-cluster.view';
+
+import { EsIndexView } from './es-view/es-index-view.view';
+import { EsClusterHealth } from './es-view/es-cluster-health';
 import SqlModeServer = ServerClassNamespace.SqlModeServer;
+import { KafkaStatus } from './kafka-view/kafka-status.view';
 
 export const DataBrowserView: ReactEditorComponent<OpenViewParam> = ({ resource }) => {
   const { nodeName, nodeValue, db, schema, serverId, serverType, nodeType, option, path, extra, server, breadCrumb } =
@@ -99,6 +103,14 @@ export const DataBrowserView: ReactEditorComponent<OpenViewParam> = ({ resource 
         nodeType === 'redisZSet'
       )
         return <RedisKeyView {...baseProps} />;
+    } else if (serverType === 'Elasticsearch') {
+      if (nodeType === 'index') {
+        if (option === 'open') {
+          return <EsIndexView {...baseProps} />;
+        }
+      } else if (nodeType === 'cluster') {
+        return <EsClusterHealth {...baseProps} />;
+      }
     } else if (serverType === 'Zookeeper') {
       if (nodeType === 'zkNode') return <ZookeeperView {...baseProps} fullPath={nodeValue as string} />;
     } else if (serverType === 'Kafka') {
@@ -110,6 +122,8 @@ export const DataBrowserView: ReactEditorComponent<OpenViewParam> = ({ resource 
         return <TopicView {...baseProps} />;
       } else if (nodeType === 'topic' && option === 'addChild') {
         return <TopicAddMessageView {...baseProps} />;
+      } else if(nodeType==='status'){
+        return <KafkaStatus {...baseProps}/>
       }
     } else if (serverType === 'Etcd') {
       if (option === 'open') {
@@ -139,7 +153,7 @@ export const DataBrowserView: ReactEditorComponent<OpenViewParam> = ({ resource 
         }}
       >
         <div className={styles['data-browser-container']} ref={ref}>
-          <ConfigProvider prefixCls='sumi_antd' getPopupContainer={() => ref.current}>
+          <ConfigProvider prefixCls="sumi_antd" getPopupContainer={() => ref.current}>
             {renderContent()}
           </ConfigProvider>
         </div>

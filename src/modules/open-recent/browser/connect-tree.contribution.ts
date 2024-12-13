@@ -315,7 +315,7 @@ export class ConnectTreeContribution
         //   return;
         // }
         await this.connectTreeService.refresh();
-       //console.log('clear db cache ------>');
+        console.log('clear db cache ------>');
         await this.dbCacheNodeService.clearCache();
       },
     });
@@ -512,7 +512,7 @@ export class ConnectTreeContribution
           db: node.dbName,
           nodeValue: node.nodeValue,
         };
-       //console.log('打开新建表的参数：', openParam)
+        console.log('打开新建表的参数：', openParam)
         this.commandService.executeCommand(ServerCommandIds.openDataView.id, openParam, {
           disableNavigate: true,
           preview: false,
@@ -683,8 +683,8 @@ export class ConnectTreeContribution
           this.connectTreeModelService.deleteNodes(node, [node]);
         }
 
-        ////console.log('选中的一个节点：', node);
-        ////console.log('选中的多个节点：', nodes)
+        // console.log('选中的一个节点：', node);
+        // console.log('选中的多个节点：', nodes)
       },
       isVisible: () =>
         !!this.connectTreeModelService.contextMenuFile &&
@@ -719,8 +719,8 @@ export class ConnectTreeContribution
         }
         this.messages.info('清除表格完毕');
 
-        ////console.log('选中的一个节点：', node);
-        ////console.log('选中的多个节点：', nodes)
+        // console.log('选中的一个节点：', node);
+        // console.log('选中的多个节点：', nodes)
       },
       isVisible: () =>
         !!this.connectTreeModelService.contextMenuFile &&
@@ -897,7 +897,7 @@ export class ConnectTreeContribution
             },
             targetNode.serverTreeNode?.nodeName!,
           );
-//console.log('showViewSource:', runSqlResult, runSqlResult.data);
+          console.log('showViewSource:', runSqlResult, runSqlResult.data);
           if (runSqlResult.success) {
             await this.clipboardService.writeText(runSqlResult.data!);
             await this.messages.info('sql语句已复制到剪切板');

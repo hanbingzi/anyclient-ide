@@ -20,6 +20,7 @@ export const ToolBarView = () => {
 
   return (
     <div className={styles['toolbar-container']}>
+      {/*electron要放开*/}
       <div className={styles['toolbar-left']}>
         <div className={cls(styles['toolbar-item'], styles['toolbar-item-button'])} onClick={handleServerNew}>
           <Button iconClass={getIcon('plus')} size={'small'}>

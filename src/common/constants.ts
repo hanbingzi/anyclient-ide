@@ -3,7 +3,7 @@ export const AppConstants ={
   AppName : 'AnyClient',
   AppStoragePath : '.anyclient',
   SEARCH_PREVIEW_KEY : 'search-preview',
-  Version: '1.2.1',
+  Version: '1.2.3',
   Electron: true, //如果是electron，此处需要配置true
   AdminUrl:'https://api.anyclient.cn',
   //AdminUrl:'http://api.anyclient.cn',

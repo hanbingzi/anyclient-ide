@@ -74,7 +74,7 @@ export class RedisKeyAddService {
       this.messages.error('key value 不能为空');
       return;
     }
-   //console.log('doc获取的keyData------->', keyName, keyData, ttl);
+    //console.log('doc获取的keyData------->', keyName, keyData, ttl);
     const result = await this.redisService.keySet({ server: this.server, db: this.db }, keyName, keyData, ttl);
     this.successRefresh(result);
   }
@@ -82,7 +82,7 @@ export class RedisKeyAddService {
   public async addKeyTable(keyName: string, keyType: RedisInputType, keyData: Map<string, ITableRow>, ttl?: number) {
     const addParam: IRedisUpdateParam[] = [];
     if (keyData && keyData.size > 0) {
-     //console.log('---------------1');
+     // console.log('---------------1');
       if (keyType === RedisType.set ||  keyType === RedisType.list) {
         keyData.forEach((item) => {
           const value = item['value'];
@@ -109,7 +109,7 @@ export class RedisKeyAddService {
 
       }
       if (addParam.length > 0) {
-       //console.log('addParam-------->', addParam);
+        //console.log('addParam-------->', addParam);
         const result = await this.redisService.setKeyData(
           {
             server: this.server,

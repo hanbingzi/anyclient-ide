@@ -19,7 +19,7 @@ export class MysqlServiceClient extends AbstractDefaultClient implements IMysqlS
    *
    * @param connectOpt
    */
-  // public getConnection(connectOpt: ConnectionToolsOption): Promise<ConnectionTools> {
+  // public getConnection(connectOpt: ServerAdapterOption): Promise<ServerAdapter> {
   //   try {
   //     return this.connectionManager.getConnection(connectOpt);
   //   } catch (e) {

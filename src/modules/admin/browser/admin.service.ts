@@ -27,7 +27,7 @@ export class AdminService {
   }
 
   public async onClose() {
-    this.adminClientService.onDestroy();
+   // this.adminClientService.onDestroy();
   }
 
   public async checkUpdate() {

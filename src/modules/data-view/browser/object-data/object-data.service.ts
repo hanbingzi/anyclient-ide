@@ -85,7 +85,6 @@ export class ObjectDataService {
       queryResult = await this.loadTriggerInfo();
     }
     if (queryResult) {
-      //console.log('resolveInfo:', queryResult);
       if (queryResult.success && queryResult.data) {
         const data = queryResult.data[0];
         if (data) this.onInfoDataChangEmitter.fire(data);
@@ -110,7 +109,6 @@ export class ObjectDataService {
       queryResult = await this.loadTriggerSource();
     }
     if (queryResult) {
-      ////console.log('resolveCreateSql:', queryResult);
       if (queryResult.success && queryResult.data) {
         this.onCreateSqlChangEmitter.fire(queryResult.data);
       } else {
