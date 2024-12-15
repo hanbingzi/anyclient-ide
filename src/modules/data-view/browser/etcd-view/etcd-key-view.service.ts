@@ -99,7 +99,7 @@ export class EtcdKeyViewService extends DocumentEditAbstract{
     }
     const queryResult = await this.etcdService.keyDataInfo({ server: this.server }, this.keyName);
     if (queryResult.success) {
-      console.log('keyDataInfo---->', queryResult.data);
+      //console.log('keyDataInfo---->', queryResult.data);
       const keyInfo = queryResult.data;
 
       this.docUpdateData(keyInfo.value)
@@ -122,7 +122,7 @@ export class EtcdKeyViewService extends DocumentEditAbstract{
       this.messages.error('key value 不能为空');
       return;
     }
-    console.log('doc获取的keyData------->', keyName, keyData);
+    //console.log('doc获取的keyData------->', keyName, keyData);
     const result = await this.etcdService.addOrUpdateKeyValue({ server: this.server }, keyName, keyData);
     if (result.success) {
       this.successRefresh(result);
@@ -137,7 +137,7 @@ export class EtcdKeyViewService extends DocumentEditAbstract{
       this.messages.error('key value 不能为空');
       return;
     }
-    console.log('doc获取的keyData------->', keyName, keyData);
+    //console.log('doc获取的keyData------->', keyName, keyData);
     const result = await this.etcdService.addOrUpdateKeyValue({ server: this.server }, keyName, keyData);
     if (result.success) {
       this.messages.info('修改成功');

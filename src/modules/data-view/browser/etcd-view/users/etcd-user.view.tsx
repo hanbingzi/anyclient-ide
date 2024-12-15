@@ -23,7 +23,7 @@ const InputWidth = EtcdView.InputWidth;
 export const EtcdUserView = (props: IBaseState) => {
   const { viewState } = props;
   const { width, height } = viewState;
-  console.log('width----->', width);
+console.log('width----->', width);
 
   const [tableData, setTableData] = useState<ITableRow[]>([]);
   const [roles, setRoles] = useState<string[]>([]);
@@ -42,7 +42,7 @@ export const EtcdUserView = (props: IBaseState) => {
       const viewWidth = width < 600 ? 600 : width - 100 < 600 ? 600 : width - 100;
       const userWidth = Math.floor(viewWidth * 0.3);
       const roleWidth = Math.floor(viewWidth * 0.7);
-      console.log(`user:${userWidth},roleWidth:${roleWidth}`);
+      //console.log(`user:${userWidth},roleWidth:${roleWidth}`);
       return [
         { title: 'User', columnKey: EtcdView.User, dataType: DataInputEnum.string, width: userWidth },
         { title: 'Roles', columnKey: EtcdView.Roles, dataType: DataInputEnum.string, width: roleWidth },

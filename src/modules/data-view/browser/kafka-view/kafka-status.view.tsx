@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, Badge, Col, Row, Spin, Statistic, Table } from 'antd';
-import { ApartmentOutlined, CloudServerOutlined, LineChartOutlined } from '@ant-design/icons';
+import { Alert, Badge, Card, Col, Row, Spin, Statistic, Table } from 'antd';
+import { ApartmentOutlined, CloudServerOutlined, LineChartOutlined, ReloadOutlined } from '@ant-design/icons';
 import styles from './index.module.less';
 import { WindowsTitle } from '../../../components/title';
 import { ServerIconFinder } from '../../../base/config/server-icon.config';
@@ -13,6 +13,7 @@ import { IBaseState } from '../../common/data-browser.types';
 
 interface KafkaStatusProps {
   loading?: boolean;
+  dataLoading?: boolean;
   error?: string;
   data?: {
     brokers: IBroker[];
@@ -20,76 +21,65 @@ interface KafkaStatusProps {
     consumerGroups: IConsumerGroup[];
     metrics: IKafkaMetrics;
   };
+  refreshClick: () => void;
 }
 
-const testData: KafkaStatusProps = {
-  error: '',
-  loading: false,
-  data: {
-    brokers: [
-      {
-        nodeId: 1,
-        host: '127.0.0.1',
-        port: 3306,
-      },
-    ],
-    topics: [{
-      name: 'localhost',
-      partitions: 3,
-      replicationFactor: 3,
-      messageCount: 1,
-      sizeBytes: 2,
-    }],
-    consumerGroups: [{
-      groupId: '1221232132123123',
-      status: 'a',
-      lag: 1,
-      members: 3,
+// const testData: KafkaStatusProps = {
+//   error: '',
+//   loading: false,
+//   data: {
+//     brokers: [
+//       {
+//         nodeId: 1,
+//         host: '127.0.0.1',
+//         port: 3306,
+//       },
+//     ],
+//     topics: [{
+//       name: 'localhost',
+//       partitions: 3,
+//       replicationFactor: 3,
+//       messageCount: 1,
+//       sizeBytes: 2,
+//     }],
+//     consumerGroups: [{
+//       groupId: '1221232132123123',
+//       status: 'a',
+//       lag: 1,
+//       members: 3,
+//
+//     }],
+//     metrics: {
+//       messagesPerSec: 1,
+//       bytesInPerSec: 2,
+//       bytesOutPerSec: 3,
+//       activeControllers: 4,
+//       underReplicatedPartitions: 5,
+//       offlinePartitionsCount: 6,
+//     },
+//   },
+// };
 
-    }],
-    metrics: {
-      messagesPerSec: 1,
-      bytesInPerSec: 2,
-      bytesOutPerSec: 3,
-      activeControllers: 4,
-      underReplicatedPartitions: 5,
-      offlinePartitionsCount: 6,
-    },
-  },
-};
+
+export const KafkaStatusInfo: React.FC<KafkaStatusProps> = ({
+                                                              loading = false,
+                                                              dataLoading,
+                                                              error,
+                                                              data,
+                                                              refreshClick,
+                                                            }) => {
 
 
-export const KafkaStatusInfo: React.FC<KafkaStatusProps> = ({ loading = false, error, data }) => {
-
-  const [activeKey, setActiveKey] = useState<number>(1);
-
-  const onChange = (key: number) => {
-    console.log(`activated ${key}`);
-    setActiveKey(key);
-  };
-  const formatBytes = (bytes: number) => {
-    if (bytes === 0) return '0 B';
-    const k = 1024;
-    const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return `${parseFloat((bytes / Math.pow(k, i)).toFixed(2))} ${sizes[i]}`;
-  };
-
-  if (loading) {
+  if (loading || error || !data) {
     return (
-      <div style={{ textAlign: 'center', padding: '50px' }}>
-        <Spin size="large" />
+      <div style={{ textAlign: 'center', padding: '30px' }}>
+        {loading ? <Spin size="large" /> :
+          error ? <Alert message="Error" description={error} type="error" showIcon /> :
+            !data ? <Alert message="No data available" type="warning" showIcon /> : null}
       </div>
     );
   }
 
-  if (error) {
-    return <Alert message="Error" description={error} type="error" showIcon />;
-  }
-
-  if (!data) {
-    return <Alert message="No data available" type="warning" showIcon />;
-  }
 
   // Broker列定义
   const brokerColumns = [
@@ -137,7 +127,7 @@ export const KafkaStatusInfo: React.FC<KafkaStatusProps> = ({ loading = false, e
       dataIndex: 'members',
       key: 'members',
     },
-]
+  ];
   // Topic列定义
   const topicColumns = [
     {
@@ -155,56 +145,50 @@ export const KafkaStatusInfo: React.FC<KafkaStatusProps> = ({ loading = false, e
       dataIndex: 'replicationFactor',
       key: 'replicationFactor',
     },
-    // {
-    //   title: 'Messages',
-    //   dataIndex: 'messageCount',
-    //   key: 'messageCount',
-    // },
-    // {
-    //   title: 'Size',
-    //   dataIndex: 'sizeBytes',
-    //   key: 'sizeBytes',
-    // },
+
   ];
 
 
   return (
-    <div style={{ padding: '20px' }}>
+    <div style={{ paddingLeft: '20px', paddingRight: '20px', marginTop: '12px' }}>
       {/* 健康状态概览 */}
-      <Row gutter={[16, 16]}>
-        <Col xs={24} sm={8}>
-          <div className={styles['metric-card']}>
-            <Statistic
-              title="Active Brokers"
-              value={data.brokers.length}
-              suffix={`/ ${data.brokers.length}`}
-              prefix={<CloudServerOutlined />}
-            />
-          </div>
-        </Col>
-        <Col xs={24} sm={8}>
-          <div className={styles['metric-card']}>
-            <Statistic
-              title="Total Topics"
-              value={data.topics.length}
-              prefix={<ApartmentOutlined />}
-            />
-          </div>
-        </Col>
-        <Col xs={24} sm={8}>
-          <div className={styles['metric-card']}>
-            <Statistic
-              title="Messages/sec"
-              value={'未知'}
-              prefix={<LineChartOutlined />}
-            />
-          </div>
-        </Col>
-      </Row>
+      <Card title="Statistic"
+            extra={<ReloadOutlined spin={dataLoading} onClick={refreshClick} size={24} />}>
+        <Row gutter={[16, 16]}>
+          <Col xs={24} sm={8}>
+            <div className={styles['metric-card']}>
+              <Statistic
+                title="Active Brokers"
+                value={data.brokers.length}
+                suffix={`/ ${data.brokers.length}`}
+                prefix={<CloudServerOutlined />}
+              />
+            </div>
+          </Col>
+          <Col xs={24} sm={8}>
+            <div className={styles['metric-card']}>
+              <Statistic
+                title="Total Topics"
+                value={data.topics.length}
+                prefix={<ApartmentOutlined />}
+              />
+            </div>
+          </Col>
+          <Col xs={24} sm={8}>
+            <div className={styles['metric-card']}>
+              <Statistic
+                title="Messages/sec"
+                value={'未知'}
+                prefix={<LineChartOutlined />}
+              />
+            </div>
+          </Col>
+        </Row>
+      </Card>
 
       {/* 主要内容区 */}
       <div style={{ marginTop: '10px' }}>
-        <div className={styles['metric-card']} style={{ marginTop: '20px' }}>
+        <div className={styles['metric-card']}>
           <WindowsTitle
             title={'Brokers'}
             icon={ServerIconFinder.getServerIcon('Kafka', 'kafkaBroker')}
@@ -219,7 +203,7 @@ export const KafkaStatusInfo: React.FC<KafkaStatusProps> = ({ loading = false, e
           />
         </div>
 
-        <div className={styles['metric-card']} style={{ marginTop: '20px' }}>
+        <div className={styles['metric-card']}>
           <WindowsTitle
             title={'Topics'}
             icon={ServerIconFinder.getServerIcon('Kafka', 'topic')}
@@ -234,7 +218,7 @@ export const KafkaStatusInfo: React.FC<KafkaStatusProps> = ({ loading = false, e
           />
         </div>
 
-        <div className={styles['metric-card']} style={{ marginTop: '20px' }}>
+        <div className={styles['metric-card']}>
           <WindowsTitle
             title={'ConsumerGroups'}
             icon={ServerIconFinder.getServerIcon('Kafka', 'group')}
@@ -304,35 +288,39 @@ export const KafkaStatus = (props: IBaseState) => {
   const { server } = props;
   const [kafkaData, setKafkaData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [dataLoading, setDataLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const kafkaService = useInjectable<IKafkaService>(KafkaService);
 
   useEffect(() => {
-    const fetchKafkaData = async () => {
-      try {
-        // 这里替换为实际的API调用
-        const response = await kafkaService.getKafkaStatus({ server });
-        //const data = await response.json();
-        console.log('kafka', response);
-        setKafkaData(response);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
+
 
     fetchKafkaData();
     // const interval = setInterval(fetchKafkaData, 10000); // 每10秒刷新一次
     // return () => clearInterval(interval);
   }, []);
+  const fetchKafkaData = async () => {
+    try {
+      setDataLoading(true);
+      const response = await kafkaService.getKafkaStatus({ server });
+      setKafkaData(response);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+      setDataLoading(false);
+    }
+  };
+
 
   return (
     <KafkaStatusInfo
       data={kafkaData}
       loading={loading}
+      dataLoading={dataLoading}
       error={error}
+      refreshClick={fetchKafkaData}
     />
   );
 };

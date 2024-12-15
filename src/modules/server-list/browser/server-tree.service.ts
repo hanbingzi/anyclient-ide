@@ -606,7 +606,7 @@ export class ServerTreeService extends Tree {
   //        // console.log('tree-service proxyPrompt blurCommit:', newName)
   //     }
   //     const enterCommit = async (newName) => {
-  //       //  console.log('tree-service proxyPrompt enterCommit:', newName)
+  //       //console.log('tree-service proxyPrompt enterCommit:', newName)
   //         isCommit = true;
   //         if (!!this.validateMessage && this.validateMessage.type === PROMPT_VALIDATE_TYPE.ERROR) {
   //             return false;

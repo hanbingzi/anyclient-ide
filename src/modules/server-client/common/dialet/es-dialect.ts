@@ -7,11 +7,30 @@ import { isNotEmpty } from '../../../base/utils/object-util';
 
 export class EsDialect {
 
-  public getHealth(): IEsCommand {
+  public clusterHealth(): IEsCommand {
     return {
       type: 'GET',
       path: '_cluster/health',
     };
+  }
+  public clusterStats(): IEsCommand {
+    return {
+      type: 'GET',
+      path: '_cluster/stats',
+    };
+  }
+
+  public allStats():IEsCommand{
+    return {
+      type:'GET',
+      path:'_all/_stats'
+    }
+  }
+  public nodeStats():IEsCommand{
+    return {
+      type:'GET',
+      path:'_nodes/stats/os,process,jvm,fs'
+    }
   }
 
   public indices(): IEsCommand {

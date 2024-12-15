@@ -23,7 +23,6 @@ const InputWidth = EtcdView.InputWidth;
 export const EtcdRoleView = (props: IBaseState) => {
   const { viewState } = props;
   const { width, height } = viewState;
-  console.log('width----->', width);
 
   const [tableData, setTableData] = useState<ITableRow[]>([]);
   const [addState, setAddState] = useState<boolean>(false);
@@ -42,7 +41,7 @@ export const EtcdRoleView = (props: IBaseState) => {
       const viewWidth = width < 600 ? 600 : width - 100 < 600 ? 600 : width - 100;
       const roleWidth = Math.floor(viewWidth * 0.3);
       const permissionWidth = Math.floor(viewWidth * 0.7);
-      console.log(`role:${roleWidth},roleWidth:${roleWidth}`);
+      //console.log(`role:${roleWidth},roleWidth:${roleWidth}`);
       return [
         { title: 'Role', columnKey: EtcdView.Role, dataType: DataInputEnum.string, width: roleWidth },
         {
@@ -63,7 +62,7 @@ export const EtcdRoleView = (props: IBaseState) => {
   useEffect(() => {
     disposableRef.current?.push(
       etcdRoleService.onDataChange((data) => {
-        console.log('dataChange', data);
+        //console.log('dataChange', data);
         setTableData(data);
         setIsLoading(false)
 

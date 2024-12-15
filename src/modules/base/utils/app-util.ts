@@ -6,7 +6,7 @@ export class AppUtil {
   public static getExecRootPath() {
     // let jdbcServerPath = path.join(appInstallPath, '/Resources/' + jdbcStorePath, jdbcDriverName);
     if (process.env.NODE_ENV === 'development') {
-      console.log('JdbcStartService - development-');
+      //console.log('JdbcStartService - development-');
       return path.join(process.cwd(), 'resources');
     } else {
       const isMac = process.platform === 'darwin';

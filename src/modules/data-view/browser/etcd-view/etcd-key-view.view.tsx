@@ -46,13 +46,13 @@ export const EtcdKeyView = (props: IBaseState) => {
   useEffect(() => {
     disposableRef.current?.push(
       etcdViewService.onKeyInfoChange((keyInfo) => {
-        console.log('KeyInfo fire =====>:', keyInfo);
+        //console.log('KeyInfo fire =====>:', keyInfo);
         setKeyDataInfo(keyInfo);
       }),
     );
     disposableRef.current?.push(
       etcdViewService.onDataChange((fireKeyValue) => {
-        // console.log('chuanshu=====>:', keyValue.toString());
+        //console.log('chuanshu=====>:', keyValue.toString());
         setKeyValue(fireKeyValue);
       }),
     );
@@ -85,13 +85,13 @@ export const EtcdKeyView = (props: IBaseState) => {
   }, [keyName, etcdViewService]);
 
   const renderInfo = useCallback(() => {
-    console.log('renderInfo,', keyDataInfo);
+    //console.log('renderInfo,', keyDataInfo);
     let statView: any[] = [];
     if (keyDataInfo) {
       Object.keys(keyDataInfo).map((key) => {
         let itemValue = keyDataInfo[key];
         if (itemValue) {
-          //  console.log('key:',key,';itemValue',itemValue)
+          //console.log('key:',key,';itemValue',itemValue)
           // let value = (typeof itemValue === 'string' || typeof itemValue === 'number') ? itemValue : itemValue.toString('utf8');
           statView.push(
             <div key={key} className={styles['info-item']}>

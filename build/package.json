@@ -1,6 +1,6 @@
 {
   "name": "anyclient-desktop",
-  "version": "1.2.1",
+  "version": "1.2.3",
   "main": "main/index.js",
   "description": "AnyClient Desktop",
   "private": true,

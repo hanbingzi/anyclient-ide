@@ -50,11 +50,11 @@ export class AdminClientService {
   private productRequestUrl: string = 'prod/';
 
   public login() {
-    console.log('-------------------login-------------------->');
+    //console.log('-------------------login-------------------->');
   }
 
   public async onStart() {
-    console.log('-------------------start-------------------->');
+    //console.log('-------------------start-------------------->');
     const mac = await new Promise<string>((resolve, reject) => {
       macaddress.one((err, addr) => {
         if (err) reject(err);
@@ -78,9 +78,9 @@ export class AdminClientService {
       mac,
     };
 
-    console.log(log);
+    //console.log(log);
     const response = await adminAxiosService.post(this.productRequestUrl + 'logrun/start', log);
-    console.log('--------------------end------------------->');
+    //console.log('--------------------end------------------->');
   }
 
   /**

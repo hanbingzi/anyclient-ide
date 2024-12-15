@@ -1651,7 +1651,7 @@ export class ConnectTreeModelService {
       this.contextKey?.filesExplorerInputFocused.set(true);
     };
     const handleDestroy = () => {
-      //  console.log('file-tree-handleDestroy')
+      //console.log('file-tree-handleDestroy')
       this.contextKey?.filesExplorerInputFocused.set(false);
       if (this.contextMenuFile) {
         // 卸载输入框时及时更新选中态
@@ -1760,7 +1760,7 @@ export class ConnectTreeModelService {
   //     });
   //     this.connectTreeService.reCacheNode(targetNode, prePath);
   //     //  this.connectTreeService.addNode(targetNode as ServerNode|ServerEntity, tempFileName, TreeNodeType.CompositeTreeNode);
-  //     //  console.log('file-tree-model新建事件结束',targetNode)
+  //     //console.log('file-tree-model新建事件结束',targetNode)
   //   }
   //   return targetNode;
   // }
@@ -1775,7 +1775,7 @@ export class ConnectTreeModelService {
 
   // async newDirectoryPrompt(uri: URI) {
   //   const targetNode = await this.getPromptTarget(uri, true);
-  //   //  console.log('newDirectoryPrompt')
+  //   //console.log('newDirectoryPrompt')
   //   if (targetNode) {
   //     this.proxyPrompt(await this.fileTreeHandle.promptNewCompositeTreeNode(targetNode as ServerNode|ServerEntity));
   //   }

@@ -15,7 +15,7 @@ import { EtcdView } from '../etcd-constant';
 export const EtcdClusterView = (props: IBaseState) => {
   const { viewState } = props;
   const { width, height } = viewState;
-  console.log('width----->', width);
+//console.log('width----->', width);
 
   const [tableData, setTableData] = useState<ITableRow[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -45,7 +45,7 @@ export const EtcdClusterView = (props: IBaseState) => {
   useEffect(() => {
     disposableRef.current?.push(
       etcdClusterService.onDataChange((data) => {
-        console.log('dataChange', data);
+        //console.log('dataChange', data);
         setTableData(data);
         setIsLoading(false);
       }),

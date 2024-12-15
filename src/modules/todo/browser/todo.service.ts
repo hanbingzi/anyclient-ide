@@ -21,6 +21,6 @@ export class TodoService {
   }
 
   public async query() {
-    console.log('能开始调用');
+    //console.log('能开始调用');
   }
 }

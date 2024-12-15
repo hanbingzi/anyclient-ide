@@ -1,5 +1,13 @@
 import { Autowired, Injectable } from '@opensumi/di';
-import { IEsClientServicePath, IEsColumn, IEsCommand, IEsService, IEsServiceClient } from '../../common/types/es.types';
+import {
+  IEsClientServicePath,
+  IESClusterStats,
+  IEsColumn,
+  IEsCommand,
+  IEsIndexStats,
+  IEsService,
+  IEsServiceClient,
+} from '../../common/types/es.types';
 import { ConnectQuery } from '../../../local-store-db/common';
 import { IEsPageDataResult, IEsRunResult, IQueryResult } from '../../common';
 import { EsDialect } from '../../common/dialet/es-dialect';
@@ -17,7 +25,7 @@ export class EsService implements IEsService {
   private esClientService: IEsServiceClient;
 
   ping(connect: ConnectQuery): Promise<IQueryResult> {
-    const command = this.dialect.getHealth();
+    const command = this.dialect.clusterHealth();
     return this.esClientService.runCommand(connect, command);
   }
 
@@ -35,10 +43,94 @@ export class EsService implements IEsService {
     };
   }
 
-  clusterHealth(connectQuery: ConnectQuery){
-    const command = this.dialect.getHealth();
+  async dashboard(connectQuery: ConnectQuery): Promise<IQueryResult<IESClusterStats>> {
+    const healthCommand = this.dialect.clusterHealth();
+    const clusterStatsCommand = this.dialect.clusterStats();
+    const nodesStatsCommand = this.dialect.nodeStats();
+    const indicesCommand = this.dialect.indices();
+    const healthResult = await this.esClientService.runCommand(connectQuery, healthCommand);
+    const clusterStatsResult = await this.esClientService.runCommand(connectQuery, clusterStatsCommand);
+    const nodesStatsResult = await this.esClientService.runCommand(connectQuery, nodesStatsCommand);
+    const indicesResult = await this.esClientService.runCommand(connectQuery, indicesCommand);
+    const clusterStats: IESClusterStats = {};
+    try {
+      if (healthResult.success) {
+        const healthBody = healthResult.data;
+        clusterStats.clusterHealth = {
+          status: healthBody?.status,
+          numberOfNodes: healthBody?.number_of_nodes,
+          activeShards: healthBody?.active_shards,
+          relocatingShards: healthBody?.relocating_shards,
+          initializingShards: healthBody?.initializing_shards,
+          unassignedShards: healthBody?.unassigned_shards,
+          pendingTasks: healthBody?.number_of_pending_tasks,
+          activePrimaryShards: healthBody?.active_primary_shards,
+          activeShardsPercentAsNumber: healthBody?.active_shards_percent_as_number,
+        };
+      }
+      if (clusterStatsResult.success) {
+        const clusterBody = clusterStatsResult.data;
+        clusterStats.cluster = {
+          name: clusterBody?.cluster_name,
+          version: clusterBody?.nodes?.versions[0],
+          indicesCount: clusterBody?.indices?.count,
+          indicesDocCount: clusterBody?.indices?.docs?.count,
+          indicesDocDeleted: clusterBody?.indices?.docs?.deleted,
+          storeSizInBytes: clusterBody?.indices?.store?.size_in_bytes,
+          storeTotalDataSetSizeInBytes: clusterBody?.indices?.store?.total_data_set_size_in_bytes,
+        };
+      }
+      if (nodesStatsResult.success) {
+        const nodesBody = nodesStatsResult.data;
+        clusterStats.nodes = Object.entries(nodesBody.nodes).map(([nodeId, node]: [string, any]) => {
+          return {
+            name: node?.name,
+            ip: node?.ip,
+            role: node?.roles,
+            cpu: node?.process?.cpu?.percent,
+            memory: {
+              used: node?.os?.mem?.used_in_bytes,
+              total: node?.os?.mem?.total_in_bytes,
+              percent: node?.os.mem.used_percent
+            },
+            // disk: {
+            //   used: node?.fs?.total?.total_in_bytes - node?.fs?.total?.free_in_bytes,
+            //   total: node?.fs?.total?.total_in_bytes,
+            //   percent: ((node?.fs?.total?.total_in_bytes - node?.fs?.total?.free_in_bytes) / node?.fs?.total?.total_in_bytes) * 100,
+            // },
+            heapUsage: (node?.jvm?.mem?.heap_used_percent || 0),
+          };
+
+        });
+      }
+      if (indicesResult?.success) {
+        const indicesBody = indicesResult?.data;
+        const indexStats: IEsIndexStats[] = [];
+        for (const index of indicesBody) {
+          // 构建 IEsIndexStats 对象
+          const indexStat: IEsIndexStats = {
+            name: index?.index,
+            docsCount: index?.['docs.count'],
+            storageSize: index?.['store.size'], // 存储大小以字节为单位
+            primaryShards: parseInt(index?.pri, 10),
+            replicaShards: parseInt(index?.rep, 10),
+          };
+
+          indexStats.push(indexStat);
+        }
+        clusterStats.indices = indexStats;
+      }
+      return { success: true, data: clusterStats };
+    } catch (e) {
+      return { success: false, message: e.message };
+    }
+  }
+
+  clusterHealth(connectQuery: ConnectQuery) {
+    const command = this.dialect.clusterHealth();
     return this.esClientService.runCommand(connectQuery, command);
   }
+
   showIndexList(connectQuery: ConnectQuery) {
     const command = this.dialect.indices();
     return this.esClientService.runCommand(connectQuery, command);

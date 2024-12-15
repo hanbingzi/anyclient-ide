@@ -109,7 +109,7 @@ export const ZookeeperView = (props: IZKInfoState) => {
       Object.keys(stat).map((key) => {
         let itemValue = stat[key];
         if (isNotEmpty(itemValue)) {
-          //  console.log('key:',key,';itemValue',itemValue)
+          //console.log('key:',key,';itemValue',itemValue)
           // let value = (typeof itemValue === 'string' || typeof itemValue === 'number') ? itemValue : itemValue.toString('utf8');
           statView.push(
             <div key={key} className={styles['info-item']}>

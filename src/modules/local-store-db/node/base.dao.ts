@@ -1,7 +1,6 @@
 import { AppConstants } from '../../../common/constants';
-import Datastore from 'nedb';
+import  Datastore from 'nedb';
 import NeDBOpenHelper from './NeDBOpenHelper';
-import { StringConvertUtil } from '../../base/utils/string-convert-util';
 import { removeNullValues } from '../../base/utils/object-util';
 
 interface BaseParam {
@@ -37,7 +36,7 @@ export abstract class BaseDao<T> {
         if (err) {
           console.error('Error inserting document:', err);
         } else {
-//console.log('insert:', newDoc);
+          console.log('insert:', newDoc);
         }
         resolve();
       });

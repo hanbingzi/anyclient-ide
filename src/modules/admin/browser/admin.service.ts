@@ -20,7 +20,7 @@ export class AdminService {
 
   public async onStart() {
     setTimeout(() => {
-      console.log('--------admin start--------');
+      //console.log('--------admin start--------');
       //this.adminClientService.login();
       //this.adminClientService.onStart();
     }, 3000);
@@ -40,9 +40,9 @@ export class AdminService {
           const ok = localize('ButtonOK');
           const result = await this.messages.info('发现新的版本，是否前往官网下载', [ignore, ok]);
           if (result === ok) {
-            console.log('打开官网');
+            //console.log('打开官网');
           } else if (result === ignore) {
-            console.log('ignore');
+            //console.log('ignore');
             this.productVersionService.ignoreVersion(checkResult.latestVersion);
           }
         }

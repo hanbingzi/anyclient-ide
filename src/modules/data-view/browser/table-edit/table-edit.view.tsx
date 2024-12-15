@@ -129,7 +129,7 @@ export const TableEditView = (props: IBaseState) => {
     }
     return optResult;
   };
-  console.log('isDataLoading---->', dataLoading);
+console.log('isDataLoading---->', dataLoading);
 
   const handlePrimaryCommit = (
     commit: (cells?: IUpdateCell[]) => void,

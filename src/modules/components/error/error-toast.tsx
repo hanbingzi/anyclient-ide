@@ -11,7 +11,7 @@ export interface ErrorToastParam {
 
 export const ErrorToast = ({ message, position, positionXY, onClose }: ErrorToastParam) => {
   const [isVisible, setIsVisible] = useState(true);
-  console.log('ErrorToast--》我为什么不显示');
+console.log('ErrorToast--》我为什么不显示');
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(false);

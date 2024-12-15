@@ -1521,7 +1521,7 @@ export const TableEditor = (props: TableEditorProps) => {
     if (!selectedPosition) {
       return;
     }
-    //  console.log('会触发吗table-editor handleKey2')
+    //console.log('会触发吗table-editor handleKey2')
     const keyCode = e.which || e.keyCode;
     const { rowStart, columnStart } = selectedPosition;
     const deleteKeysPressed = keyCode === DELETE_KEY || keyCode === BACKSPACE_KEY;
@@ -1571,7 +1571,7 @@ export const TableEditor = (props: TableEditorProps) => {
   };
 
   const handleKeyboardCellMovement = (e) => {
-    //  console.log('handleKeyboardCellMovement--selectedPosition:', selectedPosition)
+    //console.log('handleKeyboardCellMovement--selectedPosition:', selectedPosition)
     //  const isCellsSelected = selectedPosition ;//&& selectedPosition.rowStart && selectedPosition.columnStart;
     if (!e || !selectedPosition) {
       return;

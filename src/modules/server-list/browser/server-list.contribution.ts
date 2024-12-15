@@ -221,7 +221,7 @@ export class ServerListContribution
 
     commands.registerCommand(ServerCommandIds.openServerInfo, {
       execute: (id: string) =>
-        //  console.log('trrr',id)
+        //console.log('trrr',id)
         //  this.editorService.open(new URI('serverInfo://id=' + id));
 
         this.editorService.open(

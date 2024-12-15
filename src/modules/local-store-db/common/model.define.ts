@@ -153,7 +153,7 @@ export interface ServerInfo {
 
   esScheme?: string;
   //esUrl?: string;
-  // esAuth?: string;
+  //esAuth?: string;
 
 
 

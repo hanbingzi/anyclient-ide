@@ -1,6 +1,6 @@
 import * as oracledb from 'oracledb';
 import { Metadata, Result } from 'oracledb';
-import { ServerAdapter, queryCallback } from './server-adapter';
+import { queryCallback, ServerAdapter } from './server-adapter';
 import { ConnectQuery } from '../../../local-store-db/common';
 import { decryptData } from '../../../base/utils/crypto-util';
 import { OracleUtils } from '../../common/utils/oracle-utils';
@@ -25,9 +25,9 @@ export class OracleServerAdapter extends ServerAdapter {
   public static async createInstance(connect: ConnectQuery): Promise<ServerAdapter> {
     const { server, db, ssh, originPassword } = connect;
     const { host, port, user, instanceName, role, orclServerType, password, timezone, connectTimeout } = server;
-  //  console.log('createInstance', instantPath)
+    //console.log('createInstance', instantPath)
     if (process.platform === 'win32' || (process.platform === 'darwin' && process.arch === 'x64')) {
-      const instantPath = path.join(AppUtil.getExecRootPath(),'oracle',instantFolder)
+      const instantPath = path.join(AppUtil.getExecRootPath(), 'oracle', instantFolder);
       let clientOpts = { libDir: instantPath };
       oracledb.initOracleClient(clientOpts);
     }
@@ -39,7 +39,7 @@ export class OracleServerAdapter extends ServerAdapter {
       user,
       password: decodePassword,
       connectString,
-      connectTimeout:connectTimeout||5000
+      connectTimeout: connectTimeout || 5000,
     } as oracledb.ConnectionAttributes;
 
     if (privilege) {
@@ -81,7 +81,7 @@ export class OracleServerAdapter extends ServerAdapter {
    * @param isQuery
    * @param res
    */
-  async adaptResult(isQuery: boolean=false, res: Result<any>): Promise<ISqlQueryResult> {
+  async adaptResult(isQuery: boolean = false, res: Result<any>): Promise<ISqlQueryResult> {
     const queryResult: ISqlQueryResult = {};
     if (!res) {
       return queryResult;
@@ -159,7 +159,9 @@ export class OracleServerAdapter extends ServerAdapter {
 
   async rollback(): Promise<void> {
     this.conn.rollback((error) => {
-      if (error) console.log('执行回滚', error);
+      if (error) {
+        console.log('执行回滚', error);
+      }
     });
     this.autoCommit = true;
   }

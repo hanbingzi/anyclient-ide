@@ -50,11 +50,11 @@ export class AdminContribution implements ClientAppContribution, MenuContributio
     // if(debugContainer){
     //   debugContainer.hide();
     // }
-    console.log('onDidStart ------------->');
+    //console.log('onDidStart ------------->');
     await this.openLastWorkspace();
     await this.adminService.onStart();
     const result = await this.jdbcStartService.start()
-    console.log('jdbcStartResult:',result)
+    //console.log('jdbcStartResult:',result)
     this.adminService.checkUpdate();
 
   }

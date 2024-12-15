@@ -135,8 +135,8 @@ export abstract class SqlTableEditAbstract {
       this.columnMap.set(columnName, column);
       tableColumn.push(column);
     });
-    console.log('originalColumn:', columnList);
-    console.log('convertedColumn:', tableColumn);
+    //console.log('originalColumn:', columnList);
+    //console.log('convertedColumn:', tableColumn);
     //fire 之前，必须有await代码，否则消息不会进行通知，不知道为什么
     this.tableColumn = await tableColumn;
     this.LabelToNameRule = columnLabelNameRule;
@@ -164,7 +164,7 @@ export abstract class SqlTableEditAbstract {
   }
 
   async updateData(data) {
-    console.log('sql table -model---------->', data);
+    //console.log('sql table -model---------->', data);
     this.tableData = data;
     this.onTableDataChangeEmitter.fire(this.tableData);
   }
@@ -264,7 +264,7 @@ export abstract class SqlTableEditAbstract {
     if (updateParamSet.size > 0) {
       saveResult = await this.saveRemote(updateParamSet);
       if (saveResult) {
-        console.log('saveResult success save---->');
+        //console.log('saveResult success save---->');
         await this.refresh();
       }
     }

@@ -20,10 +20,8 @@ export class JdbcStartService {
 
     let appResourcePath = AppUtil.getExecRootPath();
     let jdbcServerPath = path.join(appResourcePath,'jdbc',jdbcDriverName);
-    console.log('process.env.NODE_ENV------------>',process.env.NODE_ENV);
     if (AppConstants.Electron  || process.env.NODE_ENV === 'development') {
       //需要防止之前的进程还在开启状态，先检测，如果程序还活着，杀死在启动
-      console.log('start jdbc driver------------>');
       // await this.kill();
       // exec 这种方式在 windows中启动不起来程序，显示无权限
       // exec(`java -jar ${jdbcServerPath}`, (error, stdout) => {

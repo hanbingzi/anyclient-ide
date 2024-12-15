@@ -124,7 +124,7 @@ DELIMITER ;
 
 create database hive;
 `
-  console.log(DocumentParser.parseBlocks(sql2));
+console.log(DocumentParser.parseBlocks(sql2));
 
 }
 

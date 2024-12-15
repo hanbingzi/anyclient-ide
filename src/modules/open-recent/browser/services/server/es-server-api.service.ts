@@ -55,12 +55,12 @@ export class EsServerApiService {
   showEsModelItem(): IServerTreeNode[] {
     const treeNodes: IServerTreeNode[] = [
       {
-        displayName: 'Cluster',
-        nodeName: 'Cluster',
+        displayName: 'Status',
+        nodeName: 'Status',
         serverType: 'Elasticsearch',
         levelType: 'node',
         nodeStat: 'success',
-        nodeType: 'cluster',
+        nodeType: 'status',
         sort: 9,
         clickLoadData:true
       },

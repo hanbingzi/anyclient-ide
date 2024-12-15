@@ -293,7 +293,6 @@ export const EsServerForm = (props: ServerInputFormProps) => {
       <LabelItem label={''}>
         <Radio.Group
           onChange={(v) => {
-
             handleChangeForm('authType', v.target.value);
           }}
           value={form.authType}

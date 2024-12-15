@@ -72,14 +72,23 @@ export const ServerInfoComponent: ReactEditorComponent<{ serverInfo: ServerInfo 
           <div className={styles['info-title']}>配置详情</div>
           <div className={styles['server-info']}>
             <ul>
-              <li>
-                <span>地址:</span>
-                <span>{serverInfo.host}</span>
-              </li>
-              <li>
-                <span>端口:</span>
-                <span>{serverInfo.port}</span>
-              </li>
+              {['Elasticsearch'].includes(serverInfo.serverType)  ?
+                <li>
+                  <span>地址:</span>
+                  <span>{serverInfo.url}</span>
+                </li>
+                :
+                <>
+                  <li>
+                    <span>地址:</span>
+                    <span>{serverInfo.host}</span>
+                  </li>
+                  <li>
+                    <span>端口:</span>
+                    <span>{serverInfo.port}</span>
+                  </li>
+                </>
+              }
               {serverInfo.user ? (
                 <li>
                   <span>用户名:</span>

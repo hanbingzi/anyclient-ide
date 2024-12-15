@@ -5,7 +5,7 @@
 
 <div align="center">
 加群前请一定要Star，有什么疑问，可以加群沟通。关注公众号，获取AnyClient最新动态。<br/>
-（加群前请一定要Star！！！ ，跪谢）
+（加群前请一定要Star！！！ ）
 </div>
 
 <p align="center">
@@ -201,7 +201,15 @@ AnyClient是一款开源的，支持WEB、Dokcer、客户端版本，能够连�
 
 ![](./doc/images/redis-main.jpg)
 
-### 3.Zookeeper支持功能
+### 3.Elasticsearch支持功能
+#### Elasticsearch首页
+![](./doc/images/elasticsearch-stats.jpg)
+#### Elasticsearch index数据查询
+![](./doc/images/elasticsearch-index-opt.jpg)
+#### Elasticsearch 脚本
+![](./doc/images/elasticsearch-query-sql.jpg)
+
+### 4.Zookeeper支持功能
 
 1. 新增key
 2. 删除key
@@ -211,7 +219,7 @@ AnyClient是一款开源的，支持WEB、Dokcer、客户端版本，能够连�
 
 ![](./doc/images/zookeeper-main.jpg)
 
-### 4.Kafka支持功能
+### 5.Kafka支持功能
 
 1. 消息
     - 查询消息
@@ -220,6 +228,10 @@ AnyClient是一款开源的，支持WEB、Dokcer、客户端版本，能够连�
     - 新建topic
 3. Broker查看
 4. Group查看
+
+#### kafka状态监控页
+
+![](./doc/images/kafka-stats.jpg)
 
 #### Kafka操作主界面
 

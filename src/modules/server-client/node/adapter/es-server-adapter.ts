@@ -2,6 +2,8 @@ import { DefaultServerAdapter, queryCallback } from './server-adapter';
 import { ConnectQuery } from '../../../local-store-db/common';
 import axios, { AxiosRequestConfig } from 'axios';
 import { IEsCommand } from '../../common/types/es.types';
+import { decryptData } from '../../../base/utils/crypto-util';
+import * as https from 'https';
 
 export class EsServerAdapter extends DefaultServerAdapter {
 
@@ -17,8 +19,9 @@ export class EsServerAdapter extends DefaultServerAdapter {
 
 
   public static async createInstance(connect: ConnectQuery) {
-    const { server, cluster } = connect;
+    const { server, cluster, originPassword } = connect;
     const { url, authType, token, user, password, connectTimeout } = server;
+    const decodePassword = password ? (originPassword ? password : decryptData(password)) : '';
     let config: AxiosRequestConfig = {
       headers: {
         'Content-Type': 'application/json',
@@ -27,15 +30,23 @@ export class EsServerAdapter extends DefaultServerAdapter {
       responseType: 'json',
 
     };
-    if (authType == 'account' && user && password) {
+    if (authType == 'account' && user && decodePassword) {
       config.auth = {
         username: user,
-        password: password,
+        password: decodePassword,
       };
     } else if (authType == 'token' && token) {
       config.headers = {
         Authorization: token,
       };
+    }
+    if (url.startsWith('https')) {
+      config.httpsAgent = new https.Agent({
+        rejectUnauthorized: false  // 忽略证书验证，仅开发环境使用
+      })
+      // config.httpsAgent = new (require('https').Agent)({
+      //   rejectUnauthorized: false, // 忽略 SSL 证书错误，仅用于测试环境！
+      // });
     }
 
     return new EsServerAdapter(config, url);
@@ -73,8 +84,8 @@ export class EsServerAdapter extends DefaultServerAdapter {
       //console.log(' success:', response.data);
       callback(null, response.data);
     }).catch((reason) => {
-     const errorData =  reason.response ? reason.response.data : reason.message
-      callback(reason,errorData);
+      const errorData = reason.response ? reason.response.data : reason.message;
+      callback(reason, errorData);
     });
 
   }

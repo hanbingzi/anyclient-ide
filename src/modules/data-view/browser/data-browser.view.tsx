@@ -28,9 +28,9 @@ import { EtcdRoleView } from './etcd-view/roles/etcd-role.view';
 import { EtcdClusterView } from './etcd-view/cluster/etcd-cluster.view';
 
 import { EsIndexView } from './es-view/es-index-view.view';
-import { EsClusterHealth } from './es-view/es-cluster-health';
 import SqlModeServer = ServerClassNamespace.SqlModeServer;
 import { KafkaStatus } from './kafka-view/kafka-status.view';
+import { ElasticsearchDashboard } from './es-view/es-dashboard.view';
 
 export const DataBrowserView: ReactEditorComponent<OpenViewParam> = ({ resource }) => {
   const { nodeName, nodeValue, db, schema, serverId, serverType, nodeType, option, path, extra, server, breadCrumb } =
@@ -108,8 +108,8 @@ export const DataBrowserView: ReactEditorComponent<OpenViewParam> = ({ resource 
         if (option === 'open') {
           return <EsIndexView {...baseProps} />;
         }
-      } else if (nodeType === 'cluster') {
-        return <EsClusterHealth {...baseProps} />;
+      } else if (nodeType === 'status') {
+        return <ElasticsearchDashboard {...baseProps} />;
       }
     } else if (serverType === 'Zookeeper') {
       if (nodeType === 'zkNode') return <ZookeeperView {...baseProps} fullPath={nodeValue as string} />;

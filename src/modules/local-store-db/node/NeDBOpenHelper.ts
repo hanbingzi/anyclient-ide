@@ -13,14 +13,14 @@ class NeDBOpenHelper {
   private static db: Datastore;
 
   public static getInstance(storePath: string): Datastore {
-   //console.log('getInstance--------------------------------------------------storePath:', storePath);
+    console.log('getInstance--------------------------------------------------storePath:', storePath);
     if (this.db) {
       return this.db;
     }
     //此处有bug,
     const dbDirectoryPath = path.join(os.homedir(), storePath);
     const dbPath = path.join(dbDirectoryPath, NeDBOpenHelper.dbName);
-   //console.log('----------->path:', dbDirectoryPath, dbPath);
+    console.log('----------->path:', dbDirectoryPath, dbPath);
     let dirExists = fs.existsSync(dbDirectoryPath);
     if (!dirExists) {
       fs.mkdirSync(dbDirectoryPath);

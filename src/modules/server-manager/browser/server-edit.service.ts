@@ -255,7 +255,7 @@ export class ServerEditService implements IServerEditService {
       cluster: clusters,
     });
     this._testIsLoading = false;
-    //  console.log('dao--->', result);
+    //console.log('dao--->', result);
     if (result) {
       if (result.success) {
         this._testConnectResult = { stat: 'success' };

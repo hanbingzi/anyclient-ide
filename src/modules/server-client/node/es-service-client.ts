@@ -10,19 +10,19 @@ export class EsServiceClient extends AbstractBaseClient implements IEsServiceCli
 
 
   public getErrorResult(error: any): IQueryResult {
-    console.log('error----->', error);
+    //console.log('error----->', error);
     const message = error.response ? error.response.data : error.message;
     return { success: false, message: JSON.stringify(message), code: error.errno }; //sql: error.sql,
   }
 
   public async runCommand(connectQuery: ConnectQuery, command: IEsCommand): Promise<IQueryResult> {
     const connect = await this.getConnection(connectQuery) as EsServerAdapter;
-    console.log('command--->', JSON.stringify(command));
+    //console.log('command--->', JSON.stringify(command));
     return new Promise((resolve, reject) => {
       const executeTime = new Date().getTime();
       connect.run(command, (err, data) => {
           const costTime = new Date().getTime() - executeTime;
-          console.log('search result--->', JSON.stringify(data));
+          //console.log('search result--->', JSON.stringify(data));
           if (err) {
             const errResult = this.getErrorResult(err);
             resolve({ ...errResult, costTime, data });
@@ -54,18 +54,7 @@ export class EsServiceClient extends AbstractBaseClient implements IEsServiceCli
     return null;
   }
 
-  // public async runBatch(connectQuery: ConnectQuery, batchCommand: string):Promise<IRunSqlResult> {
-  //   const connect = await this.getConnection(connectQuery) as EsServerAdapter;
-  //   return new Promise((resolve, reject) => {
-  //     connect.run(command, (err, results) => {
-  //         if (err) {
-  //           resolve(this.getErrorResult(err));
-  //         }
-  //         resolve({ success: true, data: results });
-  //       },
-  //     );
-  //   });
-  // }
+
 
 
 }
