@@ -4,7 +4,8 @@
 | <img src="./doc/icons/weixinqun.jpg" width="200px"/>  | <img src="./doc/icons/weixingzh.jpg" width="200px" />  |
 
 <div align="center">
-加群前请一定要Star，有什么疑问，可以加群沟通。关注公众号，获取AnyClient最新动态。<br/>
+无论是不是与此产品有关的话题，都很高兴你能加入群聊吃瓜聊天，<br/>
+加群前请一定要Star。关注公众号，获取AnyClient最新动态。<br/>
 （加群前请一定要Star！！！ ）
 </div>
 
@@ -306,7 +307,7 @@ $ yarn start
 
 ## 最后
 
-无论是不是与此产品有关的话题，都很高兴你能加入群聊吃瓜聊天
+
 
 ## License
 
