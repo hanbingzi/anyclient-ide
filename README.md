@@ -62,9 +62,9 @@ AnyClient是一款开源的，支持WEB、Dokcer、客户端版本，能够连�
 
 开发一个好用的工具，并维护和营销的过程是艰难的，需要志同道合的朋友共同努力，如下是对本项目代码有贡献的同志，特此感谢：
 
-|<a href="https://gitee.com/reminderlife">cabin</a>|        <a href="https://gitee.com/yulupaopao ">子龙</a>        |
-|:-------------------------------------------------:|:------------------------------------------------------------:|
-| <img src="./doc/images/cabin.jpg" width="200px"/> |     <img src="./doc/images/zilong.jpg" width="200px" />      |
+|<a href="https://gitee.com/reminderlife">cabin</a>|        <a href="https://gitee.com/yulupaopao ">子龙</a>        | <a href="https://gitee.com/yulupaopao ">开着拖拉机唱山歌🚜</a> |
+|:-------------------------------------------------:|:------------------------------------------------------------:|:------------------------------------------------------:|
+| <img src="./doc/images/cabin.jpg" width="200px"/> |     <img src="./doc/images/zilong.jpg" width="200px" />      |   <img src="./doc/images/qifei.jpg" width="200px" />   |
 
 
 
