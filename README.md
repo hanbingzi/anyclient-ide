@@ -57,6 +57,16 @@ AnyClient是一款开源的，支持WEB、Dokcer、客户端版本，能够连�
 |   ![Neo4j](./doc/icons/server/neo4j.svg)   |                                        |                                     ||
 |                   Neo4j                    |                                        |                                     | |                                          |
 
+## 特别感谢
+
+开发一个好用的工具，并维护和营销的过程是艰难的，需要志同道合的朋友共同努力，如下是对本项目代码有贡献的同志，特此感谢：
+
+|<a href="https://gitee.com/reminderlife">cabin</a>|                         子龙                          |
+|:-------------------------------------------------:|:---------------------------------------------------:|
+| <img src="./doc/images/cabin.jpg" width="200px"/> | <img src="./doc/images/zilong.jpg" width="200px" /> |
+
+
+
 ## 一：功能特点
 
 - **开源免费**
@@ -289,7 +299,6 @@ $ yarn rebuild-native --force-rebuild=true
 $ yarn start
 ```
 
-
 ## 商务联系
 
 - 作者邮箱：hanbingzi@aliyun.com
@@ -297,6 +306,17 @@ $ yarn start
 
 ## 最后
 
+无论是不是与此产品有关的话题，都很高兴你能加入群聊吃瓜聊天
+
 ## License
 
-GPL-3.0
+AGPL-3.0
+
+本软件遵循AGPL-3.0协议，请勿用于该协议之外的用途。如果发现未经允许的商业化用途，一定会进行相应的起诉。
+
+如果你想将本软件的代码用于闭源的商业代码，需要解除GPL系列的开源限制，请通过微信或邮箱咨询我，了解商业授权相关事宜
+
+
+
+
+
