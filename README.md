@@ -28,13 +28,19 @@ github<img src="./doc/icons/main/github.svg" alt="github star"/></a>
 
 [官网地址](https://www.clientbiz.cn)
 
-[AnyClient Web 版本请移步此处（源码地址）](https://github.com/hanbingzi/anyclient-web)
+![github](./doc/icons/main/github.svg)[AnyClient IDE 版本请移步此处（GitHub源码地址）](https://github.com/hanbingzi/anyclient-ide)
 
-![github](./doc/icons/main/github.svg)
-[GitHub主页地址](https://github.com/hanbingzi)
+![gitee](./doc/icons/main/gitee.svg)[AnyClient IDE 版本请移步此处（Gitee源码地址）](https://gitee.com/hanbingzi/anyclient-ide)
 
-![gitee](./doc/icons/main/gitee.svg)
-[Gitee主页地址](https://gitee.com/hanbingzi)
+
+[//]: # (![github]&#40;./doc/icons/main/github.svg&#41;)
+
+[//]: # ([GitHub主页地址]&#40;https://github.com/hanbingzi&#41;)
+
+[//]: # ()
+[//]: # (![gitee]&#40;./doc/icons/main/gitee.svg&#41;)
+
+[//]: # ([Gitee主页地址]&#40;https://gitee.com/hanbingzi&#41;)
 
 AnyClient是一款开源的，支持WEB、Dokcer、客户端版本，能够连接各种类型的关系数据库、非关系型数据库、时序数据库、图数据库、消息队列、注册中心等数据服务的管理软件，支持Mac和Windows平台安装部署。
 
