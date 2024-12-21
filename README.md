@@ -24,6 +24,8 @@ github<img src="./doc/icons/main/github.svg" alt="github star"/></a>
 平台上面的右上角点个⭐ Star ，您的支持是 AnyClient 开源的最大的动力
 </div>
 
+[Demo演示地址](http://111.67.201.184:8080/?workspaceDir=/app/workspace)
+
 [官网地址](https://www.clientbiz.cn)
 
 [AnyClient Web 版本请移步此处（源码地址）](https://github.com/hanbingzi/anyclient-web)
@@ -57,14 +59,6 @@ AnyClient是一款开源的，支持WEB、Dokcer、客户端版本，能够连�
 |                   Influxdb                   |                  MongoDB                   |                  Emq                   |                人大金仓                 |                  Sqlite                  |Hive  |
 |   ![Neo4j](./doc/icons/server/neo4j.svg)   |                                        |                                     ||
 |                   Neo4j                    |                                        |                                     | |                                          |
-
-## 特别感谢
-
-开发一个好用的工具，并维护和营销的过程是艰难的，需要志同道合的朋友共同努力，如下是对本项目代码有贡献的同志，特此感谢：
-
-|<a href="https://gitee.com/reminderlife">cabin</a>|        <a href="https://gitee.com/yulupaopao ">子龙</a>        | <a href="https://gitee.com/yulupaopao ">开着拖拉机唱山歌🚜</a> |
-|:-------------------------------------------------:|:------------------------------------------------------------:|:------------------------------------------------------:|
-| <img src="./doc/images/cabin.jpg" width="200px"/> |     <img src="./doc/images/zilong.jpg" width="200px" />      |   <img src="./doc/images/qifei.jpg" width="200px" />   |
 
 
 
@@ -299,6 +293,16 @@ $ yarn build
 $ yarn rebuild-native --force-rebuild=true
 $ yarn start
 ```
+
+## 特别感谢
+
+开发一个好用的工具，并维护和营销的过程是艰难的，需要志同道合的朋友共同努力，如下是对本项目代码有贡献的同志，特此感谢：
+
+|<a href="https://gitee.com/reminderlife">cabin</a>|        <a href="https://gitee.com/yulupaopao ">子龙</a>        | <a href="https://gitee.com/yulupaopao ">开着拖拉机唱山歌🚜</a> |
+|:-------------------------------------------------:|:------------------------------------------------------------:|:------------------------------------------------------:|
+| <img src="./doc/images/cabin.jpg" width="200px"/> |     <img src="./doc/images/zilong.jpg" width="200px" />      |   <img src="./doc/images/qifei.jpg" width="200px" />   |
+
+
 
 ## 商务联系
 
