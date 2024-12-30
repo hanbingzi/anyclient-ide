@@ -24,7 +24,7 @@ github<img src="./doc/icons/main/github.svg" alt="github star"/></a>
 平台上面的右上角点个⭐ Star ，您的支持是 AnyClient 开源的最大的动力
 </div>
 
-[Demo演示地址](http://111.67.201.184:8080/?workspaceDir=/app/workspace)
+[Demo演示地址](http://demo.clientbiz.cn/?workspaceDir=/app/workspace)
 
 [官网地址](https://www.clientbiz.cn)
 
