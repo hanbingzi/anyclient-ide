@@ -13,8 +13,10 @@ export const localizationBundle = {
     'custom.terminal_panel': '切换终端',
     'custom.search_panel': '切换搜索面板',
 
-    'server.new':'新建服务',
+    'server.new':'新建连接',
+    'server.edit':'编辑连接',
     'query.new':'新建查询',
+    'server.delete':'删除连接',
 
     'search.result':'查询结果',
     'data.info':'数据详情',

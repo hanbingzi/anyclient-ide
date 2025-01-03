@@ -1,8 +1,10 @@
 import { AppConstants } from '../../../common/constants';
-import  Datastore from 'nedb';
 import NeDBOpenHelper from './NeDBOpenHelper';
 import { removeNullValues } from '../../base/utils/object-util';
 
+// import * as Datastore from 'nedb';
+//ide 改为
+import Datastore from 'nedb';
 interface BaseParam {
   [key: string]: any;
 }

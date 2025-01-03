@@ -55,15 +55,13 @@ export const ServerInfoId = 'serverInfo';
 )
 // KeybindingContribution
 export class ServerListContribution
-  implements
-    MenuContribution,
+  implements MenuContribution,
     MainLayoutContribution,
     ClientAppContribution,
     BrowserEditorContribution,
     ComponentContribution,
     CommandContribution,
-    TabBarToolbarContribution
-{
+    TabBarToolbarContribution {
   @Autowired(IMainLayoutService)
   private mainLayoutService: IMainLayoutService;
 
@@ -84,6 +82,7 @@ export class ServerListContribution
 
   @Autowired(IViewsRegistry)
   private viewsRegistry: IViewsRegistry;
+
   async onStart() {
     await this.serverTreeService.init();
   }
@@ -159,7 +158,7 @@ export class ServerListContribution
     menuRegistry.registerMenuItem(ServerListIds.explorerServer, {
       command: {
         id: CommandIds.editServer.id,
-        label: CommandIds.editServer.label!,
+        label: localize(CommandIds.editServer.label!),
       },
       order: 1,
       group: '0',
@@ -168,7 +167,7 @@ export class ServerListContribution
     menuRegistry.registerMenuItem(ServerListIds.explorerServer, {
       command: {
         id: CommandIds.deleteServer.id,
-        label: CommandIds.deleteServer.label!,
+        label: localize(CommandIds.deleteServer.label!),
       },
       order: 1,
       group: '0',
@@ -249,6 +248,7 @@ export class ServerListContribution
       },
     });
 
+
     commands.registerCommand(ServerCommandIds.deleteServer, {
       execute: async (args: ServerCompositeTreeNode | ServerTreeNode) => {
         if (args === null) {
@@ -267,7 +267,7 @@ export class ServerListContribution
     registry.registerItem({
       id: ServerCommandIds.newServer.id,
       command: ServerCommandIds.newServer.id,
-      label:  localize('file.new'),//'创建新的服务', //
+      label: localize(ServerCommandIds.newServer.label),//'创建新的服务', //
       viewId: ServerTreeViewExplorerId,
       order: 0,
     });

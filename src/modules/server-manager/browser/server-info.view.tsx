@@ -9,6 +9,7 @@ import { ConfigProvider } from 'antd';
 import ServerEditView from './server-edit.view';
 import { Overlay } from '@opensumi/ide-components';
 import ServerSelectView from './server-select.view';
+import { localize } from '@opensumi/ide-core-common';
 
 const ServerInfoView = observer(() => {
   const serverEditService = useInjectable<IServerEditService>(IServerEditService);
@@ -17,7 +18,7 @@ const ServerInfoView = observer(() => {
     // @ts-ignore
     //serverEditService.isVisible()
     <Overlay
-      title={serverEditService.title()}
+      title={localize('server.new')}
       visible={serverEditService.isVisible()}
       onClose={() => {
         serverEditService.hide();

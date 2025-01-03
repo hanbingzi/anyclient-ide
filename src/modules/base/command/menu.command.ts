@@ -126,16 +126,16 @@ export namespace ServerCommandIds {
   export const connectCollapse: Command = { label: '折叠', id: CommandIds.ConnectCollapse };
 
   export const newServer: Command = {
-    label: localize('server.new'),
+    label: 'server.new',
     id: CommandIds.NewServer,
     iconClass: getIcon('plus')//'new-file'),
   };
 
-  export const deleteServer: Command = { label: '删除服务', id: CommandIds.DeleteServer };
-  export const editServer: Command = { label: '编辑服务', id: CommandIds.EditServer };
+  export const deleteServer: Command = { label: 'server.delete', id: CommandIds.DeleteServer };
+  export const editServer: Command = { label: 'server.edit', id: CommandIds.EditServer };
 
   export const newConnect: Command = { label: '新建连接', id: CommandIds.NewConnect, iconClass: getIcon('new-file') };
-  export const deleteConnect: Command = { label: '删除连接', id: CommandIds.DeleteConnect };
+  export const deleteConnect: Command = { label: '从当前空间移除', id: CommandIds.DeleteConnect };
 
   export const closeConnect: Command = { label: '关闭连接', id: CommandIds.CloseConnect };
   export const refreshConnect: Command = { label: '刷新连接', id: CommandIds.RefreshConnect };

@@ -5,7 +5,7 @@ export const localizationBundle = {
   contents: {
     'common.about': 'About',
     'common.preferences': 'Preferences',
-    'title.recent.servers':'Recent Servers',
+    'title.recent.servers': 'Recent Servers',
 
 
     'custom.quick_open': 'Quick Open',
@@ -13,14 +13,16 @@ export const localizationBundle = {
     'custom.terminal_panel': 'Switch to Terminal Panel',
     'custom.search_panel': 'Switch to Search Panel',
 
-    'server.new':'New Connect',
-    'query.new':'New Query',
-    'copy.success':'Copy Success',
+    'server.new': 'New Connect',
+    'server.edit':'Edit Connect',
+    'query.new': 'New Query',
+    'copy.success': 'Copy Success',
+    'server.delete': 'Delete Connect',
 
-    'search.result':'Search Result',
-    'data.info':'Data Info',
-    'next.version.support':'Supported by the next version',
-    'validate.connect.must.selected':'Must selected a node',
-    'ignore.version':'Ignore this version'
+    'search.result': 'Search Result',
+    'data.info': 'Data Info',
+    'next.version.support': 'Supported by the next version',
+    'validate.connect.must.selected': 'Must selected a node',
+    'ignore.version': 'Ignore this version',
   },
 };
